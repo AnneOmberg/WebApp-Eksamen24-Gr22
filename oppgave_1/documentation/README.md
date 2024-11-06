@@ -1,10 +1,10 @@
 # Gruppe 22 - Markdown
 
-| Navn                                   | Epost           | Studentnummer |
-| -------------------------------------- | --------------- | ------------- |
-| Vilde Andreas Fjeld Pedersen           | vilped@hiof.no  | #####         |
-| Anne May Omberg                        | annemni@hiof.no |  #####        |
-| Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no | #####         |
+| Studentnummer | Navn                                   | Epost           |
+| ------------- | -------------------------------------- | --------------- |
+| #####         | Vilde Andreas Fjeld Pedersen           | vilped@hiof.no  |
+| #####         | Anne May Omberg                        | annemni@hiof.no |
+| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no |
 
 ## Innholdsfortegnelse
 
