@@ -11,6 +11,7 @@ import { useState } from "react";
   
 import { useParams, useRouter } from "next/navigation";
 import { categories, courseCreateSteps } from "@/data/data";
+import { useCourse } from "@/hooks/useCourse";
 
 const isValid = (items: any) => {
     const invalidFields = [];
@@ -42,6 +43,8 @@ const isValid = (items: any) => {
   };
 
 export default function Create() {
+    const {createCourse} = useCourse()
+
     const [success, setSuccess] = useState(false);
     const [formError, setFormError] = useState(false);
     const [current, setCurrent] = useState(0);
@@ -98,7 +101,7 @@ export default function Create() {
       setLessons(updatedLessonText);
     };
   
-    const removeTextBox = (index) => {
+    const removeTextBox = (index: any) => {
       const removed = lessons[currentLesson].text.filter((_, i) => i !== index);
       const updatedLessonText = lessons.map((lesson, i) => {
         if (currentLesson === i) {
@@ -112,12 +115,12 @@ export default function Create() {
       setLessons(updatedLessonText);
     };
   
-    const handleCourseFieldChange = (event) => {
+    const handleCourseFieldChange = (event: any) => {
       const { name, value } = event.target;
       setCourseFields((prev) => ({ ...prev, [name]: value }));
     };
   
-    const handleStep = (index) => {
+    const handleStep = (index: any) => {
       setFormError(false);
       switch (index) {
         case 0:
@@ -129,7 +132,7 @@ export default function Create() {
       }
     };
   
-    const handleLessonFieldChange = (event, index) => {
+    const handleLessonFieldChange = (event: any, index: any) => {
       const { name, value } = event.target;
       let text;
       if (lessons[currentLesson]?.text?.length === 0) {

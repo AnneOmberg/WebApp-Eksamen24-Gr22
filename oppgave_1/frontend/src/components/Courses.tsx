@@ -16,7 +16,7 @@ export default function Courses() {
     const [value, setValue] = useState("");
     const [data, setData] = useState(courses);
   
-    const handleFilter = (event) => {
+    const handleFilter = (event: any) => {
       const category = event.target.value;
       setValue(category);
       if (category && category.length > 0) {
@@ -71,10 +71,7 @@ export default function Courses() {
                 >
                   <a href={`/kurs/${course.slug}`}>{course.title}</a>
                 </h3>
-                <p
-                  className="mb-6 text-base font-light"
-                  data-testid="courses_description"
-                >
+                <p className="mb-6 text-base font-light" data-testid="courses_description">
                   {course.description}
                 </p>
                 <a

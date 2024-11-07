@@ -1,36 +1,36 @@
 "use client";
 
-import {
-    categories,
-    comments,
-    courseCreateSteps,
-    courses,
-    users,
-  } from "../data/data";
-  
-  import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Lesson from "./Lesson";
+import { useCourse } from "@/hooks/useCourse";
+import { users } from "@/data/data";
+import { CourseType } from "./types";
+// import { CourseType } from "../../../backend/src/types";
+
+// const getCourse = async (slug: any) => {
+//     const data = await courses.filter((course) => course.slug === slug);
+//     return data?.[0];
+//   };
+  
+//   const createCourse = async (data: any) => {
+//     await courses.push(data);
+//   };
 
 export default function Course() {
-    const [content, setContent] = useState(null);
+    const {getCourse} = useCourse()
+
+    const [content, setContent] = useState<CourseType[]>([]);
+    // const {slug} = useParams()
   
     const courseSlug = "javascript-101";
     const lessonSlug = "variabler";
-  
-    const getCourse = async (slug) => {
-        const data = await courses.filter((course) => course.slug === slug);
-        return data?.[0];
-      };
-      
-      const createCourse = async (data) => {
-        await courses.push(data);
-      };
 
     useEffect(() => {
       const getContent = async () => {
         const data = await getCourse(courseSlug);
         setContent(data);
+        console.log("DATA", data)
       };
       getContent();
     }, [courseSlug]);
@@ -40,7 +40,7 @@ export default function Course() {
         <aside className="border-r border-slate-200 pr-6">
           <h3 className="mb-4 text-base font-bold">Leksjoner</h3>
           <ul data-testid="lessons">
-            {content?.lessons?.map((lesson) => (
+            {content?.lessons?.map((lesson: any) => (
               <li
                 className={`text-sm" mb-4 w-full max-w-[95%] rounded-lg border border-slate-300 px-4 py-2 ${
                   lessonSlug === lesson.slug ? "bg-emerald-300" : "bg-transparent"
