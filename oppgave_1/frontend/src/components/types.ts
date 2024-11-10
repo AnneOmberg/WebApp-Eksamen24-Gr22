@@ -3,15 +3,25 @@ export type CourseType = {
     title: string;
     slug: string;
     description: string;
-    lessons: [{
-        id: string;
-        title: string;
-        slug: string;
-        preAmble: string;
-        text: [{
-            id: string;
-            text: string;
-        }];
-    }];
+    lessons: LessonType[];
     category: string;
 }
+
+export type LessonType = {
+    id: string;
+    title: string;
+    slug: string;
+    preAmble: string;
+    text: TextType[];
+}
+
+export type TextType = {
+    id: string; 
+    text: string
+}
+
+export type CommentType = {
+    id: string;
+    createdBy: { id: number; name: string };
+    comment: string;
+  };
