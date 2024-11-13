@@ -22,6 +22,6 @@ export type TextType = {
 
 export type CommentType = {
     id: string;
-    createdBy: { id: number; name: string };
+    createdBy: { id: string; name: string };
     comment: string;
   };

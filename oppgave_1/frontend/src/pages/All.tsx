@@ -11,7 +11,6 @@ import {
 
 import { useParams, useRouter } from "next/navigation";
 import { CommentType, CourseType, LessonType } from "@/components/types";
-import Comment from "@/components/Comment";
 // import Course from "@/components/Course";
 // import Courses from "@/components/Courses";
 // import Comment from "@/components/Comment";
@@ -244,7 +243,7 @@ function Lesson() {
         lesson: { slug: lessonSlug },
       });
       const commentsData = await getComments(lessonSlug);
-    //   setComments(commentsData);
+      setComments(commentsData);
       setSuccess(true);
     }
   };
@@ -257,7 +256,7 @@ function Lesson() {
     
         setLesson(lessonDate ?? null);
         setCourse(courseData);
-        // setComments(commentsData);
+        setComments(commentsData);
       };
   }, [courseSlug, lessonSlug]);
 
