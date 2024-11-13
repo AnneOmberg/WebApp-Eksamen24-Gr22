@@ -1,12 +1,22 @@
 "use client";
 
 import { comments, courses } from "@/data/data";
-import { useCourse } from "@/hooks/useCourse";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { CommentType, CourseType, LessonType } from "@/components/types";
+import { useCourse } from "@/hooks/useCourse";
+import useComments from "@/hooks/useComments";
+import useLesson from "@/hooks/useLesson";
 
-export default function Lesson() {
+type LType = {
+  lessonSlug: string;
+  courseSlug: string;
+};
+
+export default function Lesson({ lessonSlug, courseSlug }: LType) {
+  //   const router = useRouter();
+  //   const { slug, id } = useParams() as { slug: string; id: string };
+
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState(false);
   const [comment, setComment] = useState("");
@@ -14,8 +24,15 @@ export default function Lesson() {
   const [lessonComments, setComments] = useState<CommentType[]>([]);
   const [lesson, setLesson] = useState<LessonType | null>(null);
   const [course, setCourse] = useState<CourseType | null>(null);
-  const courseSlug = "javascript-101";
-  const lessonSlug = "variabler";
+  //   const courseSlug = "javascript-101";
+  //   const lessonSlug = "variabler";
+
+  //   const lessonSlug = slug as string;
+  //   const courseSlug = id as string;
+
+  const { getComments, createComment } = useComments();
+  const { getCourse } = useCourse();
+  const { getLesson } = useLesson();
 
   const handleComment = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
@@ -57,6 +74,7 @@ export default function Lesson() {
       setCourse(courseData);
       setComments(commentsData);
     };
+    getContent();
   }, [courseSlug, lessonSlug]);
 
   return (

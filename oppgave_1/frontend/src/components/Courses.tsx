@@ -1,23 +1,13 @@
 "use client";
 
+import { categories, courses } from "../data/data";
 import { useCourse } from "@/hooks/useCourse";
-// import { categories, courses } from "@/data/data";
-import {
-  categories,
-  comments,
-  courseCreateSteps,
-  courses,
-  users,
-} from "../data/data";
-
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Courses() {
   const [value, setValue] = useState("");
   const [data, setData] = useState(courses);
-
-  const { getCourse, createCourse } = useCourse();
 
   const handleFilter = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

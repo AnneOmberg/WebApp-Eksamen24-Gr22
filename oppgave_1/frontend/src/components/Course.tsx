@@ -2,19 +2,18 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import Lesson from "./Lesson";
+import Lesson from "@/components/Lesson";
 import { useCourse } from "@/hooks/useCourse";
 import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
-// import { CourseType } from "../../../backend/src/types";
 
 export default function Course() {
   const [content, setContent] = useState<CourseType | null>(null);
+  const { getCourse } = useCourse();
 
-  const { getCourse, createCourse } = useCourse();
-
-  const courseSlug = "javascript-101";
-  const lessonSlug = "variabler";
+  const { slug, id } = useParams() as { slug: string; id: string };
+  const lessonSlug = slug as string;
+  const courseSlug = id as string;
 
   useEffect(() => {
     const getContent = async () => {
@@ -50,7 +49,7 @@ export default function Course() {
       </aside>
       {lessonSlug ? (
         <article>
-          <Lesson />
+          <Lesson lessonSlug={lessonSlug} courseSlug={courseSlug} />
         </article>
       ) : (
         <section>

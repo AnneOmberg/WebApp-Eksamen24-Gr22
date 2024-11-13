@@ -56,6 +56,7 @@ export default function Create() {
     category: "",
   });
   const [lessons, setLessons] = useState<LessonType[]>([]);
+  const { getCourse, createCourse } = useCourse();
 
   const router = useRouter();
 
