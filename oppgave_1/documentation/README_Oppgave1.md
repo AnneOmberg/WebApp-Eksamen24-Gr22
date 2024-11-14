@@ -2,76 +2,40 @@
 
 | Studentnummer | Navn                                   | Epost           |
 | ------------- | -------------------------------------- | --------------- |
-| #####         | Vilde Andreas Fjeld Pedersen           | vilped@hiof.no  |
-| #####         | Anne May Omberg                        | annemni@hiof.no |
+| ######        | Vilde Andreas Fjeld Pedersen           | vilped@hiof.no  |
+| ######        | Anne May Omberg                        | annemni@hiof.no |
 | 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no |
 
-## Innholdsfortegnelse
+# Innholdsfortegnelse
 
 1. [API endepunkt](#api-endepunkt)
-2. [HTTP verb](#http-verb)
-3. [Diagram](#diagram)
-4. [URLer](#urler)
+2. [Sider og funksjonalitet](#sider-og-funksjonalitet)
 
-## API endepunkt
+## [API endepunkt](#api-endepunkt)
 
-Skal dokumentere hvilke api-endepunkter (ressurser) som skal brukes
+Oversikt over endepunkter
 
-```javascript
-/courses
-/lessons
-/comments
-```
+### Kurs
 
-## HTTP verb
+| HTTP-verb | Beskrivelse                    | Respons ved suksess             | Respons ved feil                      |
+| --------- | ------------------------------ | ------------------------------- | ------------------------------------- |
+| GET       | Henter en liste over alle kurs | 200 OK, JSON med data           | 404 Not Found hvis ingen kurs finnes  |
+| POST      | Oppretter en nytt kurs         | 201 Created, JSON med ny kurs   | 400 Bad Request hvis data er ugyldig  |
+| PUT       | Oppdaterer en spesifikt kurs   | 200 OK, JSON med oppdatert kurs | 404 Not Found hvis kurset ikke finnes |
+| DELETE    | Sletter et spesifikt kurs      | 204 No Content                  | 404 Not Found hvis kurset ikke finnes |
 
-Skal til hvert api-endepunkt dokumentere hvilke verb som er tilgjengelig.
-Hva slags forespørsler skal de håndtere.
+### Leksjoner
 
-#### /courses
+| HTTP-verb | Beskrivelse                         | Respons ved suksess              | Respons ved feil                          |
+| --------- | ----------------------------------- | -------------------------------- | ----------------------------------------- |
+| GET       | Henter en liste over alle leksjoner | 200 OK, JSON med data            | 404 Not Found hvis ingen leksjoner finnes |
+| POST      | Oppretter en ny leksjon             | 201 Created, JSON med ny leksjon | 400 Bad Request hvis data er ugyldig      |
+| DELETE    | Sletter en spesifikk leksjon        | 204 No Content                   | 404 Not Found hvis leksjonen ikke finnes  |
 
-```javascript
-'api/courses' {
-    GET: Henter liste over alle kurs
-    POST: Legger til nytt kurs
-}
-
-'api/courses/{id}' {
-    GET: Henter et spesifikt kurs
-    DELETE: Sletter et spesifikt kurs
-    PUT: Oppdaterer kategori til et spesifikt kurs
-}
-```
-
-#### /lessons
+## [Sider og funksjonalitet](#sider-og-funksjonalitet)
 
 ```javascript
-GET 'api/lessons' //Henter liste over alle leksjoner
-
-POST 'api/lessons' //Oppretter ny leksjon
-
-PUT = 'api/lessons' / { id } //Oppdaterer én spesifikk leksjon
-
-DELETE = 'api/lessons' / { id } //Sletter en spesifikk leksjon
+'/kurs' //
+'/kurs/[id]' //
+'/kurs/[id]/[slug]' //
 ```
-
-## Diagram
-
-Skal til hvert api-endepunkt dokumentere responsen og statuskoden for de
-ulike verbene. Hva slags data skal returneres når det går riktig / feil.
-
-#### Success
-
-```mermaid
-sequenceDiagram
-Client->>Server: HTTP GET /lessons
-Server->>Database: SELECT * FROM lessons
-Database->>Server: Result set of lessons
-Server->>Client: return HTTP 200 OK with lessons data
-```
-
-### URLer
-
-Skal dokumentere hvilke sider (urler) som skal benytte de ulike APIene og
-grovt hva som kan gjøres på den enkelte siden. Hvilke sider i "app" skal
-opprettes og grovt hva som kan gjøres på de ulike sidene.
