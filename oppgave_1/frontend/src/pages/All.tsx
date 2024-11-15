@@ -961,8 +961,9 @@ export default function All() {
       </nav>
       <main className="h-full">
         {/* <SignUp /> */}
-        <Courses />
+        {/* <Courses /> */}
         {/* <Course /> */}
+        {/* <Lesson /> */}
       </main>
       <footer className="flex justify-between" data-testid="footer">
         <p>Mikro LMS AS, 2024</p>

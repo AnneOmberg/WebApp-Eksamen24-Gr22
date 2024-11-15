@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Lesson from "@/components/Lesson";
 import { useCourse } from "@/hooks/useCourse";
 import { users } from "@/data/data";
-// import { CourseType } from "@/components/types";
+import { CourseType } from "@/components/types";
 
 export default function Course() {
   const [content, setContent] = useState<CourseType | null>(null);
