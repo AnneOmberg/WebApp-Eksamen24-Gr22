@@ -14,6 +14,7 @@ type LType = {
 };
 
 export default function Lesson({ lessonSlug, courseSlug }: LType) {
+  console.log("lessonSlug", lessonSlug);
   //   const router = useRouter();
   //   const { slug, id } = useParams() as { slug: string; id: string };
 

@@ -1,8 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* vi la inn */
-body {
-  margin: 1vh 2vw;
-}
