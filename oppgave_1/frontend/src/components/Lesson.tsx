@@ -14,6 +14,9 @@ type LType = {
 };
 
 export default function Lesson({ lessonSlug, courseSlug }: LType) {
+  console.log("lessonSlug", lessonSlug);
+  //   const router = useRouter();
+  //   const { slug, id } = useParams() as { slug: string; id: string };
 
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState(false);
@@ -24,6 +27,9 @@ export default function Lesson({ lessonSlug, courseSlug }: LType) {
   const [course, setCourse] = useState<CourseType | null>(null);
   //   const courseSlug = "javascript-101";
   //   const lessonSlug = "variabler";
+
+  //   const lessonSlug = slug as string;
+  //   const courseSlug = id as string;
 
   const { getComments, createComment } = useComments();
   const { getCourse } = useCourse();

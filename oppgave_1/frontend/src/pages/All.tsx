@@ -959,12 +959,9 @@ export default function All() {
           </li>
         </ul>
       </nav>
-      <main className="h-full">
-        {/* <SignUp /> */}
-        {/* <Courses /> */}
-        {/* <Course /> */}
-        {/* <Lesson /> */}
-      </main>
+      {/* <SignUp /> */}
+      <Courses />
+      {/* <Course /> */}
       <footer className="flex justify-between" data-testid="footer">
         <p>Mikro LMS AS, 2024</p>
         <p>99 00 00 00, mail@lms.no</p>
