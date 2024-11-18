@@ -6,19 +6,20 @@
 		"db:setup": "tsx src/db/index.ts"
 	},
 	"dependencies": {
-		"@hono/node-server": "^1.12.1",
+		"@hono/node-server": "^1.13.7",
 		"@t3-oss/env-core": "^0.11.1",
-		"better-sqlite3": "^11.3.0",
+		"better-sqlite3": "^11.5.0",
 		"dotenv": "^16.4.5",
-		"hono": "^4.5.7"
+		"hono": "^4.6.10",
+		"next": "^15.0.3"
 	},
 	"devDependencies": {
-		"@antfu/eslint-config": "^2.27.0",
+		"@antfu/eslint-config": "^2.27.3",
 		"@types/better-sqlite3": "^7.6.11",
-		"@types/node": "^22.5.0",
-		"@typescript-eslint/eslint-plugin": "^8.2.0",
-		"@typescript-eslint/parser": "^8.2.0",
-		"eslint": "^9.9.0",
-		"tsx": "^4.17.0"
+		"@types/node": "^22.9.0",
+		"@typescript-eslint/eslint-plugin": "^8.14.0",
+		"@typescript-eslint/parser": "^8.14.0",
+		"eslint": "^9.15.0",
+		"tsx": "^4.19.2"
 	}
 }

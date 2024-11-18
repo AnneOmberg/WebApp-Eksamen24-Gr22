@@ -1,0 +1,47 @@
+[
+    {
+        "id": "norma",
+        "title": "Konsert med Norma",
+        "description": "Kom å se på spellemans nominrte Norma spille, med sitt ny contry album.",
+        "location": "Halden festning",
+        "event_type": "konsert",
+        "seats": "5000",
+        "price": "400"
+    },
+    {
+        "id": "trylleshow",
+        "title": "Trylle-show",
+        "description": "",
+        "location": "",
+        "event_type": "",
+        "seats": "",       
+        "price": ""
+    },
+    {
+        "id": "3",
+        "title": "",
+        "description": "",
+        "location": "",
+        "event_type": "",
+        "seats": "",       
+        "price": ""
+    },
+    {
+        "id": "4",
+        "title": "",
+        "description": "",
+        "location": "",
+        "event_type": "",
+        "seats": "",       
+        "price": ""
+    },
+    {
+        "id": "5",
+        "title": "",
+        "description": "",
+        "location": "",
+        "event_type": "",
+        "seats": "",       
+        "price": ""
+    }
+]
