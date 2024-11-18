@@ -1,26 +1,60 @@
 "use client";
 
-import { categories, courses } from "../data/data";
 import { useCourse } from "@/hooks/useCourse";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Courses() {
-  const [value, setValue] = useState("");
-  const [data, setData] = useState(courses);
+  interface Course {
+    id: string;
+    category: string;
+    slug: string;
+    title: string;
+    description: string;
+  }
 
-  const handleFilter = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const [value, setValue] = useState("");
+
+  const { courses, setCourses } = useCourse();
+
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>(null);
+  console.log(filteredCourses);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    setFilteredCourses(courses.courses);
+    setCategories(courses.categories);
+  }, [courses]);
+
+  // useEffect(() => {
+  //   const getAllCourses = async () => {
+  //     try {
+  //       const data = await fetchCourse();
+  //       setAllCourses(data.courses);
+  //       setFilteredCourses(data.courses);
+  //       setCategories(data.categories);
+  //     } catch (error) {
+  //       console.error("Feil ved henting av kurs:", error);
+  //     }
+  //   };
+  //   getAllCourses();
+  // }, []);
+
+  if (!filteredCourses) {
+    return <div>Loading...</div>;
+  }
+
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setValue(category);
-    if (category && category.length > 0) {
-      const content = courses.filter((course) =>
-        course.category.toLocaleLowerCase().includes(category.toLowerCase())
+
+    if (category) {
+      const filtered = courses.courses.filter((course) =>
+        course.category.toLowerCase().includes(category.toLowerCase())
       );
-      setData(content);
-    } else {
-      setData(courses);
+      setFilteredCourses(filtered);
+    } else if (!category) {
+      console.log("category", category);
+      setFilteredCourses(courses.courses);
     }
   };
 
@@ -49,9 +83,10 @@ export default function Courses() {
           </select>
         </label>
       </header>
+
       <section className="mt-6 grid grid-cols-3 gap-8" data-testid="courses">
-        {data && data.length > 0 ? (
-          data.map((course) => (
+        {filteredCourses && filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
             <article
               className="rounded-lg border border-slate-400 px-6 py-8"
               key={course.id}

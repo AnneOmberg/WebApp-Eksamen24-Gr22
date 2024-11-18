@@ -8,7 +8,11 @@ import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
 import Link from "next/link";
 
-export default function Course({ children }: { children: React.ReactNode }) {
+export default function CourseLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [content, setContent] = useState<CourseType | null>(null);
   const { getCourse } = useCourse();
 
@@ -57,15 +61,8 @@ export default function Course({ children }: { children: React.ReactNode }) {
         </ul>
       </aside>
 
-      {/* Vis leksjon eller kursoversikt */}
-      {lessonSlug ? (
-        <Lesson lessonSlug={lessonSlug} courseSlug={courseSlug} />
-      ) : (
-        <section>
-          <h2 className="text-2xl font-bold">{content.title}</h2>
-          <p className="mt-4">{content.description}</p>
-        </section>
-      )}
+      {/* Hovedinnhold (children vil være leksjonen eller oversikten) */}
+      <div>{children}</div>
 
       {/* Liste over deltakere */}
       <aside className="border-l border-slate-200 pl-6">
