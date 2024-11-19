@@ -21,30 +21,30 @@ export default function useHappening() {
     console.log("Get", data)
   }
     
-      const addHappeningData = async (happening: HappeningType) => {
-        try {
-            const response = await fetch("http://localhost:3999", {
-              method: 'POST',
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(happening)
-            })
-            console.log("Status", response.status)
-            console.log("OK", response.ok)
-      
-            const data = await response.json()
-            console.log("Post", data)
-            // const onAddHappening = (project: Omit<ProjectType, "id">) => {
-            //   setProd((prev: any) => [...prev, {id: crypto.randomUUID(), ...project}])
-            // }
-            // onAddProject(data)
-            loadHappeningData()
-            // console.log(onAddProject)
-          } catch (error) {
-            console.log(error)
-          }
-      }
+  const addHappeningData = async (happening: HappeningType) => {
+    try {
+      const response = await fetch("http://localhost:3999", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(happening)
+      })
+      console.log("Status", response.status)
+      console.log("OK", response.ok)
+
+      const data = await response.json()
+      console.log("Post", data)
+      // const onAddHappening = (project: Omit<ProjectType, "id">) => {
+      //   setProd((prev: any) => [...prev, {id: crypto.randomUUID(), ...project}])
+      // }
+      // onAddProject(data)
+      loadHappeningData()
+      // console.log(onAddProject)
+    } catch (error) {
+      console.log(error)
+    }
+  }
     
     //   const deleteProjectData = async (id: string) => {
     //     try {

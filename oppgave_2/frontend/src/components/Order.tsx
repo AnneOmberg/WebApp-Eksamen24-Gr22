@@ -16,6 +16,7 @@ export default function Order({happening}: OrderType) {
     // };
 
     return(
+        <>
         <article>
             <p>Bestill her:</p>
             {happening?.map((hap) => (
@@ -24,10 +25,11 @@ export default function Order({happening}: OrderType) {
                     <p>{hap.description}</p>
                 </article>
             ))}
-            {/* <Link href={""}>
-                <Happening happening={happening} />
-            </Link> */}
+            {/* <Link href={""}> */}
+            {/* </Link> */}
 
         </article>
+                <Happening happening={happening} />
+        </>
     )
 }

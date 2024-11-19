@@ -1,24 +1,24 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { getHappeningData, updateHappeningData } from "./lib";
-// import { HappeningType } from "./types/type";
+import { HappeningType } from "./types/type";
 
 const app = new Hono()
 app.use(cors({origin: "*"}))
 
-app.get("/bestillinger", async (c) => {
+app.get("/", async (c) => {
     const data = await getHappeningData()
     return c.json({data})
 })
 
-// app.post("/", async (c) => {
-//     const body = await c.req.json<HappeningType>()
-//     const data = await getHappeningData()
-//     data.push(body)
-//     await updateHappeningData(data)
-//     console.log(body);
-//     return c.json({body});
-// })
+app.post("/", async (c) => {
+    const body = await c.req.json<HappeningType>()
+    const data = await getHappeningData()
+    data.push(body)
+    await updateHappeningData(data)
+    console.log(body);
+    return c.json({body});
+})
 
 // app.delete("/:id", async (c) => {
 //   const id = c.req.param("id")

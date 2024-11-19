@@ -7,3 +7,7 @@ export type HappeningType = {
     seats: string,       
     price: string
 }
+
+// export type AdminType = {
+
+// }

@@ -15,10 +15,24 @@ export default function Happening({happening}: HapType) {
 
     console.log("EVENT", happening)
     return (
-        <section>
+        <section className="flex">
             {happening?.map((hap) => (
-                <h1 key={hap.id}>{hap.title}</h1>
+                <article key={hap.id} className="w-72 p-2 m-2 border-2 border-black">
+                    <h2 className="font-bold text-2xl">{hap.title}</h2>
+                    <ul>
+                        <li>{hap.description}</li>
+                        <li>{hap.event_type}</li>
+                        <li>{hap.location}</li>
+                        <li>{hap.price}</li>
+                        <li>{hap.seats}</li>
+                        <button className="border-2 bg-black text-white px-1"><a href="">Kjøp biletter</a></button>
+                    </ul>
+                </article>
             ))}
+            {/* <form action="">
+                <label htmlFor=""></label>
+                <input type="text" />
+            </form> */}
         </section>
     )
 }
