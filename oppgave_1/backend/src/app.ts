@@ -6,9 +6,16 @@ const app = new Hono();
 
 app.use("/*", cors());
 
-app.get("/", async (c) => {
-  const data = await fs.readFile("src/data/data.json", "utf-8");
-  return c.json(data);
+app.get("/courses", async (c) => {
+  const data = await fs.readFile("src/data/courses.json", "utf-8");
+  const parsedData = JSON.parse(data);
+  return c.json(parsedData);
+});
+
+app.get("/categories", async (c) => {
+  const data = await fs.readFile("src/data/categories.json", "utf-8");
+  const parsedData = JSON.parse(data);
+  return c.json(parsedData);
 });
 
 app.onError((err, c) => {

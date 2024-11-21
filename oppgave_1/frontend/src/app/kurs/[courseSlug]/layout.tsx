@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Lesson from "@/components/Lesson";
-import { useCourse } from "@/hooks/useCourse";
+import useCourse from "@/hooks/useCourse";
 import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
 import Link from "next/link";
@@ -26,7 +26,7 @@ export default function CourseLayout({
     const getContent = async () => {
       if (courseSlug) {
         const data = await getCourse(courseSlug);
-        setContent(data as CourseType);
+        setContent(data as unknown as CourseType);
       }
     };
     getContent();

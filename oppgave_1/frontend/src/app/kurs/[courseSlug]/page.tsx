@@ -1,7 +1,7 @@
 "use client";
 
 import { CourseType } from "@/components/types";
-import { useCourse } from "@/hooks/useCourse";
+import useCourse from "@/hooks/useCourse";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 

@@ -1,43 +1,20 @@
 "use client";
 
-import { useCourse } from "@/hooks/useCourse";
+import useCourse from "@/hooks/useCourse";
 import { useEffect, useState } from "react";
+import { CourseType } from "./types";
 
 export default function Courses() {
-  interface Course {
-    id: string;
-    category: string;
-    slug: string;
-    title: string;
-    description: string;
-  }
+  const [value, setValue] = useState<string>("");
 
-  const [value, setValue] = useState("");
+  const { categories, courses, setCourses } = useCourse();
 
-  const { courses, setCourses } = useCourse();
-
-  const [filteredCourses, setFilteredCourses] = useState<Course[]>(null);
-  console.log(filteredCourses);
-  const [categories, setCategories] = useState([]);
+  const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
   useEffect(() => {
-    setFilteredCourses(courses.courses);
-    setCategories(courses.categories);
+    setFilteredCourses(courses);
+    // setCategories(courses);
   }, [courses]);
-
-  // useEffect(() => {
-  //   const getAllCourses = async () => {
-  //     try {
-  //       const data = await fetchCourse();
-  //       setAllCourses(data.courses);
-  //       setFilteredCourses(data.courses);
-  //       setCategories(data.categories);
-  //     } catch (error) {
-  //       console.error("Feil ved henting av kurs:", error);
-  //     }
-  //   };
-  //   getAllCourses();
-  // }, []);
 
   if (!filteredCourses) {
     return <div>Loading...</div>;
@@ -48,13 +25,12 @@ export default function Courses() {
     setValue(category);
 
     if (category) {
-      const filtered = courses.courses.filter((course) =>
+      const filtered = courses.filter((course) =>
         course.category.toLowerCase().includes(category.toLowerCase())
       );
       setFilteredCourses(filtered);
     } else if (!category) {
-      console.log("category", category);
-      setFilteredCourses(courses.courses);
+      setFilteredCourses(courses);
     }
   };
 
