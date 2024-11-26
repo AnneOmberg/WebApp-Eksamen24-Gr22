@@ -12,6 +12,21 @@ export default function Admin() {
         <>
             <section>
                 <h2>Maler</h2>
+                {temp?.map((temp) => (
+                    <form action="">
+                        <label htmlFor=""></label>
+                        <input type="text" />
+                        
+                        <label htmlFor=""></label>
+                        <input type="text" />
+
+                        <label htmlFor=""></label>
+                        <input type="text" />
+
+                        <label htmlFor=""></label>
+                        <input type="text" />
+                    </form>
+                ))}
 
             </section>
         </>
