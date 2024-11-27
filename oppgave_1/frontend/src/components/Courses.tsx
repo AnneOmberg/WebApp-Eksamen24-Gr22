@@ -1,26 +1,36 @@
 "use client";
 
-import { categories, courses } from "../data/data";
-import { useCourse } from "@/hooks/useCourse";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import useCourse from "@/hooks/useCourse";
+import { useEffect, useState } from "react";
+import { CourseType } from "./types";
 
 export default function Courses() {
-  const [value, setValue] = useState("");
-  const [data, setData] = useState(courses);
+  const [value, setValue] = useState<string>("");
 
-  const handleFilter = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const { categories, courses, setCourses } = useCourse();
+
+  const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
+
+  useEffect(() => {
+    setFilteredCourses(courses);
+    // setCategories(courses);
+  }, [courses]);
+
+  if (!filteredCourses) {
+    return <div>Loading...</div>;
+  }
+
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setValue(category);
-    if (category && category.length > 0) {
-      const content = courses.filter((course) =>
-        course.category.toLocaleLowerCase().includes(category.toLowerCase())
+
+    if (category) {
+      const filtered = courses.filter((course) =>
+        course.category.toLowerCase().includes(category.toLowerCase())
       );
-      setData(content);
-    } else {
-      setData(courses);
+      setFilteredCourses(filtered);
+    } else if (!category) {
+      setFilteredCourses(courses);
     }
   };
 
@@ -49,9 +59,10 @@ export default function Courses() {
           </select>
         </label>
       </header>
+
       <section className="mt-6 grid grid-cols-3 gap-8" data-testid="courses">
-        {data && data.length > 0 ? (
-          data.map((course) => (
+        {filteredCourses && filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
             <article
               className="rounded-lg border border-slate-400 px-6 py-8"
               key={course.id}
