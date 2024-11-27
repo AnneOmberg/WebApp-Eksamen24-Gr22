@@ -3,22 +3,22 @@
 import useCourse from "@/hooks/useCourse";
 import { useEffect, useState } from "react";
 import { CourseType } from "./types";
+import Link from "next/link";
 
 export default function Courses() {
   const [value, setValue] = useState<string>("");
 
-  const { categories, courses, setCourses } = useCourse();
+  const { categories, courses } = useCourse();
 
   const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
   useEffect(() => {
     setFilteredCourses(courses);
-    // setCategories(courses);
   }, [courses]);
 
-  if (!filteredCourses) {
-    return <div>Loading...</div>;
-  }
+  // if (!filteredCourses) {
+  //   return <div>Loading...</div>;
+  // }
 
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
@@ -75,7 +75,7 @@ export default function Courses() {
                 className="mb-2 text-base font-bold"
                 data-testid="courses_title"
               >
-                <a href={`/kurs/${course.slug}`}>{course.title}</a>
+                <Link href={`/kurs/${course.slug}`}>{course.title}</Link>
               </h3>
               <p
                 className="mb-6 text-base font-light"
@@ -83,13 +83,13 @@ export default function Courses() {
               >
                 {course.description}
               </p>
-              <a
+              <Link
                 className="font-semibold underline"
                 data-testid="courses_url"
                 href={`/kurs/${course.slug}`}
               >
                 Til kurs
-              </a>
+              </Link>
             </article>
           ))
         ) : (

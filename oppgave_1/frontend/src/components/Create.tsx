@@ -11,7 +11,7 @@ import { useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
 import { categories, courseCreateSteps } from "@/data/data";
-import { useCourse } from "@/hooks/useCourse";
+import useCourse from "@/hooks/useCourse";
 import { LessonType } from "@/components/types";
 
 const isValid = (items: any) => {

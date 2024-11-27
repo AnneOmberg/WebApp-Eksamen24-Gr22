@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useCourse } from "@/hooks/useCourse";
+import useCourse from "@/hooks/useCourse";
 import useComments from "@/hooks/useComments";
 import useLesson from "@/hooks/useLesson";
 import { CommentType, CourseType, LessonType } from "@/components/types";
@@ -37,13 +37,13 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
     fetchData();
   }, [lessonSlug, courseSlug]);
 
-  if (!lesson) return <div>Loading...</div>;
+  // if (!lesson) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-2xl font-bold">{lesson.title}</h2>
-      <p className="mt-4">{lesson.preAmble}</p>
-      {lesson.text?.map((paragraph) => (
+      <h2 className="text-2xl font-bold">{lesson?.title}</h2>
+      <p className="mt-4">{lesson?.preAmble}</p>
+      {lesson?.text?.map((paragraph) => (
         <p key={paragraph.id} className="mt-4">
           {paragraph.text}
         </p>

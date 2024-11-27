@@ -33,9 +33,9 @@ export default function CourseLayout({
   }, [courseSlug]);
 
   // Sjekk at kurset ble lastet
-  if (!content) {
-    return <div>Loading...</div>;
-  }
+  // if (!content) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="grid grid-cols-[250px_minmax(20%,1fr)_1fr] gap-16">
@@ -43,7 +43,7 @@ export default function CourseLayout({
       <aside className="border-r border-slate-200 pr-6">
         <h3 className="mb-4 text-base font-bold">Leksjoner</h3>
         <ul data-testid="lessons">
-          {content.lessons.map((lesson) => (
+          {content?.lessons.map((lesson) => (
             <li
               key={lesson.id}
               className={`text-sm mb-4 w-full rounded-lg border px-4 py-2 ${
