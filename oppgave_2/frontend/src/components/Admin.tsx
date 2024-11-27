@@ -27,7 +27,6 @@ export default function Admin() {
                         <input type="text" />
                     </form>
                 ))}
-
             </section>
         </>
     )
