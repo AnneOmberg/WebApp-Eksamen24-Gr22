@@ -14,7 +14,7 @@ export default function CourseLayout({
   children: React.ReactNode;
 }) {
   const [content, setContent] = useState<CourseType | null>(null);
-  const { getCourse } = useCourse();
+  const { getCourse, courses } = useCourse();
 
   // Hent dynamiske parametere fra URL
   const { courseSlug, lessonSlug } = useParams() as {
@@ -30,7 +30,7 @@ export default function CourseLayout({
       }
     };
     getContent();
-  }, [courseSlug]);
+  }, [courseSlug, courses]);
 
   // Sjekk at kurset ble lastet
   // if (!content) {
