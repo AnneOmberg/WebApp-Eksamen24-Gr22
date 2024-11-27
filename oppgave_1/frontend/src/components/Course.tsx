@@ -8,10 +8,9 @@ import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
 import Link from "next/link";
 
-export default function Course({ children }: { children: React.ReactNode }) {
+export default function Course() {
+  const { courses, getCourse } = useCourse();
   const [content, setContent] = useState<CourseType | null>(null);
-
-  const { coursesFetched, courses, getCourse } = useCourse();
 
   const { courseSlug, lessonSlug } = useParams() as {
     courseSlug: string;
@@ -20,15 +19,15 @@ export default function Course({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const getContent = async () => {
-      if (courseSlug) {
+      if (courseSlug && courses.length > 0) {
         const data = await getCourse(courseSlug);
-        setContent(data as unknown as CourseType);
+        setContent(data as CourseType);
       }
     };
     getContent();
-  }, [coursesFetched]);
+  }, [courseSlug, courses]);
 
-  if (!courses || !content) {
+  if (!courses) {
     return <div>Loading...</div>;
   }
 
@@ -38,7 +37,7 @@ export default function Course({ children }: { children: React.ReactNode }) {
       <aside className="border-r border-slate-200 pr-6">
         <h3 className="mb-4 text-base font-bold">Leksjoner</h3>
         <ul data-testid="lessons">
-          {content.lessons.map((lesson) => (
+          {content?.lessons.map((lesson) => (
             <li
               key={lesson.id}
               className={`text-sm mb-4 w-full rounded-lg border px-4 py-2 ${
@@ -61,8 +60,8 @@ export default function Course({ children }: { children: React.ReactNode }) {
         <Lesson lessonSlug={lessonSlug} courseSlug={courseSlug} />
       ) : (
         <section>
-          <h2 className="text-2xl font-bold">{content.title}</h2>
-          <p className="mt-4">{content.description}</p>
+          <h2 className="text-2xl font-bold">{content?.title}</h2>
+          <p className="mt-4">{content?.description}</p>
         </section>
       )}
 
