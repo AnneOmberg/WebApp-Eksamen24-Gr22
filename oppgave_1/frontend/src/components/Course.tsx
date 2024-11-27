@@ -6,7 +6,6 @@ import Lesson from "@/components/Lesson";
 import useCourse from "@/hooks/useCourse";
 import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
-import Link from "next/link";
 
 export default function Course() {
   const { courses, getCourse } = useCourse();
@@ -28,7 +27,7 @@ export default function Course() {
   }, [courseSlug, courses]);
 
   return (
-    <div className="grid grid-cols-[250px_minmax(20%,1fr)_1fr] gap-16">
+    <>
       {/* Vis leksjon eller kursoversikt */}
       {lessonSlug ? (
         <Lesson lessonSlug={lessonSlug} courseSlug={courseSlug} />
@@ -38,6 +37,6 @@ export default function Course() {
           <p className="mt-4">{content?.description}</p>
         </section>
       )}
-    </div>
+    </>
   );
 }
