@@ -6,6 +6,8 @@ import Lesson from "@/components/Lesson";
 import useCourse from "@/hooks/useCourse";
 import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
+import Link from "next/link";
+import CourseLayout from "@/app/kurs/[courseSlug]/layout";
 
 export default function Course() {
   const { courses, getCourse } = useCourse();
@@ -28,7 +30,6 @@ export default function Course() {
 
   return (
     <>
-      {/* Vis leksjon eller kursoversikt */}
       {lessonSlug ? (
         <Lesson lessonSlug={lessonSlug} courseSlug={courseSlug} />
       ) : (

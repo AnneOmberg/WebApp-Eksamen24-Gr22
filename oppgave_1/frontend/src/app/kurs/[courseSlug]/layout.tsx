@@ -36,7 +36,6 @@ export default function CourseLayout({
   // if (!content) {
   //   return <div>Loading...</div>;
   // }
-
   return (
     <div className="grid grid-cols-[250px_minmax(20%,1fr)_1fr] gap-16">
       {/* Sidebar for leksjoner */}
