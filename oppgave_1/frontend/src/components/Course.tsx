@@ -4,10 +4,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Lesson from "@/components/Lesson";
 import useCourse from "@/hooks/useCourse";
-import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
-import Link from "next/link";
-import CourseLayout from "@/app/kurs/[courseSlug]/layout";
 
 export default function Course() {
   const { courses, getCourse } = useCourse();

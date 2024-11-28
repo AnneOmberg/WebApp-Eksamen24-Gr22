@@ -1,3 +1,5 @@
+import Create from "@/components/Create";
+
 export default function AddCourse() {
-  return <h1>alksjd</h1>;
+  return <Create />;
 }
