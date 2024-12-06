@@ -116,7 +116,7 @@ export default function useCourse() {
 
   const deleteCourse = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3999/${id}`, {
+      const response = await fetch(`http://localhost:3999/api/courses/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
