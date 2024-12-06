@@ -1,26 +1,36 @@
 "use client";
 
-import { categories, courses } from "../data/data";
-import { useCourse } from "@/hooks/useCourse";
-import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import useCourse from "@/hooks/useCourse";
+import { useEffect, useState } from "react";
+import { CourseType } from "./types";
+import Link from "next/link";
 
 export default function Courses() {
-  const [value, setValue] = useState("");
-  const [data, setData] = useState(courses);
+  const [value, setValue] = useState<string>("");
 
-  const handleFilter = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const { categories, courses, deleteCourse } = useCourse();
+
+  const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
+
+  useEffect(() => {
+    setFilteredCourses(courses);
+  }, [courses]);
+
+  // if (!filteredCourses) {
+  //   return <div>Loading...</div>;
+  // }
+
+  const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setValue(category);
-    if (category && category.length > 0) {
-      const content = courses.filter((course) =>
-        course.category.toLocaleLowerCase().includes(category.toLowerCase())
+
+    if (category) {
+      const filtered = courses.filter((course) =>
+        course?.category?.name.toLowerCase()?.includes(category?.toLowerCase())
       );
-      setData(content);
-    } else {
-      setData(courses);
+      setFilteredCourses(filtered);
+    } else if (!category) {
+      setFilteredCourses(courses);
     }
   };
 
@@ -49,22 +59,23 @@ export default function Courses() {
           </select>
         </label>
       </header>
+
       <section className="mt-6 grid grid-cols-3 gap-8" data-testid="courses">
-        {data && data.length > 0 ? (
-          data.map((course) => (
+        {filteredCourses && filteredCourses.length > 0 ? (
+          filteredCourses.map((course) => (
             <article
               className="rounded-lg border border-slate-400 px-6 py-8"
               key={course.id}
               data-testid="course_wrapper"
             >
               <span className="block text-right capitalize">
-                [{course.category}]
+                [{course.category.name}]
               </span>
               <h3
                 className="mb-2 text-base font-bold"
                 data-testid="courses_title"
               >
-                <a href={`/kurs/${course.slug}`}>{course.title}</a>
+                <Link href={`/kurs/${course.slug}`}>{course.title}</Link>
               </h3>
               <p
                 className="mb-6 text-base font-light"
@@ -72,13 +83,20 @@ export default function Courses() {
               >
                 {course.description}
               </p>
-              <a
+              <Link
                 className="font-semibold underline"
                 data-testid="courses_url"
                 href={`/kurs/${course.slug}`}
               >
                 Til kurs
-              </a>
+              </Link>
+              <button
+                className="flex px-2 py-px float-right bg-red-600 rounded-full"
+                onClick={() => deleteCourse(course.id)}
+                type="button"
+              >
+                X
+              </button>
             </article>
           ))
         ) : (

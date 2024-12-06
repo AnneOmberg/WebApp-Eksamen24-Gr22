@@ -1,180 +1,61 @@
 "use client";
 
-import { comments, courses } from "@/data/data";
-import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { CommentType, CourseType, LessonType } from "@/components/types";
-import { useCourse } from "@/hooks/useCourse";
+import useCourse from "@/hooks/useCourse";
 import useComments from "@/hooks/useComments";
 import useLesson from "@/hooks/useLesson";
+import { CommentType, CourseType, LessonType } from "@/components/types";
 
-type LType = {
+type LessonProps = {
   lessonSlug: string;
   courseSlug: string;
 };
 
-export default function Lesson({ lessonSlug, courseSlug }: LType) {
-  //   const router = useRouter();
-  //   const { slug, id } = useParams() as { slug: string; id: string };
-
-  const [success, setSuccess] = useState(false);
-  const [formError, setFormError] = useState(false);
-  const [comment, setComment] = useState("");
-  const [name, setName] = useState("");
-  const [lessonComments, setComments] = useState<CommentType[]>([]);
+export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
   const [lesson, setLesson] = useState<LessonType | null>(null);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [course, setCourse] = useState<CourseType | null>(null);
-  //   const courseSlug = "javascript-101";
-  //   const lessonSlug = "variabler";
 
-  //   const lessonSlug = slug as string;
-  //   const courseSlug = id as string;
-
-  const { getComments, createComment } = useComments();
-  const { getCourse } = useCourse();
   const { getLesson } = useLesson();
-
-  const handleComment = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setComment(event.target.value);
-  };
-
-  const handleName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setFormError(false);
-    setSuccess(false);
-    if (!comment || !name) {
-      setFormError(true);
-    } else {
-      await createComment({
-        id: `${Math.floor(Math.random() * 1000 + 1)}`,
-        createdBy: {
-          id: Math.floor(Math.random() * 1000 + 1),
-          name,
-        },
-        comment,
-        lesson: { slug: lessonSlug },
-      });
-      const commentsData = await getComments(lessonSlug);
-      setComments(commentsData);
-      setSuccess(true);
-    }
-  };
+  const { getCourse } = useCourse();
+  const { getComments } = useComments();
 
   useEffect(() => {
-    const getContent = async () => {
-      const lessonDate = await getLesson(courseSlug, lessonSlug);
-      const courseData = await getCourse(courseSlug);
-      const commentsData = await getComments(lessonSlug);
+    const fetchData = async () => {
+      if (lessonSlug && courseSlug) {
+        const lessonData = await getLesson(courseSlug, lessonSlug);
+        const courseData = await getCourse(courseSlug);
+        const commentsData = await getComments(lessonSlug);
 
-      setLesson(lessonDate ?? null);
-      setCourse(courseData);
-      setComments(commentsData);
+        if (lessonData) {
+          setLesson(lessonData);
+        }
+        setCourse(courseData);
+        setComments(commentsData);
+      }
     };
-    getContent();
-  }, [courseSlug, lessonSlug]);
+    fetchData();
+  }, [lessonSlug, courseSlug]);
+
+  // if (!lesson) return <div>Loading...</div>;
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <h3 data-testid="course_title" className="mb-6 text-base font-bold">
-          <a className="underline" href={`/kurs/${course?.slug}`}>
-            {course?.title}
-          </a>
-        </h3>
-        <span data-testid="course_category">
-          Kategori: <span className="font-bold">{course?.category}</span>
-        </span>
-      </div>
-      <h2 className="text-2xl font-bold" data-testid="lesson_title">
-        {lesson?.title}
-      </h2>
-      <p
-        data-testid="lesson_preAmble"
-        className="mt-4 font-semibold leading-relaxed"
-      >
-        {lesson?.preAmble}
-      </p>
-      {(lesson?.text ?? []).length > 0 &&
-        lesson?.text.map((text) => (
-          <p
-            data-testid="lesson_text"
-            className="mt-4 font-normal"
-            key={text.id}
-          >
-            {text.text}
-          </p>
-        ))}
-      <section data-testid="comments">
-        <h4 className="mt-8 mb-4 text-lg font-bold">
-          Kommentarer ({lessonComments?.length})
-        </h4>
-        <form data-testid="comment_form" onSubmit={handleSubmit} noValidate>
-          <label className="mb-4 flex flex-col" htmlFor="name">
-            <span className="mb-1 text-sm font-semibold">Navn*</span>
-            <input
-              data-testid="form_name"
-              type="text"
-              name="name"
-              id="name"
-              value={name}
-              onChange={handleName}
-              className="w-full rounded bg-slate-100"
-            />
-          </label>
-          <label className="mb-4 flex flex-col" htmlFor="comment">
-            <span className="mb-1 text-sm font-semibold">
-              Legg til kommentar*
-            </span>
-            <textarea
-              data-testid="form_textarea"
-              //   type="text"
-              name="comment"
-              id="comment"
-              value={comment}
-              onChange={handleComment}
-              className="w-full rounded bg-slate-100"
-              cols={30}
-            />
-          </label>
-          <button
-            className="rounded bg-emerald-600 px-10 py-2 text-center text-base text-white"
-            data-testid="form_submit"
-            type="submit"
-          >
-            Legg til kommentar
-          </button>
-          {formError ? (
-            <p className="font-semibold text-red-500" data-testid="form_error">
-              Fyll ut alle felter med *
-            </p>
-          ) : null}
-          {success ? (
-            <p
-              className="font-semibold text-emerald-500"
-              data-testid="form_success"
-            >
-              Skjema sendt
-            </p>
-          ) : null}
-        </form>
-        <ul className="mt-8" data-testid="comments_list">
-          {lessonComments?.length > 0
-            ? lessonComments.map((c) => (
-                <li
-                  className="mb-6 rounded border border-slate-200 px-4 py-6"
-                  key={c.id}
-                >
-                  <h5 data-testid="user_comment_name" className="font-bold">
-                    {c.createdBy.name}
-                  </h5>
-                  <p data-testid="user_comment">{c.comment}</p>
-                </li>
-              ))
-            : null}
+    <div className="flex flex-col gap-4">
+      <h2 className="text-2xl font-bold">{lesson?.title}</h2>
+      <p className="mt-4">{lesson?.preAmble}</p>
+      {lesson?.text?.map((paragraph) => (
+        <p key={paragraph?.id} className="mt-4">
+          {paragraph?.text}
+        </p>
+      ))}
+      <section className="flex flex-col gap-4">
+        <h4 className="font-bold">Kommentarer ({comments?.length})</h4>
+        <ul className="flex flex-col gap-5">
+          {comments?.map((comment) => (
+            <li key={comment?.id} className="bg-slate-200 p-3">
+              <strong>{comment?.createdBy.name}</strong>: {comment?.comment}
+            </li>
+          ))}
         </ul>
       </section>
     </div>

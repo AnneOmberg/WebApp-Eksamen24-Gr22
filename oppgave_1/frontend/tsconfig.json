@@ -5,6 +5,7 @@
       "dom.iterable",
       "esnext"
     ],
+    "checkJs": true,
     "target": "ESNext",
     "allowJs": true,
     "skipLibCheck": true,

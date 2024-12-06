@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Link from "next/link";
 
 // TODO: Kommenter ut om du ønsker å bruke .css
 // import '../styles/scss/main.css'
@@ -31,9 +32,33 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased m-2`}
       >
-        {children}
+        <div
+          className="mx-auto grid min-h-screen w-full max-w-7xl grid-rows-[auto_minmax(900px,_1fr)_30px]"
+          data-testid="layout"
+        >
+          <nav className="mt-6 mb-12 flex justify-between">
+            <h1 className="text-lg font-bold uppercase" data-testid="logo">
+              <Link href="/">Mikro LMS</Link>
+            </h1>
+            <ul className="flex gap-8" data-testid="nav">
+              <li className="text-base font-semibold" data-testid="nav_courses">
+                <Link href="kurs">Kurs</Link>
+              </li>
+              <li className="text-base font-semibold" data-testid="nav_new">
+                <Link href="/ny">Nytt kurs</Link>
+              </li>
+            </ul>
+          </nav>
+
+          <main className="h-full m-4">{children}</main>
+
+          <footer className="flex justify-between" data-testid="footer">
+            <p>Mikro LMS AS, 2024</p>
+            <p>99 00 00 00, mail@lms.no</p>
+          </footer>
+        </div>
       </body>
     </html>
   );
