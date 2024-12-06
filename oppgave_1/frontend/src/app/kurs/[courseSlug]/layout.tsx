@@ -26,37 +26,48 @@ export default function CourseLayout({
     const getContent = async () => {
       if (courseSlug) {
         const data = await getCourse(courseSlug);
-        setContent(data as unknown as CourseType);
+        console.log("Fetched course data:", data);
+        setContent(data as CourseType);
       }
     };
     getContent();
   }, [courseSlug, courses]);
 
+  useEffect(() => {
+    console.log("Updated content:", content); // Log whenever content changes
+  }, [content]);
+  
+
   // Sjekk at kurset ble lastet
-  // if (!content) {
-  //   return <div>Loading...</div>;
-  // }
+  if (!content) {
+    return <div>Loading...</div>;
+  }
+  console.log("Rendering lessons:", content?.lessons)
   return (
     <div className="grid grid-cols-[250px_minmax(20%,1fr)_1fr] gap-16">
       {/* Sidebar for leksjoner */}
       <aside className="border-r border-slate-200 pr-6">
         <h3 className="mb-4 text-base font-bold">Leksjoner</h3>
         <ul data-testid="lessons">
-          {content?.lessons.map((lesson) => (
+        {content?.lessons && content?.lessons?.length > 0 ? (
+          content?.lessons?.map((lesson) => (
             <li
-              key={lesson.id}
+              key={lesson?.id}
               className={`text-sm mb-4 w-full rounded-lg border px-4 py-2 ${
-                lessonSlug === lesson.slug ? "bg-emerald-300" : "bg-transparent"
+                lessonSlug === lesson?.slug ? "bg-emerald-300" : "bg-transparent"
               }`}
             >
               <Link
-                href={`/kurs/${courseSlug}/${lesson.slug}`}
+                href={`/kurs/${courseSlug}/${lesson?.slug}`}
                 className="block"
               >
-                {lesson.title}
+                {lesson?.title}
               </Link>
             </li>
-          ))}
+           ))
+          ) : (
+            <p>No lessons available</p>
+          )}
         </ul>
       </aside>
 

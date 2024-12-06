@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { categories, courseCreateSteps } from "@/data/data";
 import useCourse from "@/hooks/useCourse";
-import { LessonType } from "@/components/types";
+import { CourseType, LessonType } from "@/components/types";
 
 const isValid = (items: any) => {
   const invalidFields = [];
@@ -62,30 +62,13 @@ export default function Create() {
 
   const step = courseCreateSteps[current]?.name;
 
-  const handleSubmit = async (event: any) => {
-    event.preventDefault();
-    setFormError(false);
-    setSuccess(false);
-
-    if (lessons.length > 0 && isValid(lessons) && isValid(courseFields)) {
-      setSuccess(true);
-      setCurrent(2);
-      await createCourse({ ...courseFields, lessons });
-      setTimeout(() => {
-        router.push("/kurs");
-      }, 500);
-    } else {
-      setFormError(true);
-    }
-  };
-
   const addTextBox = () => {
     const updatedLessonText = lessons.map((lesson, i) => {
       if (currentLesson === i) {
         const text = [
           { id: `${Math.floor(Math.random() * 1000 + 1)}`, text: "" },
         ];
-        if (lesson.text.length === 0) {
+        if (lesson?.text?.length === 0) {
           text.push({
             id: `${Math.floor(Math.random() * 1000 + 1)}`,
             text: "",
@@ -93,7 +76,7 @@ export default function Create() {
         }
         return {
           ...lesson,
-          text: [...lesson.text, ...text],
+          text: [...lesson?.text, ...text],
         };
       }
       return lesson;
@@ -118,6 +101,7 @@ export default function Create() {
   const handleCourseFieldChange = (event: any) => {
     const { name, value } = event.target;
     setCourseFields((prev) => ({ ...prev, [name]: value }));
+    console.log("Navn:", name,"Verdi:", value)
   };
 
   const handleStep = (index: any) => {
@@ -149,13 +133,14 @@ export default function Create() {
         return _text;
       });
     }
-
+    
     const updatedLessons = lessons.map((lesson, i) => {
       if (i === currentLesson) {
         return { ...lesson, [name]: value, text: text?.length > 0 ? text : [] };
       }
       return lesson;
     });
+    console.log("Navn:", name,"Verdi:", value)
     setLessons(updatedLessons);
   };
 
@@ -172,10 +157,52 @@ export default function Create() {
         slug: "",
         preAmble: "",
         text: [],
-        order: `${lessons.length}`,
+        // order: `${lessons.length}`,
       },
     ]);
     setCurrentLesson(lessons.length);
+  };
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const form = document.querySelector('[data-testid="form"]') as HTMLFormElement;
+    if (!form) {
+        console.error("Form not found!");
+        return;
+    }
+
+    let newLessons: LessonType[] = lessons.map((lesson) => ({
+      id: crypto.randomUUID(),
+      title: lesson.title,
+      slug: lesson.slug.toLowerCase().split(" ").join("-"),
+      preAmble: lesson.preAmble || "",
+      text: lesson.text || [],
+    }));
+
+    let newCourse: CourseType = {
+      id: courseFields.id,
+      title: courseFields?.title,
+      slug: courseFields?.slug.toLowerCase().split(" ").join("-"),
+      description: courseFields?.description,
+      lessons: newLessons,
+      category: courseFields.category,
+    }
+ 
+    console.log("Nytt kurs", newCourse)
+    createCourse(newCourse)
+    setFormError(false);
+    setSuccess(false);
+
+    if (lessons.length > 0 && isValid(lessons) && isValid(courseFields)) {
+      setSuccess(true);
+      setCurrent(2);
+      await createCourse({ ...courseFields, lessons });
+      setTimeout(() => {
+        router.push("/kurs");
+      }, 500);
+    } else {
+      setFormError(true);
+    }
   };
 
   return (
