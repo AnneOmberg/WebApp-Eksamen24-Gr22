@@ -9,7 +9,7 @@ import { PrismaClient } from "@prisma/client";
 const app = new Hono();
 const prisma = new PrismaClient();
 
-app.use("/*", cors());
+app.use("/api/*", cors());
 
 app.get("/api/categories", async (c) => {
   const categories = await prisma.category.findMany();
@@ -43,33 +43,48 @@ app.delete("/api/categories/:id", async (c) => {
 });
 
 app.post("/api/courses", async (c) => {
-  const body = await c.req.json<CourseType>();
   try {
-    await prisma.course.create({
+    const body = await c.req.json<CourseType>();
+
+    // Ensure all required fields are provided
+    if (!body.title || !body.slug || !body.category || !body.lessons) {
+      throw new Error("Missing required fields: title, slug, category, or lessons");
+    }
+
+    // Create a new course with lessons and their nested texts
+    const course = await prisma.course.create({
       data: {
         title: body.title,
         slug: body.slug,
         description: body.description,
-        categoryId: body.category,
+        category: {
+          connect: {
+            id: body.category, // Ensure `body.category` is the `id` of an existing `Category`
+          },
+        },
         lessons: {
           create: body.lessons.map((lesson) => ({
             title: lesson.title,
             slug: lesson.slug,
             preAmble: lesson.preAmble,
             texts: {
-              create: lesson.text.map((text) => ({
-                text: text.text,
+              create: lesson.text.map((t) => ({
+                text: t.text,
               })),
             },
           })),
         },
       },
     });
-    return c.json({ message: "Course created" });
+
+    return c.json({ message: "Course created", course });
   } catch (err: any) {
+    console.error("Error creating course:", err.message);
     return c.json({ error: err.message }, 500);
   }
 });
+
+
 
 app.get("/api/courses", async (c) => {
   console.log("Fetching courses...");

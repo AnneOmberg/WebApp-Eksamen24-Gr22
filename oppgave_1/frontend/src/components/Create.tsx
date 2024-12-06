@@ -158,47 +158,50 @@ export default function Create() {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const form = document.querySelector(
-      '[data-testid="form"]'
-    ) as HTMLFormElement;
+    const form = document.querySelector('[data-testid="form"]') as HTMLFormElement;
     if (!form) {
       console.error("Form not found!");
       return;
     }
-
-    let newLessons: LessonType[] = lessons.map((lesson) => ({
-      id: crypto.randomUUID(),
+  
+    // Map category name to ID (mock example; replace with actual logic)
+    // const categoryMap = {
+    //   marketing: "1", // Example IDs
+    //   programming: "2",
+    // };
+  
+    // Map lessons and nested texts
+    const newLessons: LessonType[] = lessons.map((lesson) => ({
+      id: `${Math.floor(Math.random() * 1000 + 1)}`,
       title: lesson.title,
       slug: lesson.slug.toLowerCase().split(" ").join("-"),
       preAmble: lesson.preAmble || "",
-      text: lesson.text || [],
+      text: lesson.text.map((t) => ({ id: t.id, text: t.text })),
     }));
-
-    let newCourse: CourseType = {
+  
+    // Construct course object
+    const newCourse: CourseType = {
       id: courseFields.id,
-      title: courseFields?.title,
-      slug: courseFields?.slug.toLowerCase().split(" ").join("-"),
-      description: courseFields?.description,
+      title: courseFields.title,
+      slug: courseFields.slug.toLowerCase().split(" ").join("-"),
+      description: courseFields.description,
       lessons: newLessons,
-      category: courseFields?.category.toLowerCase(),
+      category: courseFields.category.toLowerCase(), // Convert to category ID
     };
-
-    console.log("Nytt kurs", newCourse);
-    createCourse(newCourse);
-    setFormError(false);
-    setSuccess(false);
-
-    if (lessons.length > 0 && isValid(lessons) && isValid(courseFields)) {
+  
+    console.log("Submitting course:", newCourse);
+  
+    try {
+      await createCourse(newCourse);
+      setFormError(false);
       setSuccess(true);
-      setCurrent(2);
-      await createCourse({ ...courseFields, lessons });
-      setTimeout(() => {
-        router.push("/kurs");
-      }, 500);
-    } else {
+      router.push("/kurs");
+    } catch (error) {
+      console.error("Error in handleSubmit:", error);
       setFormError(true);
     }
   };
+  
 
   return (
     <>
