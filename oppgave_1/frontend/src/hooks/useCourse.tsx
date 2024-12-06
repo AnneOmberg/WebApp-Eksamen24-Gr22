@@ -39,7 +39,6 @@ export default function useCourse() {
       console.error("Error fetching courses:", error);
     }
   };
-
   
   const getCourse = (slug: string): CourseType | null => {
     return courses.find((course) => course.slug === slug) ?? null;

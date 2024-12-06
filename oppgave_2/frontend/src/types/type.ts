@@ -1,9 +1,10 @@
 export type HappeningType = {
     id: string,
     title: string,
+    slug: string
     description: string,
     location: string,
-    event_type: string,
+    category: string,
     seats: string,       
     price: string
 }

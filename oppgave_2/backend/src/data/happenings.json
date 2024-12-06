@@ -4,7 +4,7 @@
         "title": "Konsert med Norma",
         "description": "Kom å se på spellemans nominrte Norma spille, med sitt ny contry album.",
         "location": "Halden festning",
-        "event_type": "konsert",
+        "category": "konsert",
         "seats": "5000",
         "price": "400"
     },
@@ -13,7 +13,7 @@
         "title": "Trylle-show",
         "description": "Kom å se på fantastiske blabla og hennes magiske verden",
         "location": "Halden festning",
-        "event_type": "barn",
+        "category": "barn",
         "seats": "3000",       
         "price": "250"
     },
@@ -22,7 +22,7 @@
         "title": "Stafett Løp",
         "description": "Førsteman til mål vinner en premie",
         "location": "Halden festning",
-        "event_type": "barn",
+        "category": "barn",
         "seats": "1000",       
         "price": "150"
     },
@@ -31,7 +31,7 @@
         "title": "Karaoke kveld",
         "description": "Vis frem din indre sanger på vår karaoke kveld",
         "location": "Halden festning",
-        "event_type": "fest",
+        "category": "fest",
         "seats": "2500",       
         "price": "250"
     },
@@ -40,7 +40,7 @@
         "title": "",
         "description": "",
         "location": "",
-        "event_type": "",
+        "category": "",
         "seats": "",       
         "price": ""
     }
