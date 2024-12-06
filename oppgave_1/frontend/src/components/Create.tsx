@@ -185,7 +185,7 @@ export default function Create() {
       slug: courseFields?.slug.toLowerCase().split(" ").join("-"),
       description: courseFields?.description,
       lessons: newLessons,
-      category: courseFields.category,
+      category: courseFields?.category.toLowerCase(),
     }
  
     console.log("Nytt kurs", newCourse)
