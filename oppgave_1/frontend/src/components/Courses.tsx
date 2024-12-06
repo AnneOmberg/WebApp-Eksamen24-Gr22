@@ -26,7 +26,7 @@ export default function Courses() {
 
     if (category) {
       const filtered = courses.filter((course) =>
-        course?.category?.toLowerCase()?.includes(category?.toLowerCase())
+        course?.category?.name.toLowerCase()?.includes(category?.toLowerCase())
       );
       setFilteredCourses(filtered);
     } else if (!category) {
@@ -69,7 +69,7 @@ export default function Courses() {
               data-testid="course_wrapper"
             >
               <span className="block text-right capitalize">
-                [{course.category}]
+                [{course.category.name}]
               </span>
               <h3
                 className="mb-2 text-base font-bold"
@@ -90,7 +90,13 @@ export default function Courses() {
               >
                 Til kurs
               </Link>
-              <button className="flex px-2 py-px float-right bg-red-600 rounded-full" onClick={() => deleteCourse(course.id)} type="button">X</button>
+              <button
+                className="flex px-2 py-px float-right bg-red-600 rounded-full"
+                onClick={() => deleteCourse(course.id)}
+                type="button"
+              >
+                X
+              </button>
             </article>
           ))
         ) : (
