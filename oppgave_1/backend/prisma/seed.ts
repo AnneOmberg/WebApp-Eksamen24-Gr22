@@ -141,7 +141,7 @@ async function main() {
       await prisma.comment.upsert({
         where: { id: comment.id },
         update: {
-          comment: comment.comment,
+          text: comment.comment,
           lessonId: lesson.id,
           createdById: user.id,
         },

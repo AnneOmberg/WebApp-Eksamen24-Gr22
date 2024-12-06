@@ -3,7 +3,7 @@
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import useCourse from "@/hooks/useCourse";
-import { users } from "@/data/data";
+// import { users } from "@/data/data";
 import { CourseType } from "@/components/types";
 import Link from "next/link";
 
@@ -14,12 +14,24 @@ export default function CourseLayout({
 }) {
   const [content, setContent] = useState<CourseType | null>(null);
   const { getCourse, courses } = useCourse();
+  const [users, setUsers] = useState([]);
 
   // Hent dynamiske parametere fra URL
   const { courseSlug, lessonSlug } = useParams() as {
     courseSlug: string;
     lessonSlug: string;
   };
+
+  const getUsers = async () => {
+    const response = await fetch("http://localhost:3999/api/users");
+    const data = await response.json();
+    console.log(data);
+    return data;
+  };
+
+  useEffect(() => {
+    getUsers().then((data) => setUsers(data));
+  }, []);
 
   useEffect(() => {
     const getContent = async () => {
@@ -34,7 +46,7 @@ export default function CourseLayout({
   useEffect(() => {}, [content]);
 
   // Sjekk at kurset ble lastet
-  if (!content) {
+  if (!content && !users) {
     return <div>Loading...</div>;
   }
   return (
@@ -75,7 +87,7 @@ export default function CourseLayout({
         <h3 className="mb-4 text-base font-bold">Deltakere</h3>
         <ul>
           {users.map((user) => (
-            <li key={user.id}>{user.name}</li>
+            <li key={user?.id}>{user?.name}</li>
           ))}
         </ul>
       </aside>

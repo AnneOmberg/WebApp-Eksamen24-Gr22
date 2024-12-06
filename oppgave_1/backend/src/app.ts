@@ -11,6 +11,11 @@ const prisma = new PrismaClient();
 
 app.use("/*", cors());
 
+app.get("/api/users", async (c) => {
+  const users = await prisma.user.findMany();
+  return c.json(users);
+});
+
 app.get("/api/categories", async (c) => {
   const categories = await prisma.category.findMany();
   return c.json(categories);
@@ -79,12 +84,17 @@ app.get("/api/courses", async (c) => {
         lessons: {
           include: {
             texts: true,
+            comments: {
+              include: {
+                createdBy: true,
+              },
+            },
           },
         },
         category: true,
       },
     });
-    console.log("Courses fetched:", courses);
+    console.log("Courses fetched:", JSON.stringify(courses, null, 2));
     return c.json(courses);
   } catch (err) {
     console.error("Error fetching courses:", err);

@@ -52,7 +52,7 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
       <section className="flex flex-col gap-4">
         <h4 className="font-bold">Kommentarer ({comments?.length})</h4>
         <ul className="flex flex-col gap-5">
-          {comments?.map((comment) => (
+          {lesson?.comments?.map((comment) => (
             <li key={comment?.id} className="bg-slate-200 p-3">
               <strong>{comment?.createdBy.name}</strong>: {comment?.comment}
             </li>
