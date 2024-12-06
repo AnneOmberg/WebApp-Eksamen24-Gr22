@@ -391,7 +391,7 @@ export default function Create() {
                         htmlFor={`text-${field?.id}`}
                       >
                         <span className="text-sm font-semibold">Tekst*</span>
-                        import Tiptap from "./TipTap";
+
                         {lessons[currentLesson]?.text?.length > 0
                           ? lessons[currentLesson]?.text?.map(
                               (field, index) => (

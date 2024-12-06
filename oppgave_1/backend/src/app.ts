@@ -1,8 +1,9 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import fs from "fs/promises";
-
 import { PrismaClient } from "@prisma/client";
+import { readFile } from "fs/promises";
+import { getCourseData, updateCourseData } from "./lib";
+import { CourseType } from "./types/types";
 
 const app = new Hono();
 const prisma = new PrismaClient();
@@ -23,7 +24,7 @@ app.post("/api/categories", async (c) => {
       },
     });
     return c.json({ message: "Category created" });
-  } catch (err) {
+  } catch (err: any) {
     return c.json({ error: err.message }, 500);
   }
 });
@@ -40,7 +41,7 @@ app.delete("/api/categories/:id", async (c) => {
   }
 });
 
-app.get("/courses", async (c) => {
+app.get("/api/courses", async (c) => {
   const courses = await prisma.course.findMany();
   return c.json(courses);
 });
