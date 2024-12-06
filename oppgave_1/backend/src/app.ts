@@ -1,15 +1,53 @@
-import { promises as fs } from "fs";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import fs from "fs/promises";
+
+import { PrismaClient } from "@prisma/client";
 
 const app = new Hono();
+const prisma = new PrismaClient();
 
 app.use("/*", cors());
 
+app.get("/api/categories", async (c) => {
+  const categories = await prisma.category.findMany();
+  return c.json(categories);
+});
+
+app.post("/api/categories", async (c) => {
+  const body = await c.req.json();
+  try {
+    await prisma.category.create({
+      data: {
+        name: body.name,
+      },
+    });
+    return c.json({ message: "Category created" });
+  } catch (err) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
+app.delete("/api/categories/:id", async (c) => {
+  const id = c.req.param("id");
+  try {
+    await prisma.category.delete({
+      where: { id: id },
+    });
+    return c.json({ message: "Category deleted" });
+  } catch (err) {
+    return c.json({ error: (err as Error).message }, 500);
+  }
+});
+
 app.get("/courses", async (c) => {
-  const data = await fs.readFile("src/data/courses.json", "utf-8");
-  const parsedData = JSON.parse(data);
-  return c.json(parsedData);
+  const courses = await prisma.course.findMany();
+  return c.json(courses);
+});
+
+app.get("/users", async (c) => {
+  const users = await prisma.user.findMany();
+  return c.json(users);
 });
 
 app.get("/categories", async (c) => {
@@ -20,14 +58,13 @@ app.get("/categories", async (c) => {
 
 app.onError((err, c) => {
   console.error(err);
-
   return c.json(
     {
       error: {
         message: err.message,
       },
     },
-    { status: 500 }
+    500
   );
 });
 
