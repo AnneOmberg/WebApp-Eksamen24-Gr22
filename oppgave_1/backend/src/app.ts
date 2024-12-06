@@ -4,7 +4,7 @@ import { readFile } from "fs/promises";
 import { getCourseData, updateCourseData } from "./lib";
 import { CourseType } from "./types/types";
 // import { PrismaClient } from "@prisma/client";
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient } from "@prisma/client";
 
 const app = new Hono();
 const prisma = new PrismaClient();
@@ -42,6 +42,35 @@ app.delete("/api/categories/:id", async (c) => {
   }
 });
 
+app.post("/api/courses", async (c) => {
+  const body = await c.req.json<CourseType>();
+  try {
+    await prisma.course.create({
+      data: {
+        title: body.title,
+        slug: body.slug,
+        description: body.description,
+        categoryId: body.category,
+        lessons: {
+          create: body.lessons.map((lesson) => ({
+            title: lesson.title,
+            slug: lesson.slug,
+            preAmble: lesson.preAmble,
+            texts: {
+              create: lesson.text.map((text) => ({
+                text: text.text,
+              })),
+            },
+          })),
+        },
+      },
+    });
+    return c.json({ message: "Course created" });
+  } catch (err: any) {
+    return c.json({ error: err.message }, 500);
+  }
+});
+
 app.get("/api/courses", async (c) => {
   console.log("Fetching courses...");
   try {
@@ -55,6 +84,30 @@ app.get("/api/courses", async (c) => {
   } catch (err) {
     console.error("Error fetching courses:", err);
     return c.json({ error: "Failed to fetch courses" }, 500);
+  }
+});
+
+app.delete("/api/courses/:id", async (c) => {
+  const id = c.req.param("id");
+  try {
+    await prisma.$transaction([
+      prisma.text.deleteMany({
+        where: {
+          lesson: {
+            courseId: id,
+          },
+        },
+      }),
+      prisma.lesson.deleteMany({
+        where: { courseId: id },
+      }),
+      prisma.course.delete({
+        where: { id: id },
+      }),
+    ]);
+    return c.json({ message: "Course and related lessons and texts deleted" });
+  } catch (err: any) {
+    return c.json({ error: err.message }, 500);
   }
 });
 

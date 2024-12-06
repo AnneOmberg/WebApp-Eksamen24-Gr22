@@ -69,7 +69,7 @@ export default function useCourse() {
 
   const createCourse = async (event: CourseType) => {
     try {
-      const response = await fetch("http://localhost:3999/courses", {
+      const response = await fetch("http://localhost:3999/api/courses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
