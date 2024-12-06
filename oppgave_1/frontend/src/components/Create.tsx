@@ -61,7 +61,7 @@ export default function Create() {
         const text = [
           { id: `${Math.floor(Math.random() * 1000 + 1)}`, text: "" },
         ];
-        if (lesson?.text?.length === 0) {
+        if (lesson?.texts?.length === 0) {
           text.push({
             id: `${Math.floor(Math.random() * 1000 + 1)}`,
             text: "",
@@ -69,7 +69,7 @@ export default function Create() {
         }
         return {
           ...lesson,
-          text: [...lesson?.text, ...text],
+          text: [...lesson?.texts, ...text],
         };
       }
       return lesson;
@@ -196,7 +196,7 @@ export default function Create() {
       await createCourse({ ...courseFields, lessons });
       setTimeout(() => {
         router.push("/kurs");
-      }, 500);
+      }, 2000);
     } else {
       setFormError(true);
     }
@@ -385,8 +385,8 @@ export default function Create() {
                     }
                   />
                 </label>
-                {lessons[currentLesson]?.text?.length > 1 ? (
-                  lessons[currentLesson]?.text?.map((field, index) => (
+                {lessons[currentLesson]?.texts?.length > 1 ? (
+                  lessons[currentLesson]?.texts?.map((field, index) => (
                     <div key={field?.id}>
                       <label
                         className="mt-4 flex flex-col"
@@ -423,7 +423,7 @@ export default function Create() {
                       //   type="text"
                       name="text"
                       id="text"
-                      value={lessons[currentLesson]?.text?.[0]?.text}
+                      value={lessons[currentLesson]?.texts?.[0]?.text}
                       onChange={(event) => handleLessonFieldChange(event, 0)}
                       className="w-full rounded bg-slate-100"
                       cols={30}
@@ -463,7 +463,7 @@ export default function Create() {
               Beskrivelse: {courseFields?.description}
             </p>
             <p data-testid="review_course_category">
-              Kategori: {courseFields?.category}
+              Kategori: {courseFields?.category?.name}
             </p>
             <h3
               data-testid="review_course_lessons"
@@ -490,8 +490,8 @@ export default function Create() {
                       data-testid="review_lesson_texts"
                       className="list-inside"
                     >
-                      {lesson?.text?.length > 0 &&
-                        lesson.text.map((text) => (
+                      {lesson?.texts?.length > 0 &&
+                        lesson.texts.map((text) => (
                           <li
                             data-testid="review_lesson_text"
                             className="mb-1 pl-4"

@@ -17,7 +17,8 @@ export type LessonType = {
   title: string;
   slug: string;
   preAmble: string;
-  text: TextType[];
+  texts: TextType[];
+  comments: CommentType[];
 };
 
 export type TextType = {

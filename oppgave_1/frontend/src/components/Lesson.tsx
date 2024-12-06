@@ -14,7 +14,6 @@ type LessonProps = {
 export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
   const [lesson, setLesson] = useState<LessonType | null>(null);
   const [comments, setComments] = useState<CommentType[]>([]);
-  const [course, setCourse] = useState<CourseType | null>(null);
 
   const { getLesson, isCoursesLoaded } = useLesson();
   const { getCourse } = useCourse();
@@ -31,7 +30,7 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
         if (lessonData) {
           setLesson(lessonData);
         }
-        setCourse(courseData);
+
         setComments(commentsData);
       }
     };
@@ -52,7 +51,7 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
       <section className="flex flex-col gap-4">
         <h4 className="font-bold">Kommentarer ({comments?.length})</h4>
         <ul className="flex flex-col gap-5">
-          {lesson?.comments?.map((comment) => (
+          {lesson?.comments?.map((comment: CommentType) => (
             <li key={comment?.id} className="bg-slate-200 p-3">
               <strong>{comment?.createdBy.name}</strong>: {comment?.comment}
             </li>

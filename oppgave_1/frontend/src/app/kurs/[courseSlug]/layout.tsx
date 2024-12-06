@@ -14,7 +14,7 @@ export default function CourseLayout({
 }) {
   const [content, setContent] = useState<CourseType | null>(null);
   const { getCourse, courses } = useCourse();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<{ id: string; name: string }[]>([]);
 
   // Hent dynamiske parametere fra URL
   const { courseSlug, lessonSlug } = useParams() as {
