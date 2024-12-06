@@ -41,11 +41,8 @@ export default function useCourse() {
         throw new Error("Network response was not ok");
       }
       const categories = await response.json();
-      console.log(categories);
-      const categoryNames = categories.map((category: any) =>
-        capitalize(category.name)
-      );
-      setCategories(categoryNames);
+
+      setCategories(categories);
       // You can now use the categories data in your frontend
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
@@ -57,7 +54,6 @@ export default function useCourse() {
       const response = await fetch("http://localhost:3999/api/courses");
       const data = await response.json();
       setCourses(data as CourseType[]);
-      console.log("All courses:", data);
     } catch (error) {
       console.error("Error fetching courses:", error);
     }
@@ -145,5 +141,6 @@ export default function useCourse() {
     getCourse,
     createCourse,
     deleteCourse,
+    capitalize,
   };
 }

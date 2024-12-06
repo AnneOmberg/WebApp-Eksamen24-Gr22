@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
-import { categories, courseCreateSteps } from "@/data/data";
+import { courseCreateSteps } from "@/data/data";
 import useCourse from "@/hooks/useCourse";
 import { CourseType, LessonType } from "@/components/types";
 
@@ -46,10 +46,10 @@ export default function Create() {
     title: "",
     slug: "",
     description: "",
-    category: "",
+    category: { id: "", name: "" },
   });
   const [lessons, setLessons] = useState<LessonType[]>([]);
-  const { getCourse, createCourse } = useCourse();
+  const { getCourse, createCourse, categories, capitalize } = useCourse();
 
   const router = useRouter();
 
@@ -94,7 +94,6 @@ export default function Create() {
   const handleCourseFieldChange = (event: any) => {
     const { name, value } = event.target;
     setCourseFields((prev) => ({ ...prev, [name]: value }));
-    console.log("Navn:", name, "Verdi:", value);
   };
 
   const handleStep = (index: any) => {
@@ -150,7 +149,7 @@ export default function Create() {
         slug: "",
         preAmble: "",
         text: [],
-        // order: `${lessons.length}`,
+        order: `${lessons.length}`,
       },
     ]);
     setCurrentLesson(lessons.length);
@@ -180,7 +179,10 @@ export default function Create() {
       slug: courseFields?.slug.toLowerCase().split(" ").join("-"),
       description: courseFields?.description,
       lessons: newLessons,
-      category: courseFields?.category.toLowerCase(),
+      category: {
+        id: courseFields?.category?.id,
+        name: courseFields?.category?.name,
+      },
     };
 
     console.log("Nytt kurs", newCourse);
@@ -283,15 +285,15 @@ export default function Create() {
                 data-testid="form_category"
                 name="category"
                 id="category"
-                value={courseFields?.category}
+                value={courseFields?.category?.id}
                 onChange={handleCourseFieldChange}
               >
                 <option disabled value="">
                   Velg kategori
                 </option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.id} value={category.id}>
+                    {capitalize(category.name)}
                   </option>
                 ))}
               </select>

@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Courses() {
   const [value, setValue] = useState<string>("");
 
-  const { categories, courses, deleteCourse } = useCourse();
+  const { categories, courses, deleteCourse, capitalize } = useCourse();
 
   const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
@@ -16,20 +16,16 @@ export default function Courses() {
     setFilteredCourses(courses);
   }, [courses]);
 
-  // if (!filteredCourses) {
-  //   return <div>Loading...</div>;
-  // }
-
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setValue(category);
 
     if (category) {
       const filtered = courses.filter((course) =>
-        course?.category?.name.toLowerCase()?.includes(category?.toLowerCase())
+        course?.category?.name?.toLowerCase().includes(category.toLowerCase())
       );
       setFilteredCourses(filtered);
-    } else if (!category) {
+    } else {
       setFilteredCourses(courses);
     }
   };
@@ -52,8 +48,8 @@ export default function Courses() {
           >
             <option value="">Alle</option>
             {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
+              <option key={category?.id} value={category?.name}>
+                {capitalize(category?.name)}
               </option>
             ))}
           </select>

@@ -16,7 +16,7 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [course, setCourse] = useState<CourseType | null>(null);
 
-  const { getLesson } = useLesson();
+  const { getLesson, isCoursesLoaded } = useLesson();
   const { getCourse } = useCourse();
   const { getComments } = useComments();
 
@@ -24,6 +24,7 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
     const fetchData = async () => {
       if (lessonSlug && courseSlug) {
         const lessonData = await getLesson(courseSlug, lessonSlug);
+        console.log("LESSON.TSX", lessonData);
         const courseData = await getCourse(courseSlug);
         const commentsData = await getComments(lessonSlug);
 
@@ -35,15 +36,15 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
       }
     };
     fetchData();
-  }, [lessonSlug, courseSlug]);
+  }, [lessonSlug, courseSlug, isCoursesLoaded]);
 
-  // if (!lesson) return <div>Loading...</div>;
+  if (!lesson) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold">{lesson?.title}</h2>
       <p className="mt-4">{lesson?.preAmble}</p>
-      {lesson?.text?.map((paragraph) => (
+      {lesson?.texts?.map((paragraph) => (
         <p key={paragraph?.id} className="mt-4">
           {paragraph?.text}
         </p>

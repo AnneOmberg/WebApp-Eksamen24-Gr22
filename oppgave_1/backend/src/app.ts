@@ -76,7 +76,11 @@ app.get("/api/courses", async (c) => {
   try {
     const courses = await prisma.course.findMany({
       include: {
-        lessons: true,
+        lessons: {
+          include: {
+            texts: true,
+          },
+        },
         category: true,
       },
     });

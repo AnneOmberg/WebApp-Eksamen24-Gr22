@@ -51,8 +51,42 @@ async function main() {
 
     if (category) {
       console.log(`Seeding course: ${course.title}`);
-      await prisma.course.create({
-        data: {
+      await prisma.course.upsert({
+        where: { slug: course.slug },
+        update: {
+          title: course.title,
+          description: course.description,
+          categoryId: category.id,
+          lessons: {
+            upsert: course.lessons.map((lesson: any) => ({
+              where: { slug: lesson.slug },
+              update: {
+                title: lesson.title,
+                preAmble: lesson.preAmble,
+                texts: {
+                  upsert: lesson.text.map((text: any) => ({
+                    where: { id: text.id },
+                    update: { text: text.text },
+                    create: { id: text.id, text: text.text },
+                  })),
+                },
+              },
+              create: {
+                id: lesson.id,
+                title: lesson.title,
+                slug: lesson.slug,
+                preAmble: lesson.preAmble,
+                texts: {
+                  create: lesson.text.map((text: any) => ({
+                    id: text.id,
+                    text: text.text,
+                  })),
+                },
+              },
+            })),
+          },
+        },
+        create: {
           id: course.id,
           title: course.title,
           slug: course.slug,
@@ -79,6 +113,50 @@ async function main() {
     }
   }
   console.log("Courses seeded.");
+
+  // Load comments
+  const commentsData = JSON.parse(
+    fs.readFileSync("src/data/comments.json", "utf-8")
+  );
+
+  console.log("Seeding comments...");
+  for (const comment of commentsData) {
+    const user = await prisma.user.upsert({
+      where: { id: comment.createdBy.id },
+      update: { name: comment.createdBy.name },
+      create: {
+        id: comment.createdBy.id,
+        name: comment.createdBy.name,
+        email: `${comment.createdBy.name
+          .toLowerCase()
+          .replace(" ", ".")}@example.com`,
+      },
+    });
+
+    const lesson = await prisma.lesson.findUnique({
+      where: { slug: comment.lesson.slug },
+    });
+
+    if (lesson) {
+      await prisma.comment.upsert({
+        where: { id: comment.id },
+        update: {
+          comment: comment.comment,
+          lessonId: lesson.id,
+          createdById: user.id,
+        },
+        create: {
+          id: comment.id,
+          comment: comment.comment,
+          lessonId: lesson.id,
+          createdById: user.id,
+        },
+      });
+    } else {
+      console.log(`Lesson not found for comment: ${comment.id}`);
+    }
+  }
+  console.log("Comments seeded.");
 }
 
 main()
