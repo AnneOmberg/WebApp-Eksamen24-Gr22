@@ -1,9 +1,10 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { PrismaClient } from "@prisma/client";
 import { readFile } from "fs/promises";
 import { getCourseData, updateCourseData } from "./lib";
 import { CourseType } from "./types/types";
+// import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client/edge";
 
 const app = new Hono();
 const prisma = new PrismaClient();

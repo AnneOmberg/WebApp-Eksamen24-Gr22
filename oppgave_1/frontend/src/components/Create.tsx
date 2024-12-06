@@ -391,31 +391,18 @@ export default function Create() {
                         htmlFor={`text-${field?.id}`}
                       >
                         <span className="text-sm font-semibold">Tekst*</span>
-
-                        {lessons[currentLesson]?.text?.length > 0
-                          ? lessons[currentLesson]?.text?.map(
-                              (field, index) => (
-                                <div key={field?.id}>
-                                  <label
-                                    className="mt-4 flex flex-col"
-                                    htmlFor={`text-${field?.id}`}
-                                  >
-                                    <span className="text-sm font-semibold">
-                                      Tekst*
-                                    </span>
-                                    <Tiptap />
-                                  </label>
-                                  <button
-                                    className="text-sm font-semibold text-red-400"
-                                    type="button"
-                                    onClick={() => removeTextBox(index)}
-                                  >
-                                    Fjern
-                                  </button>
-                                </div>
-                              )
-                            )
-                          : null}
+                        <textarea
+                          data-testid="form_lesson_text"
+                          //   type="text"
+                          name="text"
+                          id={`text-${field?.id}`}
+                          value={field?.text}
+                          onChange={(event) =>
+                            handleLessonFieldChange(event, index)
+                          }
+                          className="w-full rounded bg-slate-100"
+                          cols={30}
+                        />
                       </label>
                       <button
                         className="text-sm font-semibold text-red-400 "
@@ -429,7 +416,16 @@ export default function Create() {
                 ) : (
                   <label className="mb-4 flex flex-col" htmlFor="text">
                     <span className="mb-1 text-sm font-semibold">Tekst*</span>
-                    <Tiptap />
+                    <textarea
+                      data-testid="form_lesson_text"
+                      //   type="text"
+                      name="text"
+                      id="text"
+                      value={lessons[currentLesson]?.text?.[0]?.text}
+                      onChange={(event) => handleLessonFieldChange(event, 0)}
+                      className="w-full rounded bg-slate-100"
+                      cols={30}
+                    />
                   </label>
                 )}
                 <button
