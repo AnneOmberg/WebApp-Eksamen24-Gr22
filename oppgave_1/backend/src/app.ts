@@ -51,9 +51,37 @@ app.get("/users", async (c) => {
 });
 
 app.get("/categories", async (c) => {
-  const data = await fs.readFile("src/data/categories.json", "utf-8");
+  const data = await readFile("src/data/categories.json", "utf-8");
   const parsedData = JSON.parse(data);
   return c.json(parsedData);
+});
+
+app.post("/courses", async (c) => {
+  const body = await c.req.json<CourseType>();
+  const data = await getCourseData();
+  data.push(body);
+  await updateCourseData(data);
+  console.log(body);
+  return c.json({ body });
+});
+
+app.delete("/:id", async (c) => {
+  const id = c.req.param("id");
+  const data = await getCourseData();
+  const courseExists = data.some((course) => course.id === id);
+  if (!courseExists) {
+    return c.json({
+      error: "Project not found",
+      status: 404,
+      success: false,
+    });
+  }
+  const updatedCoures = data.filter((course) => course.id !== id);
+  await updateCourseData(updatedCoures);
+  return c.json({
+    success: true,
+    updatedCoures,
+  });
 });
 
 app.onError((err, c) => {

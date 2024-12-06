@@ -44,16 +44,16 @@ export default function Lesson({ lessonSlug, courseSlug }: LessonProps) {
       <h2 className="text-2xl font-bold">{lesson?.title}</h2>
       <p className="mt-4">{lesson?.preAmble}</p>
       {lesson?.text?.map((paragraph) => (
-        <p key={paragraph.id} className="mt-4">
-          {paragraph.text}
+        <p key={paragraph?.id} className="mt-4">
+          {paragraph?.text}
         </p>
       ))}
       <section className="flex flex-col gap-4">
-        <h4 className="font-bold">Kommentarer ({comments.length})</h4>
+        <h4 className="font-bold">Kommentarer ({comments?.length})</h4>
         <ul className="flex flex-col gap-5">
-          {comments.map((comment) => (
-            <li key={comment.id} className="bg-slate-200 p-3">
-              <strong>{comment.createdBy.name}</strong>: {comment.comment}
+          {comments?.map((comment) => (
+            <li key={comment?.id} className="bg-slate-200 p-3">
+              <strong>{comment?.createdBy.name}</strong>: {comment?.comment}
             </li>
           ))}
         </ul>

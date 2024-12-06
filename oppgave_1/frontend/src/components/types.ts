@@ -1,3 +1,5 @@
+// export type Id = ReturnType<typeof crypto.randomUUID>;
+
 export type CourseType = {
   id: string;
   title: string;

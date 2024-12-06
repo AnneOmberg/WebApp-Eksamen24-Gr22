@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function Courses() {
   const [value, setValue] = useState<string>("");
 
-  const { categories, courses } = useCourse();
+  const { categories, courses, deleteCourse } = useCourse();
 
   const [filteredCourses, setFilteredCourses] = useState<CourseType[]>([]);
 
@@ -26,7 +26,7 @@ export default function Courses() {
 
     if (category) {
       const filtered = courses.filter((course) =>
-        course.category.toLowerCase().includes(category.toLowerCase())
+        course?.category?.toLowerCase()?.includes(category?.toLowerCase())
       );
       setFilteredCourses(filtered);
     } else if (!category) {
@@ -90,6 +90,7 @@ export default function Courses() {
               >
                 Til kurs
               </Link>
+              <button className="flex px-2 py-px float-right bg-red-600 rounded-full" onClick={() => deleteCourse(course.id)} type="button">X</button>
             </article>
           ))
         ) : (
