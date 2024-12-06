@@ -42,8 +42,19 @@ app.delete("/api/categories/:id", async (c) => {
 });
 
 app.get("/api/courses", async (c) => {
-  const courses = await prisma.course.findMany();
-  return c.json(courses);
+  console.log("Fetching courses...");
+  try {
+    const courses = await prisma.course.findMany({
+      include: {
+        lessons: true,
+      },
+    });
+    console.log("Courses fetched:", courses);
+    return c.json(courses);
+  } catch (err) {
+    console.error("Error fetching courses:", err);
+    return c.json({ error: "Failed to fetch courses" }, 500);
+  }
 });
 
 app.get("/users", async (c) => {
