@@ -106,6 +106,14 @@ app.delete("/api/courses/:id", async (c) => {
   const id = c.req.param("id");
   try {
     await prisma.$transaction([
+      prisma.comment.deleteMany({
+        where: {
+          lesson: {
+            courseId: id,
+          },
+        },
+      }),
+
       prisma.text.deleteMany({
         where: {
           lesson: {
@@ -113,16 +121,21 @@ app.delete("/api/courses/:id", async (c) => {
           },
         },
       }),
+
       prisma.lesson.deleteMany({
         where: { courseId: id },
       }),
+
       prisma.course.delete({
         where: { id: id },
       }),
     ]);
-    return c.json({ message: "Course and related lessons and texts deleted" });
+    return c.json({
+      message: "Course and related lessons, texts, and comments deleted",
+    });
   } catch (err: any) {
-    return c.json({ error: err.message }, 500);
+    console.error("Error deleting course:", err);
+    return c.json({ error: "Failed to delete course" }, 500);
   }
 });
 
