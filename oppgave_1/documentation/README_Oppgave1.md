@@ -1,3 +1,19 @@
+# Prosjektoppsett
+
+## Nødvendige pakker
+
+- Node.js
+- pnpm
+- SQLite
+
+## Oppsett
+
+Kjør denne kommandoen i terminalen:
+
+```
+pnpm start:all
+```
+
 # Oppgave 1 - Gruppe 22
 
 | Studentnummer | Navn                                   | Epost           |

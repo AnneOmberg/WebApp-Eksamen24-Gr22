@@ -2,23 +2,57 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { getHappeningData, updateHappeningData } from "./lib";
 import { HappeningType } from "./types/type";
+import { PrismaClient } from "@prisma/client";
 
-const app = new Hono()
-app.use(cors({origin: "*"}))
+const app = new Hono();
+const prisma = new PrismaClient();
+
+app.use(cors({ origin: "*" }));
+
+app.get("/api/all", async (c) => {
+  const venues = await prisma.venue.findMany();
+  const users = await prisma.user.findMany();
+  const events = await prisma.event.findMany();
+  return c.json({ venues, users, events });
+});
+
+app.get("/api/users", async (c) => {
+  const users = await prisma.user.findMany();
+  return c.json({ users });
+});
+
+app.get("/api/events", async (c) => {
+  const events = await prisma.event.findMany({
+    include: {
+      venue: true,
+      template: true,
+    },
+  });
+  return c.json({ events });
+});
+
+app.get("/api/venues", async (c) => {
+  try {
+    const venues = await prisma.venue.findMany();
+    return c.json({ venues });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 app.get("/", async (c) => {
-    const data = await getHappeningData()
-    return c.json({data})
-})
+  const data = await getHappeningData();
+  return c.json({ data });
+});
 
 app.post("/", async (c) => {
-    const body = await c.req.json<HappeningType>()
-    const data = await getHappeningData()
-    data.push(body)
-    await updateHappeningData(data)
-    console.log(body);
-    return c.json({body});
-})
+  const body = await c.req.json<HappeningType>();
+  const data = await getHappeningData();
+  data.push(body);
+  await updateHappeningData(data);
+  console.log(body);
+  return c.json({ body });
+});
 
 // app.delete("/:id", async (c) => {
 //   const id = c.req.param("id")
@@ -33,9 +67,9 @@ app.post("/", async (c) => {
 //   }
 //   const updatedProjects = data.filter((project) => project.id !== id)
 //   await updateHappeningData(updatedProjects)
-//   return c.json({ 
+//   return c.json({
 //       success: true,
-//       updatedProjects 
+//       updatedProjects
 //     })
 // })
 
