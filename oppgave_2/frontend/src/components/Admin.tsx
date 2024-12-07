@@ -27,6 +27,7 @@ export default function Admin() {
                         <input type="text" />
                     </form>
                 ))}
+                {/* <button className="flex px-2 py-px float-right bg-red-600 rounded-full" onClick={() => deleteHappening(hap.id)} type="button">X</button> */}
             </section>
         </>
     )

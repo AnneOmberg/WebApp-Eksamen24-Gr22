@@ -143,7 +143,8 @@ export default function useHappening() {
     createHappening,
     setHappenings,
     deleteHappening,
-    getHappening
+    getHappening,
+    setHappening
     // happening
   }
 }

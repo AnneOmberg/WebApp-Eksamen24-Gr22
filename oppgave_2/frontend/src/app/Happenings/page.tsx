@@ -1,8 +1,8 @@
-import Happening from "@/components/Happening";
+import Happenings from "@/components/Happenings";
 // import Order from "@/components/Order";
 
 export default function Page() {
     return(
-        <Happening />
+        <Happenings />
     )
 }

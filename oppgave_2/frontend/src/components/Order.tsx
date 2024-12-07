@@ -1,18 +1,46 @@
 "use client"
 
 import useHappening from "@/hooks/useHappening"
-import Happening from "./Happening"
+// import Happening from "./Happening"
 import { HappeningType } from "@/types/type"
 import Link from "next/link"
 import { useParams } from "next/navigation"
+import { useEffect } from "react"
 
 export default function Order() {
     const { happenings } = useHappening()
-    // const { slug, id } = useParams() as { slug: string; id: string 
-    //     orderSlug = slug as string;
-    //     hapSlug = id as string;
+    const { hapSlug, orderSlug } = useParams() as {
+        hapSlug: string
+        orderSlug: string
+      };
 
-    // };
+    // useEffect(() => {
+    //     const order
+    //     const fetchData = async () => {
+    //       if (orderSlug && hapSlug) {
+    //         const lessonData = await getLesson(hapSlug, orderSlug);
+    //         const courseData = await getCourse(hapSlug);
+    //         const commentsData = await getComments(orderSlug);
+    
+    //         if (lessonData) {
+    //           setLesson(lessonData);
+    //         }
+    //         setCourse(courseData);
+    //         setComments(commentsData);
+    //       }
+    //     };
+    //     fetchData();
+    //   }, [orderSlug, hapSlug]);
+
+    //   useEffect(() => {
+    //     const fetchData = async () => {
+    //       if (hapSlug && "order") {
+    //         const hapData = await getHappening(hapSlug);
+    //         setHappening(hapData);
+    //       }
+    //     };
+    //     fetchData();
+    //   }, [hapSlug]);
 
     return (
         <>
@@ -28,7 +56,7 @@ export default function Order() {
                 {/* </Link> */}
 
             </article>
-            <Happening />
+            {/* <Happening /> */}
         </>
     )
 }
