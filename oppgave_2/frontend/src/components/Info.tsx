@@ -37,7 +37,7 @@ export default function Info() {
 
   return (
     <section>
-        <ul data-testid="lessons">
+        {/* <ul data-testid="lessons">
         {happenings?.map((hap: any) => (
             <li
               key={hap?.id}
@@ -54,7 +54,7 @@ export default function Info() {
             </li>
            ))
           }
-        </ul>
+        </ul> */}
       <h2 className="text-2xl font-bold">{content.title}</h2>
       <p className="mt-4">{content.description}</p>
       <Link href={`/Happenings/${hapSlug}/order${orderSlug}`}>Bestill her!</Link>
