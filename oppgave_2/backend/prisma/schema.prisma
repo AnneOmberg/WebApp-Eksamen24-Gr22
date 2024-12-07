@@ -25,6 +25,9 @@ model Event {
   id          Int       @id @default(autoincrement())
   title       String
   date        DateTime
+  description String?
+  location    String?
+  event_type  String
   venueId     Int
   venue       Venue     @relation(fields: [venueId], references: [id])
   templateId  Int?
