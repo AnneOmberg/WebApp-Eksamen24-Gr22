@@ -1,7 +1,7 @@
-import Happening from "@/components/Happening";
+import Info from "@/components/Info";
 
 export default function Page() {
     return(
-        <Happening happening={[]}/>
+        <Info />
     )
 }
