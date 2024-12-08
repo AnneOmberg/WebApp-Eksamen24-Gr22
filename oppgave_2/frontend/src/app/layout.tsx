@@ -35,7 +35,7 @@ export default function RootLayout({
       >
         <div
           className="mx-auto grid min-h-screen w-full max-w-7xl grid-rows-[auto_minmax(900px,_1fr)_30px]"
-          data-testid="layout"
+          // data-testid="layout"
         >
           <nav className="mt-6 mb-2 flex justify-between">
             <h1 className="text-lg font-bold uppercase" data-testid="logo">

@@ -37,27 +37,10 @@ export default function Info() {
 
   return (
     <section>
-        {/* <ul data-testid="lessons">
-        {happenings?.map((hap: any) => (
-            <li
-              key={hap?.id}
-              className={`text-sm mb-4 w-full rounded-lg border px-4 py-2 ${
-                orderSlug === hap?.slug ? "bg-emerald-300" : "bg-transparent"
-              }`}
-            >
-              <Link
-                href={`/Happenings/${hapSlug}/order${hap?.slug}`}
-                className="block"
-              >
-                {hap?.title}
-              </Link>
-            </li>
-           ))
-          }
-        </ul> */}
       <h2 className="text-2xl font-bold">{content.title}</h2>
       <p className="mt-4">{content.description}</p>
-      <Link href={`/Happenings/${hapSlug}/order${orderSlug}`}>Bestill her!</Link>
+      <p>Pris: {content.price}kr</p>
+      <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Bestill her!</Link>
     </section>
   );
 }

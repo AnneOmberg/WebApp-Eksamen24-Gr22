@@ -14,41 +14,15 @@ export default function Order() {
         orderSlug: string
       };
 
-    // useEffect(() => {
-    //     const order
-    //     const fetchData = async () => {
-    //       if (orderSlug && hapSlug) {
-    //         const lessonData = await getLesson(hapSlug, orderSlug);
-    //         const courseData = await getCourse(hapSlug);
-    //         const commentsData = await getComments(orderSlug);
-    
-    //         if (lessonData) {
-    //           setLesson(lessonData);
-    //         }
-    //         setCourse(courseData);
-    //         setComments(commentsData);
-    //       }
-    //     };
-    //     fetchData();
-    //   }, [orderSlug, hapSlug]);
-
-    //   useEffect(() => {
-    //     const fetchData = async () => {
-    //       if (hapSlug && "order") {
-    //         const hapData = await getHappening(hapSlug);
-    //         setHappening(hapData);
-    //       }
-    //     };
-    //     fetchData();
-    //   }, [hapSlug]);
+      const eventFilter = happenings?.filter((hap) => hap.slug === hapSlug)
 
     return (
         <>
             <article>
                 <p>Bestill her:</p>
-                {happenings?.map((hap) => (
+                {eventFilter?.map((hap) => (
                     <article key={hap.id}>
-                        <h2><a href={`/bestillinger/${hap.id}`}>{hap.title}</a></h2>
+                        <h2 className="text-2xl font-bold"><a href={`/bestillinger/${hap.id}`}>{hap.title}</a></h2>
                         <p>{hap.description}</p>
                     </article>
                 ))}

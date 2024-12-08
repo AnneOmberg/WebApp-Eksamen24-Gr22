@@ -42,7 +42,7 @@ export default function HapLayout({
   }
   console.log("Rendering lessons:", content)
   return (
-    <div className="grid grid-cols-[250px_minmax(20%,1fr)_1fr] gap-16">
+    <div className="">
       {/* Hovedinnhold (children vil være leksjonen eller oversikten) */}
       <div>{children}</div>
 
