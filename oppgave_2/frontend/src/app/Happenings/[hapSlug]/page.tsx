@@ -1,7 +1,5 @@
-import Happening from "@/components/Happening";
+import Happening from "@/components/Happenings";
 
 export default function Page() {
-    return(
-        <Happening happening={[]}/>
-    )
+  return <Happening happening={[]} />;
 }

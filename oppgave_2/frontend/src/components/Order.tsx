@@ -1,5 +1,5 @@
 import useHappening from "@/hooks/useHappening";
-import Happening from "./Happening";
+import Happening from "./Happenings";
 import { HappeningType } from "@/types/type";
 import Link from "next/link";
 import { useParams } from "next/navigation";

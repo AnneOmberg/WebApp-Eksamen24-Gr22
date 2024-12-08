@@ -9,14 +9,12 @@ export default function HomePage() {
 
   return (
     <>
-      <main className="p-4 flex flex-col">
-        <h1 className="text-3xl font-bold">Finn nytt arrangement</h1>
-        <a href="/Bestillinger">
-          <p>Finn arrangement her:</p>
-        </a>
-        <Order happening={happening} />
-        <Admin />
-      </main>
+      <h1 className="text-3xl font-bold">Finn nytt arrangement</h1>
+      <a href="/Bestillinger">
+        <p>Finn arrangement her:</p>
+      </a>
+      <Order happening={happening} />
+      <Admin />
     </>
   );
 }

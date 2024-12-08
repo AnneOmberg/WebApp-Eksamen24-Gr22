@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 type TemplateType = {
-  allowedDays: any;
   id: any;
   title: string;
   description: string;
@@ -33,20 +32,7 @@ export default function useTemplate() {
   };
 
   const addTemplate = async (template: TemplateType) => {
-    try {
-      const response = await fetch("http://localhost:3999/api/templates", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(template),
-      });
-
-      const data = await response.json();
-      setTemplates([...templates, data]);
-    } catch (error) {
-      console.log(error);
-    }
+    console.log("Adding template:", template);
   };
 
   return { templates, getTemplates, addTemplate };

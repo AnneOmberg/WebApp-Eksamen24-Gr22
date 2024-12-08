@@ -18,20 +18,29 @@ app.get("/api/all", async (c) => {
 
 app.get("/api/templates", async (c) => {
   const templates = await prisma.template.findMany();
-  return c.json({ templates });
+  const parsedTemplates = templates.map((template) => ({
+    ...template,
+    allowedWeekdays: template.allowedWeekdays
+      ? JSON.parse(template.allowedWeekdays)
+      : [],
+  }));
+  return c.json({ templates: parsedTemplates });
 });
 
 app.post("/api/templates", async (c) => {
   try {
     const body = await c.req.json();
-    console.log(body);
+    console.log("Received body:", body);
 
+    // Ensure correct data types
     const templateData = {
       ...body,
-      allowedWeekdays: JSON.stringify(body.allowedWeekdays) || [],
+      allowedWeekdays: JSON.stringify(body.allowedWeekdays || []), // Convert to JSON string
       seatLimit: body.seatLimit ? parseInt(body.seatLimit, 10) : null,
       price: body.price ? parseFloat(body.price) : null,
     };
+
+    console.log("Processed templateData:", templateData);
 
     const template = await prisma.template.create({
       data: templateData,

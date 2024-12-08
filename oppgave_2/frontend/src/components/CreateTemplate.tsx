@@ -19,7 +19,7 @@ export default function CreateTemplate() {
     title: "",
     description: "",
     allowSameDay: false,
-    allowedWeekdays: [] as string[],
+    allowedDays: [] as string[],
     isPrivate: false,
     hasLimitedSeats: false,
     seatLimit: 0,
@@ -52,10 +52,10 @@ export default function CreateTemplate() {
   const handleWeekdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     setFormData((prevData) => {
-      const allowedWeekdays = checked
-        ? [...prevData.allowedWeekdays, value]
-        : prevData.allowedWeekdays.filter((day) => day !== value);
-      return { ...prevData, allowedWeekdays };
+      const allowedDays = checked
+        ? [...prevData.allowedDays, value]
+        : prevData.allowedDays.filter((day) => day !== value);
+      return { ...prevData, allowedDays };
     });
   };
 
@@ -64,7 +64,7 @@ export default function CreateTemplate() {
     setSelectAll(checked);
     setFormData((prevData) => ({
       ...prevData,
-      allowedWeekdays: checked ? weekdays : [],
+      allowedDays: checked ? weekdays : [],
     }));
   };
 
@@ -74,17 +74,17 @@ export default function CreateTemplate() {
     console.log(formData);
     const templateData = {
       ...formData,
-      allowedDays: formData.allowedWeekdays, // Assuming allowedDays is the same as allowedWeekdays
-      id: "", // Assign a proper id value
+      id: "",
       events: [], // Assign a proper events value
+      allowedWeekdays: formData.allowedDays,
     };
     addTemplate(templateData);
   };
 
   return (
-    <section className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <section className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6">Opprett mal</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4 ">
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div>
           <label
             htmlFor="title"
@@ -156,7 +156,7 @@ export default function CreateTemplate() {
                   type="checkbox"
                   id={`weekday-${day}`}
                   value={day}
-                  checked={formData.allowedWeekdays.includes(day)}
+                  checked={formData.allowedDays.includes(day)}
                   onChange={handleWeekdayChange}
                   className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                 />
@@ -278,7 +278,7 @@ export default function CreateTemplate() {
         </div>
         <button
           type="submit"
-          className=" px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
         >
           Lagre
         </button>
