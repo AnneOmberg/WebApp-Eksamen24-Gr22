@@ -7,24 +7,31 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Course {
-  id          String   @id @default(uuid())
-  title       String
-  slug        String   @unique
-  description String
-  categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  lessons     Lesson[]
+model User {
+  id       String    @id @default(uuid())
+  name     String
+  email    String    @unique
+  comments Comment[]
 }
 
 model Lesson {
-  id       String @id @default(uuid())
+  id       String    @id @default(uuid())
   title    String
-  slug     String @unique
+  slug     String    @unique
   preAmble String
   courseId String
-  course   Course @relation(fields: [courseId], references: [id])
+  course   Course    @relation(fields: [courseId], references: [id])
   texts    Text[]
+  comments Comment[]
+}
+
+model Comment {
+  id          String @id @default(uuid())
+  createdBy   User   @relation(fields: [createdById], references: [id])
+  createdById String
+  comment     String
+  lesson      Lesson @relation(fields: [lessonId], references: [id])
+  lessonId    String
 }
 
 model Text {
@@ -34,10 +41,14 @@ model Text {
   lesson   Lesson @relation(fields: [lessonId], references: [id])
 }
 
-model User {
-  id    String @id @default(uuid())
-  name  String
-  email String @unique
+model Course {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  description String
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+  lessons     Lesson[]
 }
 
 model Category {

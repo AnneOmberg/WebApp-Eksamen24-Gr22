@@ -11,6 +11,11 @@ const prisma = new PrismaClient();
 
 app.use("/api/*", cors());
 
+app.get("/api/users", async (c) => {
+  const users = await prisma.user.findMany();
+  return c.json(users);
+});
+
 app.get("/api/categories", async (c) => {
   const categories = await prisma.category.findMany();
   return c.json(categories);
@@ -91,11 +96,20 @@ app.get("/api/courses", async (c) => {
   try {
     const courses = await prisma.course.findMany({
       include: {
-        lessons: true,
+        lessons: {
+          include: {
+            texts: true,
+            comments: {
+              include: {
+                createdBy: true,
+              },
+            },
+          },
+        },
         category: true,
       },
     });
-    console.log("Courses fetched:", courses);
+    console.log("Courses fetched:", JSON.stringify(courses, null, 2));
     return c.json(courses);
   } catch (err) {
     console.error("Error fetching courses:", err);
@@ -107,6 +121,14 @@ app.delete("/api/courses/:id", async (c) => {
   const id = c.req.param("id");
   try {
     await prisma.$transaction([
+      prisma.comment.deleteMany({
+        where: {
+          lesson: {
+            courseId: id,
+          },
+        },
+      }),
+
       prisma.text.deleteMany({
         where: {
           lesson: {
@@ -114,16 +136,21 @@ app.delete("/api/courses/:id", async (c) => {
           },
         },
       }),
+
       prisma.lesson.deleteMany({
         where: { courseId: id },
       }),
+
       prisma.course.delete({
         where: { id: id },
       }),
     ]);
-    return c.json({ message: "Course and related lessons and texts deleted" });
+    return c.json({
+      message: "Course and related lessons, texts, and comments deleted",
+    });
   } catch (err: any) {
-    return c.json({ error: err.message }, 500);
+    console.error("Error deleting course:", err);
+    return c.json({ error: "Failed to delete course" }, 500);
   }
 });
 

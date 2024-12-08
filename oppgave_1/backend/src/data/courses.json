@@ -1,1 +1,58 @@
-[{"id":"2","title":"Python 101","slug":"python-101","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"code"},{"id":"3","title":"Layers 101","slug":"layers-101","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"photoshop"},{"id":"4","title":"SEO","slug":"seo","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"marketing"},{"id":"5","title":"Intro til tegning","slug":"intro-tegning","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"design"},{"id":"6","title":"Videoproduksjon 101","slug":"videoproduksjon-101","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"video"},{"id":"7","title":"UI Design 101","slug":"ui-design-101","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"web"},{"id":"8","title":"CRO","slug":"cro","description":"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore","lessons":[],"category":"analytics"}]
+[
+  {
+    "id": "2",
+    "title": "Python 101",
+    "slug": "python-101",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "code"
+  },
+  {
+    "id": "3",
+    "title": "Layers 101",
+    "slug": "layers-101",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "photoshop"
+  },
+  {
+    "id": "4",
+    "title": "SEO",
+    "slug": "seo",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "marketing"
+  },
+  {
+    "id": "5",
+    "title": "Intro til tegning",
+    "slug": "intro-tegning",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "design"
+  },
+  {
+    "id": "6",
+    "title": "Videoproduksjon 101",
+    "slug": "videoproduksjon-101",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "video"
+  },
+  {
+    "id": "7",
+    "title": "UI Design 101",
+    "slug": "ui-design-101",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "web"
+  },
+  {
+    "id": "8",
+    "title": "CRO",
+    "slug": "cro",
+    "description": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore",
+    "lessons": [],
+    "category": "analytics"
+  }
+]

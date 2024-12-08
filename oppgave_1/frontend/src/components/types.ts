@@ -6,7 +6,10 @@ export type CourseType = {
   slug: string;
   description: string;
   lessons: LessonType[];
-  category: string;
+  category: {
+    id: string;
+    name: string | undefined;
+  };
 };
 
 export type LessonType = {
@@ -14,7 +17,8 @@ export type LessonType = {
   title: string;
   slug: string;
   preAmble: string;
-  text: TextType[];
+  texts: TextType[];
+  comments: CommentType[];
 };
 
 export type TextType = {

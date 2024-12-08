@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { useParams, useRouter } from "next/navigation";
-import { categories, courseCreateSteps } from "@/data/data";
+import { courseCreateSteps } from "@/data/data";
 import useCourse from "@/hooks/useCourse";
 import { CourseType, LessonType } from "@/components/types";
 
@@ -46,10 +46,10 @@ export default function Create() {
     title: "",
     slug: "",
     description: "",
-    category: "",
+    category: { id: "", name: "" },
   });
   const [lessons, setLessons] = useState<LessonType[]>([]);
-  const { getCourse, createCourse } = useCourse();
+  const { getCourse, createCourse, categories, capitalize } = useCourse();
 
   const router = useRouter();
 
@@ -61,7 +61,7 @@ export default function Create() {
         const text = [
           { id: `${Math.floor(Math.random() * 1000 + 1)}`, text: "" },
         ];
-        if (lesson?.text?.length === 0) {
+        if (lesson?.texts?.length === 0) {
           text.push({
             id: `${Math.floor(Math.random() * 1000 + 1)}`,
             text: "",
@@ -69,7 +69,7 @@ export default function Create() {
         }
         return {
           ...lesson,
-          text: [...lesson?.text, ...text],
+          text: [...lesson?.texts, ...text],
         };
       }
       return lesson;
@@ -94,7 +94,6 @@ export default function Create() {
   const handleCourseFieldChange = (event: any) => {
     const { name, value } = event.target;
     setCourseFields((prev) => ({ ...prev, [name]: value }));
-    console.log("Navn:", name, "Verdi:", value);
   };
 
   const handleStep = (index: any) => {
@@ -150,7 +149,7 @@ export default function Create() {
         slug: "",
         preAmble: "",
         text: [],
-        // order: `${lessons.length}`,
+        order: `${lessons.length}`,
       },
     ]);
     setCurrentLesson(lessons.length);
@@ -158,50 +157,50 @@ export default function Create() {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const form = document.querySelector('[data-testid="form"]') as HTMLFormElement;
+    const form = document.querySelector(
+      '[data-testid="form"]'
+    ) as HTMLFormElement;
     if (!form) {
       console.error("Form not found!");
       return;
     }
-  
-    // Map category name to ID (mock example; replace with actual logic)
-    // const categoryMap = {
-    //   marketing: "1", // Example IDs
-    //   programming: "2",
-    // };
-  
-    // Map lessons and nested texts
-    const newLessons: LessonType[] = lessons.map((lesson) => ({
-      id: `${Math.floor(Math.random() * 1000 + 1)}`,
+
+    let newLessons: LessonType[] = lessons.map((lesson) => ({
+      id: crypto.randomUUID(),
       title: lesson.title,
       slug: lesson.slug.toLowerCase().split(" ").join("-"),
       preAmble: lesson.preAmble || "",
-      text: lesson.text.map((t) => ({ id: t.id, text: t.text })),
+      text: lesson.text || [],
     }));
-  
-    // Construct course object
-    const newCourse: CourseType = {
+
+    let newCourse: CourseType = {
       id: courseFields.id,
-      title: courseFields.title,
-      slug: courseFields.slug.toLowerCase().split(" ").join("-"),
-      description: courseFields.description,
+      title: courseFields?.title,
+      slug: courseFields?.slug.toLowerCase().split(" ").join("-"),
+      description: courseFields?.description,
       lessons: newLessons,
-      category: courseFields.category.toLowerCase(), // Convert to category ID
+      category: {
+        id: courseFields?.category?.id,
+        name: courseFields?.category?.name,
+      },
     };
-  
-    console.log("Submitting course:", newCourse);
-  
-    try {
-      await createCourse(newCourse);
-      setFormError(false);
+
+    console.log("Nytt kurs", newCourse);
+    createCourse(newCourse);
+    setFormError(false);
+    setSuccess(false);
+
+    if (lessons.length > 0 && isValid(lessons) && isValid(courseFields)) {
       setSuccess(true);
-      router.push("/kurs");
-    } catch (error) {
-      console.error("Error in handleSubmit:", error);
+      setCurrent(2);
+      await createCourse({ ...courseFields, lessons });
+      setTimeout(() => {
+        router.push("/kurs");
+      }, 2000);
+    } else {
       setFormError(true);
     }
   };
-  
 
   return (
     <>
@@ -286,15 +285,15 @@ export default function Create() {
                 data-testid="form_category"
                 name="category"
                 id="category"
-                value={courseFields?.category}
+                value={courseFields?.category?.id}
                 onChange={handleCourseFieldChange}
               >
                 <option disabled value="">
                   Velg kategori
                 </option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.id} value={category.id}>
+                    {capitalize(category.name)}
                   </option>
                 ))}
               </select>
@@ -386,8 +385,8 @@ export default function Create() {
                     }
                   />
                 </label>
-                {lessons[currentLesson]?.text?.length > 1 ? (
-                  lessons[currentLesson]?.text?.map((field, index) => (
+                {lessons[currentLesson]?.texts?.length > 1 ? (
+                  lessons[currentLesson]?.texts?.map((field, index) => (
                     <div key={field?.id}>
                       <label
                         className="mt-4 flex flex-col"
@@ -424,7 +423,7 @@ export default function Create() {
                       //   type="text"
                       name="text"
                       id="text"
-                      value={lessons[currentLesson]?.text?.[0]?.text}
+                      value={lessons[currentLesson]?.texts?.[0]?.text}
                       onChange={(event) => handleLessonFieldChange(event, 0)}
                       className="w-full rounded bg-slate-100"
                       cols={30}
@@ -464,7 +463,7 @@ export default function Create() {
               Beskrivelse: {courseFields?.description}
             </p>
             <p data-testid="review_course_category">
-              Kategori: {courseFields?.category}
+              Kategori: {courseFields?.category?.name}
             </p>
             <h3
               data-testid="review_course_lessons"
@@ -491,8 +490,8 @@ export default function Create() {
                       data-testid="review_lesson_texts"
                       className="list-inside"
                     >
-                      {lesson?.text?.length > 0 &&
-                        lesson.text.map((text) => (
+                      {lesson?.texts?.length > 0 &&
+                        lesson.texts.map((text) => (
                           <li
                             data-testid="review_lesson_text"
                             className="mb-1 pl-4"
