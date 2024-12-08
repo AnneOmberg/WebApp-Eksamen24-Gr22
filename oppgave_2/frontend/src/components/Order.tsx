@@ -17,19 +17,6 @@ export default function Order({ happening }: OrderType) {
 
   return (
     <>
-      <article>
-        <p>Bestill her:</p>
-        {happening?.map((hap, i) => (
-          <article key={i}>
-            <h2>
-              <a href={`/bestillinger/${hap.id}`}>{hap.title}</a>
-            </h2>
-            <p>{hap.description}</p>
-          </article>
-        ))}
-        {/* <Link href={""}> */}
-        {/* </Link> */}
-      </article>
       <Happening happening={happening} />
     </>
   );

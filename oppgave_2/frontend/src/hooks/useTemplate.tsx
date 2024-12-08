@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+// Define or import the Event type
+type Event = {
+  id: string;
+  name: string;
+  date: string;
+};
+
 type TemplateType = {
   id: any;
   title: string;
@@ -32,8 +39,29 @@ export default function useTemplate() {
   };
 
   const addTemplate = async (template: TemplateType) => {
-    console.log("Adding template:", template);
+    const response = await fetch("http://localhost:3999/api/templates", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(template),
+    });
+
+    const data = await response.json();
+    setTemplates([...templates, data.template]);
   };
 
-  return { templates, getTemplates, addTemplate };
+  const deleteTemplate = async (id: string) => {
+    const response = await fetch(`http://localhost:3999/api/templates/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    setTemplates(data.templates);
+  };
+
+  return { templates, getTemplates, addTemplate, deleteTemplate };
 }

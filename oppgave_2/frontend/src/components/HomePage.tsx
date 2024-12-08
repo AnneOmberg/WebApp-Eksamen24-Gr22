@@ -9,10 +9,6 @@ export default function HomePage() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold">Finn nytt arrangement</h1>
-      <a href="/Bestillinger">
-        <p>Finn arrangement her:</p>
-      </a>
       <Order happening={happening} />
       <Admin />
     </>
