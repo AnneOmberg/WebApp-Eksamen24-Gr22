@@ -27,7 +27,6 @@ model Event {
   date        DateTime
   description String?
   location    String?
-  event_type  String
   venueId     Int
   venue       Venue     @relation(fields: [venueId], references: [id])
   templateId  Int?
@@ -42,7 +41,7 @@ model Template {
   title           String
   description     String?
   allowSameDay    Boolean @default(true)
-  allowedWeekdays String
+  allowedWeekdays String?
   isPrivate       Boolean @default(false)
   hasLimitedSeats Boolean @default(false)
   seatLimit       Int?

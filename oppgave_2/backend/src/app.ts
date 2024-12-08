@@ -16,6 +16,34 @@ app.get("/api/all", async (c) => {
   return c.json({ venues, users, events });
 });
 
+app.get("/api/templates", async (c) => {
+  const templates = await prisma.template.findMany();
+  return c.json({ templates });
+});
+
+app.post("/api/templates", async (c) => {
+  try {
+    const body = await c.req.json();
+    console.log(body);
+
+    const templateData = {
+      ...body,
+      allowedWeekdays: JSON.stringify(body.allowedWeekdays) || [],
+      seatLimit: body.seatLimit ? parseInt(body.seatLimit, 10) : null,
+      price: body.price ? parseFloat(body.price) : null,
+    };
+
+    const template = await prisma.template.create({
+      data: templateData,
+    });
+
+    return c.json({ template });
+  } catch (err) {
+    console.error("Error creating template:", err);
+    return c.json({ error: "Failed to create template" }, 500);
+  }
+});
+
 app.get("/api/users", async (c) => {
   const users = await prisma.user.findMany();
   return c.json({ users });
