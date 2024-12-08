@@ -24,7 +24,7 @@ export default function SignUp() {
     setSuccess(false);
     if (formIsValid.length === 0) {
       setSuccess(true);
-      const targetPage = fields.admin ? "/admin" : "/Happenings";
+      const targetPage = fields.admin ? "/admin/Happenings" : "/Happenings";
       setTimeout(() => {
         router.push(targetPage);
       }, 500);
@@ -48,8 +48,8 @@ export default function SignUp() {
         Ny bruker
       </h2>
       <form data-testid="form" onSubmit={handleSubmit} noValidate>
-        <label className="mb-4 flex flex-col" htmlFor="name">
-          <span className="mb-1 font-semibold">Navn*</span>
+        <label className="mb-4 flex" htmlFor="name">
+          <span className="mb-1 mr-2 font-semibold">Navn*</span>
           <input
             className="rounded"
             data-testid="form_name"
@@ -60,8 +60,8 @@ export default function SignUp() {
             onChange={handleChange}
           />
         </label>
-        <label className="mb-4 flex flex-col" htmlFor="email">
-          <span className="mb-1 font-semibold">Epost*</span>
+        <label className="mb-4 flex" htmlFor="email">
+          <span className="mb-1 mr-2 font-semibold">Epost*</span>
           <input
             className="rounded"
             data-testid="form_email"

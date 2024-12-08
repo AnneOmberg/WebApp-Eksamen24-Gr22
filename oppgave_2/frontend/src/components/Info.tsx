@@ -40,6 +40,15 @@ export default function Info() {
       <h2 className="text-2xl font-bold">{content.title}</h2>
       <p className="mt-4">{content.description}</p>
       <p>Pris: {content.price}kr</p>
+      <p>{content.category}</p>
+      <p>{new Date(content.date).toLocaleDateString("no-NO", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}</p>
+      <p>{content.location}</p>
+      <p>{content.seats}</p>
+      <p>{content.status}</p>
       <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Bestill her!</Link>
     </section>
   );

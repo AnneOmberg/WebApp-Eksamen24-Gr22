@@ -4,13 +4,20 @@ import useHappening from "@/hooks/useHappening";
 import { useEffect, useState } from "react";
 import { HappeningType } from "@/types/type";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
+// interface HappeningsProps {
+//   isAdmin?: boolean; // Optional prop
+// }
 
 export default function Happenings() {
   const { categories, happenings, setHappenings, deleteHappening } = useHappening()
   const [value, setValue] = useState<string>("");
   const [filteredHappenings, setFilteredHappenings] = useState<HappeningType[]>([]);
   const [categoryFilter, setCategoryFilter] = useState<string>("");
+
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
 
   // Chat GPT
   useEffect(() => {
@@ -33,48 +40,6 @@ export default function Happenings() {
     }
   };
 
-  // const handleCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const selectedCategory = event.target.value;
-  //   setCategoryFilter(selectedCategory);
-
-  //   // Filter happenings by category first
-  //   let filtered = happenings;
-
-  //   if (selectedCategory) {
-  //     filtered = happenings.filter((hap) =>
-  //       hap.category.toLowerCase().includes(selectedCategory.toLowerCase())
-  //     );
-  //   }
-
-  //   // Now apply sorting (date/alphabetical) to the filtered list
-  //   handleFilter(filtered);
-  // };
-
-  // const handleFilter = (filtered: HappeningType[]) => {
-  //   let sorted = [...filtered];
-
-  //   switch (value) {
-  //     case "date_asc":
-  //       sorted.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  //       break;
-  //     case "date_desc":
-  //       sorted.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  //       break;
-  //     case "alphabetical":
-  //       sorted.sort((a, b) => a.title.localeCompare(b.title));
-  //       break;
-  //     default:
-  //       break;
-  //   }
-
-  //   setFilteredHappenings(sorted);
-  // };
-
-  // // Effect to initially set filtered happenings
-  // useEffect(() => {
-  //   handleFilter(happenings); // Initially apply sorting to all happenings
-  // }, [happenings]);
-
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const filterValue = event.target.value;
     setValue(filterValue);
@@ -93,43 +58,13 @@ export default function Happenings() {
       setFilteredHappenings(happenings); // Reset if no filter selected
     }
   };
-  
-
-  // Chat GPT
-  // const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
-  //   const filterValue = event.target.value;
-  //   setValue(filterValue);
-
-  //   let filtered = [...happenings];
-
-  //   switch (filterValue) {
-  //     case "date_asc": // Earliest to latest
-  //       filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  //       break;
-
-  //     case "date_desc": // Latest to earliest
-  //       filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  //       break;
-
-  //     case "alphabetical": // Sort alphabetically by category
-  //       filtered.sort((a, b) => a.title.localeCompare(b.title))
-  //       break;
-
-  //     default:
-  //       // Reset to all happenings if filter is empty
-  //       filtered = happenings;
-  //       break;
-  //   }
-
-  //   setFilteredHappenings(filtered);
-  // };
-
-
 
   return (
     <>
       <header className="mt-8 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Finn nytt arrangement</h1>
+      <h1 className="text-3xl font-bold">
+          {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
+        </h1>
         <label className="flex flex-col text-xs font-semibold" htmlFor="filter">
           <span className="mb-1 block">Velg kategori:</span>
           <select
@@ -162,11 +97,11 @@ export default function Happenings() {
         </label>
       </header>
 
-      <section className="mt-6 grid grid-cols-3 gap-8" data-testid="courses">
+      <section className="flex flex-wrap m-5" data-testid="courses">
         {filteredHappenings && filteredHappenings.length > 0 ? (
           filteredHappenings.map((hap) => (
             <article
-              className="rounded-lg border border-slate-400 px-6 py-8"
+              className="w-80 h-80 p-4 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white"
               key={hap.id}
               data-testid="course_wrapper"
             >
@@ -174,28 +109,52 @@ export default function Happenings() {
                 [{hap.category}]
               </span>
               <h3
-                className="mb-2 text-base font-bold"
+                className="font-bold text-2xl mb-2"
                 data-testid="courses_title"
               >
-                <Link href={`/Happenings/${hap.slug}`}>{hap.title}</Link>
+                <Link href={isAdmin ? `/admin/Happenings/${hap.slug}` : `/Happenings/${hap.slug}`}>
+                  {hap.title}
+                </Link>
               </h3>
-              <p
-                className="mb-6 text-base font-light"
-                data-testid="courses_description"
-              >
-                {hap.description}
-              </p>
-              <Link
-                className="font-semibold underline"
-                data-testid="courses_url"
-                href={`/Happenings/${hap.slug}`}
-              >
-                Mer info
-              </Link>
+              <ul className="mb-4">
+                <li className="text-gray-700 mb-1">{hap.description}</li>
+                <li className="text-gray-700 mb-1">
+                  {new Date(hap.date).toLocaleDateString("no-NO", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </li>
+                <li className="text-gray-700 mb-1">{hap.location}</li>
+                <li className="text-gray-700 mb-1">{hap.price} kr</li>
+                <li className="text-gray-700 mb-1">{hap.seats} plasser</li>
+              </ul>
+              <div className="flex justify-between items-center">
+              {!isAdmin && (
+                <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
+                <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link>
+                </button>
+                )}
+                {isAdmin && (
+                  <button
+                    onClick={() => deleteHappening(hap.id)}
+                    className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                  >
+                    Slett
+                  </button>
+                )}
+                <Link
+                    className="text-blue-500 hover:underline"
+                    data-testid="courses_url"
+                    href={`/Happenings/${hap.slug}`}
+                  >
+                  Info
+                  </Link>
+              </div>
             </article>
           ))
         ) : (
-          <p data-testid="empty">Ingen kurs</p>
+          <p data-testid="empty">Ingen arrangementer</p>
         )}
       </section>
     </>
