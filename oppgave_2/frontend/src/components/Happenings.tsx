@@ -163,7 +163,7 @@ export default function Happenings() {
       </header>
 
       <section className="mt-6 grid grid-cols-3 gap-8" data-testid="courses">
-        {
+        {filteredHappenings && filteredHappenings.length > 0 ? (
           filteredHappenings.map((hap) => (
             <article
               className="rounded-lg border border-slate-400 px-6 py-8"
@@ -193,7 +193,10 @@ export default function Happenings() {
                 Mer info
               </Link>
             </article>
-          ))}
+          ))
+        ) : (
+          <p data-testid="empty">Ingen kurs</p>
+        )}
       </section>
     </>
   )
