@@ -13,12 +13,10 @@ import { usePathname } from "next/navigation";
 export default function Happenings() {
   const { categories, happenings, setHappenings, deleteHappening } =
     useHappening();
-  console.log("Happenings:", happenings); // Log happenings
   const [value, setValue] = useState<string>("");
   const [filteredHappenings, setFilteredHappenings] = useState<HappeningType[]>(
     []
   );
-  console.log("Filtered happenings:", filteredHappenings); // Log filtered happenings
   const [categoryFilter, setCategoryFilter] = useState<string>("");
 
   const pathname = usePathname();
@@ -68,15 +66,13 @@ export default function Happenings() {
     }
   };
 
-  const isLastItem = filteredHappenings.length - 1;
-
   return (
     <>
       <header className="mt-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
-        <label className="flex flex-col text-xs font-semibold" htmlFor="filter">
+        <label className="flex-col text-sm font-semibold" htmlFor="filter">
           <span className="mb-1 block">Velg kategori:</span>
           <select
             id="filter"
@@ -93,7 +89,7 @@ export default function Happenings() {
             ))}
           </select>
         </label>
-        <label className="flex flex-col text-xs font-semibold" htmlFor="filter">
+        <label className="flex-col text-sm font-semibold" htmlFor="filter">
           <span className="mb-1 block">Filtrer:</span>
           <select
             id="filter"
@@ -121,7 +117,7 @@ export default function Happenings() {
         {filteredHappenings && filteredHappenings.length > 0 ? (
           filteredHappenings.map((hap, i) => (
             <article
-              className={`w-5/12 min-h-max m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4 ${
+              className={`w-5/12 min-h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4 ${
                 i === filteredHappenings.length - 1 ? "last-item-style" : ""
               }`}
               key={hap.id}
@@ -182,7 +178,11 @@ export default function Happenings() {
                   <Link
                     className="text-blue-500 hover:underline"
                     data-testid="courses_url"
-                    href={`/Happenings/${hap.slug}`}
+                    href={
+                      isAdmin
+                        ? `/admin/Happenings/${hap.slug}`
+                        : `/Happenings/${hap.slug}`
+                    }
                   >
                     Info
                   </Link>
