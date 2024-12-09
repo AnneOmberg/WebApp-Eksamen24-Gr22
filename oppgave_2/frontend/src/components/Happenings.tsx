@@ -118,7 +118,7 @@ export default function Happenings() {
         }`}
         data-testid="courses"
       >
-        {filteredHappenings ? (
+        {filteredHappenings && filteredHappenings.length > 0 ? (
           filteredHappenings.map((hap, i) => (
             <article
               className={`w-5/12 min-h-max m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4 ${

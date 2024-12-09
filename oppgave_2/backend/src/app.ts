@@ -56,13 +56,8 @@ app.get("/api/users", async (c) => {
 });
 
 app.get("/api/events", async (c) => {
-  const events = await prisma.event.findMany({
-    include: {
-      venue: true,
-      template: true,
-    },
-  });
-  return c.json({ events });
+  const events = await prisma.event.findMany();
+  return c.json(events);
 });
 
 app.get("/api/venues", async (c) => {
@@ -94,23 +89,23 @@ app.get("/categories", async (c) => {
 });
 
 app.get("/happenings", async (c) => {
-  const data = await getHappeningData()
-  return c.json(data)
-})
+  const data = await getHappeningData();
+  return c.json(data);
+});
 
 app.post("/happenings", async (c) => {
-  const body = await c.req.json<HappeningType>()
-  const data = await getHappeningData()
-  data.push(body)
-  await updateHappeningData(data)
+  const body = await c.req.json<HappeningType>();
+  const data = await getHappeningData();
+  data.push(body);
+  await updateHappeningData(data);
   console.log(body);
-  return c.json({body});
-})
+  return c.json({ body });
+});
 
 app.delete("/:id", async (c) => {
-  const id = c.req.param("id")
-  const data = await getHappeningData()
-  const happeningExists = data.some((hap) => hap.id === id)
+  const id = c.req.param("id");
+  const data = await getHappeningData();
+  const happeningExists = data.some((hap) => hap.id === id);
   if (!happeningExists) {
     return c.json({
       error: "Project not found",
@@ -118,13 +113,13 @@ app.delete("/:id", async (c) => {
       success: false,
     });
   }
-  const updatedHappening = data.filter((hap) => hap.id !== id)
-  await updateHappeningData(updatedHappening)
-  return c.json({ 
-      success: true,
-      updatedHappening 
-    })
-})
+  const updatedHappening = data.filter((hap) => hap.id !== id);
+  await updateHappeningData(updatedHappening);
+  return c.json({
+    success: true,
+    updatedHappening,
+  });
+});
 
 // app.delete("/:id", async (c) => {
 //   const id = c.req.param("id")
