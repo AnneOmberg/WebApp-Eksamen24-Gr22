@@ -4,7 +4,7 @@ import { HappeningType } from "@/types/type";
 import { useEffect, useState } from "react";
 
 export default function useHappening() {
-  const [happenings, setHappenings] = useState<HappeningType[]>([])
+  const [happenings, setHappenings] = useState<HappeningType[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [happening, setHappening] = useState<HappeningType | null>(null);
 
@@ -30,7 +30,7 @@ export default function useHappening() {
   };
 
   const fetchHappenings = async () => {
-    const response = await fetch("http://localhost:3999/happenings", {
+    const response = await fetch("http://localhost:3999/api/events", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -39,10 +39,10 @@ export default function useHappening() {
     console.log("Get", response.status);
     console.log("Get", response.ok);
 
-    const data = await response.json()
-    setHappenings(data as HappeningType[])
-    console.log("Get", data)
-  }
+    const data = await response.json();
+    setHappenings(data as HappeningType[]);
+    console.log("Get", data);
+  };
 
   const getHappening = (slug: string): HappeningType | null => {
     return happenings.find((hap) => hap.slug === slug) ?? null;
@@ -51,23 +51,23 @@ export default function useHappening() {
   const createHappening = async (event: HappeningType) => {
     try {
       const response = await fetch("http://localhost:3999/courses", {
-        method: 'POST',
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(event)
-      })
-      console.log("Status", response.status)
-      console.log("OK", response.ok)
-      
-      const data = await response.json()
-      console.log("Post", data)
-      setHappenings((prev: any) => [...prev, happening])
-      fetchHappenings()
+        body: JSON.stringify(event),
+      });
+      console.log("Status", response.status);
+      console.log("OK", response.ok);
+
+      const data = await response.json();
+      console.log("Post", data);
+      setHappenings((prev: any) => [...prev, happening]);
+      fetchHappenings();
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   // const addHappeningData = async (event: HappeningType) => {
   //   try {
@@ -96,26 +96,26 @@ export default function useHappening() {
 
   const deleteHappening = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3999/${id}`, { 
-        method: 'DELETE',
+      const response = await fetch(`http://localhost:3999/${id}`, {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-      })
-      console.log("Delete", response.status)
-      console.log("Delete OK", response.ok)
+      });
+      console.log("Delete", response.status);
+      console.log("Delete OK", response.ok);
 
-      const data = await response.json()
-      setHappenings(data.updatedCourses)
-      fetchHappenings()
+      const data = await response.json();
+      setHappenings(data.updatedCourses);
+      fetchHappenings();
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   //   const deleteProjectData = async (id: string) => {
   //     try {
-  //       const response = await fetch(`${URLS.mainURL}/${id}`, { 
+  //       const response = await fetch(`${URLS.mainURL}/${id}`, {
   //         method: 'DELETE',
   //         headers: {
   //           "Content-Type": "application/json",
@@ -133,20 +133,20 @@ export default function useHappening() {
   //   }
 
   useEffect(() => {
-    fetchHappenings()
-    fetchCategories()
-  }, [])
+    fetchHappenings();
+    fetchCategories();
+  }, []);
 
-  return { 
+  return {
     categories,
     happenings,
     createHappening,
     setHappenings,
     deleteHappening,
     getHappening,
-    setHappening
+    setHappening,
     // happening
-  }
+  };
 }
 
 // "use client";
@@ -222,4 +222,3 @@ export default function useHappening() {
 
 //   return { addHappeningData, happening, setHappening };
 // }
-
