@@ -59,8 +59,6 @@ export default function Happenings() {
     }
   };
 
-  const isLastItem = filteredHappenings.length - 1;
-
   return (
     <>
       <header className="mt-8 flex items-center justify-between">
@@ -103,7 +101,7 @@ export default function Happenings() {
         {filteredHappenings && filteredHappenings.length > 0 ? (
           filteredHappenings.map((hap, i) => (
             <article
-              className={`w-5/12 min-h-max m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4 ${i === filteredHappenings.length - 1 ? "last-item-style" : ""}`}
+              className={`w-5/12 min-h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4 ${i === filteredHappenings.length - 1 ? "last-item-style" : ""}`}
               key={hap.id}
               data-testid="course_wrapper"
             >
