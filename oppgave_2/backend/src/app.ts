@@ -29,29 +29,25 @@ app.get("/api/templates", async (c) => {
 });
 
 app.post("/api/templates", async (c) => {
-  try {
-    const body = await c.req.json();
-    console.log("Received body:", body);
-
-    // Ensure correct data types
-    const templateData = {
+  const body = await c.req.json();
+  const template = await prisma.template.create({
+    data: {
       ...body,
-      allowedWeekdays: JSON.stringify(body.allowedWeekdays || []), // Convert to JSON string
-      seatLimit: body.seatLimit ? parseInt(body.seatLimit, 10) : null,
-      price: body.price ? parseFloat(body.price) : null,
-    };
+      allowedWeekdays: JSON.stringify(body.allowedWeekdays),
+    },
+  });
+  console.log(template);
+  return c.json({ template });
+});
 
-    console.log("Processed templateData:", templateData);
-
-    const template = await prisma.template.create({
-      data: templateData,
-    });
-
-    return c.json({ template });
-  } catch (err) {
-    console.error("Error creating template:", err);
-    return c.json({ error: "Failed to create template" }, 500);
-  }
+app.delete("/api/templates/:id", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  const template = await prisma.template.delete({
+    where: {
+      id: id,
+    },
+  });
+  return c.json({ template });
 });
 
 app.get("/api/users", async (c) => {

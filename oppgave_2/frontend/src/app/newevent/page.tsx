@@ -12,9 +12,11 @@ export default function Page() {
             Med mal
           </div>
         </Link>
-        <div className="border rounded bg-slate-100 w-full py-2 px-4 shadow-sm hover:bg-slate-200 cursor-pointer">
-          Fra scratch
-        </div>
+        <Link href="newevent/fromscratch">
+          <div className="border rounded bg-slate-100 w-full py-2 px-4 shadow-sm hover:bg-slate-200 cursor-pointer">
+            Fra scratch
+          </div>
+        </Link>
       </div>
     </div>
   );

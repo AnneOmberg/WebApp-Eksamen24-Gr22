@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import SignUp from "@/components/SignUp";
 import { usePathname } from "next/navigation";
@@ -6,14 +6,12 @@ import { AppProps } from "next/app";
 import { AdminProvider } from "@/context/AdminContext";
 
 export default function HomePage() {
-  return(
+  return (
     <AdminProvider>
       <SignUp />
     </AdminProvider>
-  )
+  );
 }
-
-
 
 // "use client";
 

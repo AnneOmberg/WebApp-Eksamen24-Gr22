@@ -2,6 +2,7 @@
 
 import useTemplate from "@/hooks/useTemplate";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const weekdays = [
   "Mandag",
@@ -15,11 +16,12 @@ const weekdays = [
 
 export default function CreateTemplate() {
   const { addTemplate } = useTemplate();
+  const router = useRouter();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     allowSameDay: false,
-    allowedDays: [] as string[],
+    allowedWeekdays: [] as string[],
     isPrivate: false,
     hasLimitedSeats: false,
     seatLimit: 0,
@@ -52,10 +54,10 @@ export default function CreateTemplate() {
   const handleWeekdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     setFormData((prevData) => {
-      const allowedDays = checked
-        ? [...prevData.allowedDays, value]
-        : prevData.allowedDays.filter((day) => day !== value);
-      return { ...prevData, allowedDays };
+      const allowedWeekdays = checked
+        ? [...prevData.allowedWeekdays, value]
+        : prevData.allowedWeekdays.filter((day) => day !== value);
+      return { ...prevData, allowedWeekdays };
     });
   };
 
@@ -64,21 +66,18 @@ export default function CreateTemplate() {
     setSelectAll(checked);
     setFormData((prevData) => ({
       ...prevData,
-      allowedDays: checked ? weekdays : [],
+      allowedWeekdays: checked ? weekdays : [],
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log(formData);
     const templateData = {
       ...formData,
-      id: "",
-      events: [], // Assign a proper events value
-      allowedWeekdays: formData.allowedDays,
+      price: formData.price ? formData.price.toString() : null, // Ensure price is a string
     };
-    addTemplate(templateData);
+    await addTemplate(templateData);
+    router.push("/newevent/templates");
   };
 
   return (
@@ -156,7 +155,7 @@ export default function CreateTemplate() {
                   type="checkbox"
                   id={`weekday-${day}`}
                   value={day}
-                  checked={formData.allowedDays.includes(day)}
+                  checked={formData.allowedWeekdays.includes(day)}
                   onChange={handleWeekdayChange}
                   className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                 />
