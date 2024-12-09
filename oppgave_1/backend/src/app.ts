@@ -3,7 +3,6 @@ import { cors } from "hono/cors";
 import { readFile } from "fs/promises";
 import { getCourseData, updateCourseData } from "./lib";
 import { CourseType } from "./types/types";
-// import { PrismaClient } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 
 const app = new Hono();
@@ -51,12 +50,12 @@ app.post("/api/courses", async (c) => {
   try {
     const body = await c.req.json<CourseType>();
 
-    // Ensure all required fields are provided
     if (!body.title || !body.slug || !body.category || !body.lessons) {
-      throw new Error("Missing required fields: title, slug, category, or lessons");
+      throw new Error(
+        "Missing required fields: title, slug, category, or lessons"
+      );
     }
 
-    // Create a new course with lessons and their nested texts
     const course = await prisma.course.create({
       data: {
         title: body.title,
@@ -64,7 +63,7 @@ app.post("/api/courses", async (c) => {
         description: body.description,
         category: {
           connect: {
-            id: body.category, // Ensure `body.category` is the `id` of an existing `Category`
+            id: body.category,
           },
         },
         lessons: {
@@ -88,8 +87,6 @@ app.post("/api/courses", async (c) => {
     return c.json({ error: err.message }, 500);
   }
 });
-
-
 
 app.get("/api/courses", async (c) => {
   console.log("Fetching courses...");

@@ -9,7 +9,7 @@ export default function Header() {
   const logIn = pathname === "/";
 
   return (
-    <header className="container mx-auto p-4 bg-gray-800 text-white">
+    <header className="container mx-auto p-4 bg-white text-slate-800">
       {!logIn ? (
         <nav className="flex justify-between">
           <ul className="flex space-x-4">

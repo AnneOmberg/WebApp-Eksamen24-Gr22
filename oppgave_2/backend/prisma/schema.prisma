@@ -14,27 +14,31 @@ datasource db {
 }
 
 model User {
-  id     Int      @id @default(autoincrement())
-  email  String   @unique
-  name   String?
-  events Event[]
-  Ticket Ticket[]
+  id       Int        @id @default(autoincrement())
+  email    String     @unique
+  name     String?
+  events   Event[]
+  Ticket   Ticket[]
+  Waitlist Waitlist[]
+  Event    Event[]    @relation(name: "participants")
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
-  slug        String   @unique
-  title       String
-  date        String
-  description String?
-  location    String?
-  category    String?
-  seats       String
-  price       String
-  status      String
-  createdById Int
-  createdBy   User     @relation(fields: [createdById], references: [id])
-  tickets     Ticket[]
+  id           Int        @id @default(autoincrement())
+  slug         String     @unique
+  title        String
+  date         String
+  description  String?
+  location     String?
+  category     String?
+  seats        String
+  price        String
+  status       String
+  createdById  Int
+  createdBy    User       @relation(fields: [createdById], references: [id])
+  tickets      Ticket[]
+  waitlist     Waitlist[]
+  participants User[]     @relation(name: "participants")
 }
 
 model Template {
@@ -66,4 +70,12 @@ model Ticket {
   event   Event @relation(fields: [eventId], references: [id])
   userId  Int?
   user    User? @relation(fields: [userId], references: [id])
+}
+
+model Waitlist {
+  id      Int   @id @default(autoincrement())
+  eventId Int
+  event   Event @relation(fields: [eventId], references: [id])
+  userId  Int
+  user    User  @relation(fields: [userId], references: [id])
 }

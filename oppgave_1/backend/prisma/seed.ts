@@ -4,14 +4,13 @@ import * as fs from "fs";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Load Users
   const usersData = JSON.parse(
     fs.readFileSync("./src/data/users.json", "utf-8")
   );
 
   console.log("Seeding users...");
   for (const user of usersData) {
-    const { id, ...userData } = user; // Remove the id field
+    const { id, ...userData } = user;
     await prisma.user.upsert({
       where: { email: userData.email },
       update: {},
@@ -20,7 +19,6 @@ async function main() {
   }
   console.log("Users seeded.");
 
-  // Load Categories
   const categoriesData = JSON.parse(
     fs.readFileSync("src/data/categories.json", "utf-8")
   );
@@ -37,7 +35,6 @@ async function main() {
   }
   console.log("Categories seeded.");
 
-  // Load courses
   const coursesData = JSON.parse(
     fs.readFileSync("src/data/courses.json", "utf-8")
   );
@@ -114,7 +111,6 @@ async function main() {
   }
   console.log("Courses seeded.");
 
-  // Load comments
   const commentsData = JSON.parse(
     fs.readFileSync("src/data/comments.json", "utf-8")
   );
