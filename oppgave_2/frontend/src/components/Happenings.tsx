@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import useHappening from "@/hooks/useHappening";
 import { useEffect, useState } from "react";
@@ -46,10 +46,14 @@ export default function Happenings() {
     let filtered = [...happenings];
   
     if (filterValue === "date_asc") {
-      const sorted = filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      const sorted = filtered.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
       setFilteredHappenings(sorted);
     } else if (filterValue === "date_desc") {
-      const sorted = filtered.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      const sorted = filtered.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
       setFilteredHappenings(sorted);
     } else if (filterValue === "alphabetical") {
       const sorted = filtered.sort((a, b) => a.title.localeCompare(b.title));
@@ -62,7 +66,7 @@ export default function Happenings() {
   return (
     <>
       <header className="mt-8 flex items-center justify-between">
-      <h1 className="text-3xl font-bold">
+        <h1 className="text-3xl font-bold">
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
         <label className="flex-col text-sm font-semibold" htmlFor="filter">
@@ -76,7 +80,9 @@ export default function Happenings() {
           >
             <option value="">Alle</option>
             {categories.map((category) => (
-              <option key={category} value={category}>{category}</option>
+              <option key={category} value={category}>
+                {category}
+              </option>
             ))}
           </select>
         </label>
@@ -110,7 +116,13 @@ export default function Happenings() {
                   className="font-bold text-2xl mb-2"
                   data-testid="courses_title"
                 >
-                  <Link href={isAdmin ? `/admin/Happenings/${hap.slug}` : `/Happenings/${hap.slug}`}>
+                  <Link
+                    href={
+                      isAdmin
+                        ? `/admin/Happenings/${hap.slug}`
+                        : `/Happenings/${hap.slug}`
+                    }
+                  >
                     {hap.title}
                   </Link>
                 </h3>
@@ -149,11 +161,15 @@ export default function Happenings() {
                 <Link
                     className="text-blue-500 hover:underline"
                     data-testid="courses_url"
-                    href={isAdmin ? `/admin/Happenings/${hap.slug}` : `/Happenings/${hap.slug}`}
+                    href={
+                      isAdmin
+                        ? `/admin/Happenings/${hap.slug}`
+                        : `/Happenings/${hap.slug}`
+                    }
                   >
-                  Info
+                    Info
                   </Link>
-              </div>
+                </div>
               </section>
             </article>
           ))
@@ -162,5 +178,5 @@ export default function Happenings() {
         )}
       </section>
     </>
-  )
+  );
 }
