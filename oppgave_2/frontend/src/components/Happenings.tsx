@@ -59,6 +59,8 @@ export default function Happenings() {
     }
   };
 
+  const isLastItem = filteredHappenings.length - 1;
+
   return (
     <>
       <header className="mt-8 flex items-center justify-between">
@@ -97,25 +99,28 @@ export default function Happenings() {
         </label>
       </header>
 
-      <section className="flex flex-wrap m-5" data-testid="courses">
+      <section className={`flex flex-wrap m-5 ${filteredHappenings.length > 1 && filteredHappenings.length % 2 === 1 ? "justify-start" : "justify-center"}`} data-testid="courses">
         {filteredHappenings && filteredHappenings.length > 0 ? (
-          filteredHappenings.map((hap) => (
+          filteredHappenings.map((hap, i) => (
             <article
-              className="w-80 h-80 p-4 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white"
+              className={`w-5/12 min-h-max m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4 ${i === filteredHappenings.length - 1 ? "last-item-style" : ""}`}
               key={hap.id}
               data-testid="course_wrapper"
             >
-              <span className="block text-right capitalize">
-                [{hap.category}]
-              </span>
-              <h3
-                className="font-bold text-2xl mb-2"
-                data-testid="courses_title"
-              >
-                <Link href={isAdmin ? `/admin/Happenings/${hap.slug}` : `/Happenings/${hap.slug}`}>
-                  {hap.title}
-                </Link>
-              </h3>
+              <section className="bg-gray-800 text-white p-4 rounded-t-md flex justify-between">
+                <h3
+                  className="font-bold text-2xl mb-2"
+                  data-testid="courses_title"
+                >
+                  <Link href={isAdmin ? `/admin/Happenings/${hap.slug}` : `/Happenings/${hap.slug}`}>
+                    {hap.title}
+                  </Link>
+                </h3>
+                <span className="block text-right capitalize">
+                  [{hap.category}]
+                </span>
+              </section>
+              <section className="p-4">
               <ul className="mb-4">
                 <li className="text-gray-700 mb-1">{hap.description}</li>
                 <li className="text-gray-700 mb-1">
@@ -151,6 +156,7 @@ export default function Happenings() {
                   Info
                   </Link>
               </div>
+              </section>
             </article>
           ))
         ) : (
