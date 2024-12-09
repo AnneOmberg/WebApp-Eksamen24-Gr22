@@ -65,7 +65,7 @@ export default function Happenings() {
       <h1 className="text-3xl font-bold">
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
-        <label className="flex flex-col text-xs font-semibold" htmlFor="filter">
+        <label className="flex-col text-sm font-semibold" htmlFor="filter">
           <span className="mb-1 block">Velg kategori:</span>
           <select
             id="filter"
@@ -80,7 +80,7 @@ export default function Happenings() {
             ))}
           </select>
         </label>
-        <label className="flex flex-col text-xs font-semibold" htmlFor="filter">
+        <label className="flex-col text-sm font-semibold" htmlFor="filter">
           <span className="mb-1 block">Filtrer:</span>
           <select
             id="filter"
@@ -146,7 +146,7 @@ export default function Happenings() {
                 <Link
                     className="text-blue-500 hover:underline"
                     data-testid="courses_url"
-                    href={`/Happenings/${hap.slug}`}
+                    href={isAdmin ? `/admin/Happenings/${hap.slug}` : `/Happenings/${hap.slug}`}
                   >
                   Info
                   </Link>
