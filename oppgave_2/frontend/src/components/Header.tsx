@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation";
 export default function Header() {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
+  const logIn = pathname === "/"
 
   return (
-    <header className="bg-gray-800 text-white">
-      <nav className="container mx-auto p-4">
+    <header className="container mx-auto p-4 bg-gray-800 text-white">
+      {!logIn ? (
+      <nav className="flex justify-between">
         <ul className="flex space-x-4">
-          
           <li>
             <Link href={isAdmin ? "/admin/Happenings" : "/Happenings"} className="text-lg font-semibold hover:text-gray-300">
               Hjem
@@ -38,7 +39,18 @@ export default function Header() {
             </li>
           )}
         </ul>
+        <span>
+              <Link
+                href="/"
+                className="text-lg font-semibold hover:text-gray-300"
+              >
+                Logg ut
+              </Link>
+            </span>
       </nav>
+      ) : (
+        <h2 className="text-lg font-semibold hover:text-gray-300">Logg inn</h2>
+      )}
     </header>
   );
 }
