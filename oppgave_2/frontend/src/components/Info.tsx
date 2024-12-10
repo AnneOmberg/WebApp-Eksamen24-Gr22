@@ -62,7 +62,7 @@ export default function Info() {
       {!isAdmin && (
         <button className="border-2 bg-blue-500 px-4 py-2 mt-4 rounded text-white hover:bg-blue-600">
           {content.status === false ?
-            <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Sett deg opp på ventelise</Link>}
+            <Link className="font-semibold underline" href={`/happenings/${hapSlug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/happenings/${hapSlug}/order`}>Sett deg opp på ventelise</Link>}
         </button>
       )}
     </section>
