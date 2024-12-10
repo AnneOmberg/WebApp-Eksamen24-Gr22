@@ -8,7 +8,7 @@ export type HappeningType = {
     category: string,
     seats: string,       
     price: string,
-    status: string
+    status: boolean
 }
 
 export type OrderType = {

@@ -14,6 +14,7 @@ export default function Happenings() {
   const { categories, happenings, setHappenings, deleteHappening } = useHappening()
   const [value, setValue] = useState<string>("");
   const [filteredHappenings, setFilteredHappenings] = useState<HappeningType[]>([]);
+  const [status, setStatus] = useState<string>("Fullboket")
   const [categoryFilter, setCategoryFilter] = useState<string>("");
 
   const pathname = usePathname();
@@ -23,6 +24,14 @@ export default function Happenings() {
   useEffect(() => {
     setFilteredHappenings(happenings);
   }, [happenings]);
+
+  // const checkStatus = () => {
+  //   filteredHappenings.map((hap) => {
+  //     if(hap.status === true) {
+  //       setStatus("Fullboket")
+  //     }
+  //   })
+  // }
 
   const handleCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
@@ -40,6 +49,7 @@ export default function Happenings() {
     }
   };
 
+  // Chat GPT
   const handleFilter = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const filterValue = event.target.value;
     setValue(filterValue);
@@ -143,11 +153,16 @@ export default function Happenings() {
                 <li className="text-gray-700 mb-1">{hap.location}</li>
                 <li className="text-gray-700 mb-1">{hap.price} kr</li>
                 <li className="text-gray-700 mb-1">{hap.seats} plasser</li>
+
+                {hap.status === true ? <li className="text-gray-700 mb-1">Status: Fullboket</li> : <li className="text-gray-700 mb-1">Status: Ledig</li>}
+                
               </ul>
               <div className="flex justify-between items-center">
               {!isAdmin && (
+                
                 <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
-                <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link>
+                  {hap.status === false ?
+                <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Sett deg opp på ventelise</Link>}
                 </button>
                 )}
                 {isAdmin && (

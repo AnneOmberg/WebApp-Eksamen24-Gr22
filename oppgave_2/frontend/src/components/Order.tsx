@@ -12,6 +12,8 @@ export default function Order() {
   const eventFilter = happenings?.find((hap) => hap.slug === hapSlug);
 
   const [newForm, setNewForm] = useState<FormType[]>([]);
+  
+  
 
   useEffect(() => {
     if (eventFilter) {
@@ -95,6 +97,8 @@ export default function Order() {
             >
               Legg til person
             </button>
+            {eventFilter?.status === false ?
+            <button type="submit">Bestill billetter</button> : <button type="submit">Sett deg opp på venteliste</button>}
           </form>
         </section>
       ))}
