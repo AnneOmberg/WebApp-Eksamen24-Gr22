@@ -88,7 +88,7 @@ export default function Happenings() {
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
         <section className="flex">
-          <label className="flex-col text-sm font-semibold" htmlFor="filter">
+          <label className="flex-col text-sm font-semibold items-start" htmlFor="filter">
             <span className="mb-1 block">Velg kategori:</span>
             <select
               id="filter"
@@ -105,7 +105,7 @@ export default function Happenings() {
               ))}
             </select>
           </label>
-          <label className="flex-col text-sm font-semibold ml-4" htmlFor="filter">
+          <label className="flex-col text-sm font-semibold ml-4 items-start" htmlFor="filter">
             <span className="mb-1 block">Filtrer:</span>
             <select
               id="filter"
@@ -122,7 +122,7 @@ export default function Happenings() {
           </label>
         </section>
       </section>
-      <section className="flex flex-col m-5" data-testid="courses">
+      <section className="flex m-5" data-testid="courses">
         {Object.keys(groupedHappenings).length === 0 ? (
           <div className="text-center text-gray-500">
             Ingen arrangementer tilgjengelig
@@ -134,6 +134,7 @@ export default function Happenings() {
               {Object.entries(months).map(([month, happenings]) => (
                 <div key={month}>
                   <h4 className="text-xl font-semibold mb-2">{month}</h4>
+                  <section className={`flex flex-wrap m-5`}>
                   {happenings.map((hap) => (
                     <HappeningCard
                       key={hap.id}
@@ -141,6 +142,7 @@ export default function Happenings() {
                       deleteHappening={deleteHappening}
                     />
                   ))}
+                  </section>
                 </div>
               ))}
             </div>

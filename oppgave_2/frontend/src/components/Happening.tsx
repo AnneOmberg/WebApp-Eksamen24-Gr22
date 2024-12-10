@@ -13,7 +13,7 @@ export default function HappeningCard({ deleteHappening, happening}: HappeningCa
   const { isAdmin } = useAdmin();
 
   return (
-    <section className={`flex flex-wrap m-5`} data-testid="courses">
+    <>
         <article
           className={`w-5/12 min-h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4`}
           key={happening.id}
@@ -25,10 +25,7 @@ export default function HappeningCard({ deleteHappening, happening}: HappeningCa
               data-testid="courses_title"
             >
               <Link
-                href={
-                  isAdmin
-                    ? `/admin/happenings/${happening.slug}`
-                    : `/happenings/${happening.slug}`
+                href={`/happenings/${happening.slug}`
                 }
               >
                 {happening.title}
@@ -76,18 +73,14 @@ export default function HappeningCard({ deleteHappening, happening}: HappeningCa
               <Link
                 className="text-blue-500 hover:underline"
                 data-testid="courses_url"
-                href={
-                  isAdmin
-                    ? `/admin/happenings/${happening.slug}`
-                    : `/happenings/${happening.slug}`
-                }
+                href={`/happenings/${happening.slug}`}
               >
                 Info
               </Link>
             </div>
           </section>
         </article>
-  </section>
+  </>
       )
   }
 
