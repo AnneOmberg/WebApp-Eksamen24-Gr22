@@ -40,7 +40,6 @@ export default function CreateTemplate() {
     setFormData((prevData) => {
       const updatedData = { ...prevData, [id]: newValue };
 
-      // Ensure that if isFree is true, hasFixedPrice is false, and vice versa
       if (id === "isFree" && checked) {
         updatedData.hasFixedPrice = false;
       } else if (id === "hasFixedPrice" && checked) {
@@ -74,10 +73,10 @@ export default function CreateTemplate() {
     e.preventDefault();
     const templateData = {
       ...formData,
-      price: formData.price ? formData.price.toString() : null, // Ensure price is a string
+      price: formData.price ? formData.price.toString() : null,
     };
     await addTemplate(templateData);
-    router.push("/newevent/templates");
+    router.push("../templates");
   };
 
   return (

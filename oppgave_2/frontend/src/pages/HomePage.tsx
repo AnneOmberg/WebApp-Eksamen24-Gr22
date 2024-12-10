@@ -1,18 +1,12 @@
-"use client"
+// "use client"
 
-import useHappening from "@/hooks/useHappening";
-import { useEffect, useState } from "react";
-import { HappeningType } from "@/types/type";
-import Link from "next/link";
-import Happenings from "@/components/Happenings";
-import Info from "@/components/Info";
-import SignUp from "@/components/SignUp";
+// import SignUp from "@/components/SignUp";
+// import { usePathname } from "next/navigation";
+// import { AppProps } from "next/app";
 
 
-export default function HomePage() {
-  return(
-    <SignUp />
-    // <LogIn />
-    // <Info />
-  )
-}
+// export default function HomePage() {
+//   return(
+//     <SignUp />
+//   )
+// }

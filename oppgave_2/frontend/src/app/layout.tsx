@@ -31,13 +31,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased m-2`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main className="p-5">{children}</main>
+        <AdminProvider>
+          <Header />
+          <main className="p-5">{children}</main>
+        </AdminProvider>
       </body>
     </html>
   );
 }
 import React from "react";
 import Header from "@/components/Header";
+import { AdminProvider } from "@/context/AdminContext";

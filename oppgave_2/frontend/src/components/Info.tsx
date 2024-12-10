@@ -37,9 +37,18 @@ export default function Info() {
 
   return (
     <section>
+      <span className="block text-right capitalize">{content.category}</span>
       <h2 className="text-2xl font-bold">{content.title}</h2>
       <p className="mt-4">{content.description}</p>
-      <p>Pris: {content.price}kr</p>
+      <p><strong>Pris:</strong> {content.price}kr</p>
+      <p><strong>Dato:</strong> {new Date(content.date).toLocaleDateString("no-NO", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}</p>
+      <p><strong>Lokasjon:</strong> {content.location}</p>
+      <p><strong>Plasser:</strong> {content.seats}</p>
+      <p><strong>Status:</strong> {content.status}</p>
       <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Bestill her!</Link>
     </section>
   );
