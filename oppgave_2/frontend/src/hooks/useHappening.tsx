@@ -50,7 +50,7 @@ export default function useHappening() {
 
   const createHappening = async (event: HappeningType) => {
     try {
-      const response = await fetch("http://localhost:3999/courses", {
+      const response = await fetch("http://localhost:3999/api/events", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -7,8 +7,6 @@ import { useAdmin } from "@/context/AdminContext";
 export default function SignUp() {
   const { isAdmin, setIsAdmin } = useAdmin();
 
-  console.log(isAdmin);
-
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState(false);
   const [fields, setFields] = useState({
@@ -60,7 +58,7 @@ export default function SignUp() {
   return (
     <section className="mx-auto max-w-xl" data-testid="sign_up">
       <h2 className="mb-4 text-xl font-bold" data-testid="title">
-        Ny bruker
+        Logg inn
       </h2>
       <form data-testid="form" onSubmit={handleSubmit} noValidate>
         <label className="mb-4 flex" htmlFor="name">
@@ -105,7 +103,7 @@ export default function SignUp() {
           data-testid="form_submit"
           type="submit"
         >
-          Lag ny bruker
+          Logg inn
         </button>
         {formError ? (
           <p className="font-semibold text-red-500" data-testid="form_error">
@@ -117,7 +115,7 @@ export default function SignUp() {
             className="font-semibold text-emerald-500"
             data-testid="form_success"
           >
-            Skjema sendt
+            Logget inn
           </p>
         ) : null}
       </form>

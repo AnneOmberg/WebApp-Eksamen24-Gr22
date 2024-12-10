@@ -17,6 +17,7 @@ app.get("/api/all", async (c) => {
   return c.json({ venues, users, events });
 });
 
+//Hent ALLE maler
 app.get("/api/templates", async (c) => {
   const templates = await prisma.template.findMany();
   const parsedTemplates = templates.map((template) => ({
@@ -28,16 +29,36 @@ app.get("/api/templates", async (c) => {
   return c.json({ templates: parsedTemplates });
 });
 
-app.post("/api/templates", async (c) => {
-  const body = await c.req.json();
-  const template = await prisma.template.create({
-    data: {
-      ...body,
-      allowedWeekdays: JSON.stringify(body.allowedWeekdays),
+//Hent spesifikk mal
+app.get("/api/templates/:id", async (c) => {
+  const id = parseInt(c.req.param("id"), 10);
+  const template = await prisma.template.findUnique({
+    where: {
+      id: id,
     },
   });
-  console.log(template);
   return c.json({ template });
+});
+
+//Opprett mal
+app.post("/api/templates", async (c) => {
+  const body = await c.req.json();
+  const templateData = {
+    ...body,
+    allowedWeekdays: JSON.stringify(body.allowedWeekdays),
+    price: body.price ? parseFloat(body.price) : null,
+  };
+
+  try {
+    const template = await prisma.template.create({
+      data: templateData,
+    });
+    console.log(template);
+    return c.json({ template });
+  } catch (error) {
+    console.error("Error creating template:", error);
+    return c.json({ error: "Error creating template" }, 500);
+  }
 });
 
 app.delete("/api/templates/:id", async (c) => {

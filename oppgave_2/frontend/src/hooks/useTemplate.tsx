@@ -38,6 +38,18 @@ export default function useTemplate() {
     setTemplates(data.templates);
   };
 
+  const getSingleTemplate = async (id: string) => {
+    const response = await fetch(`http://localhost:3999/api/templates/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    return data.template;
+  };
+
   const addTemplate = async (template: TemplateType) => {
     const response = await fetch("http://localhost:3999/api/templates", {
       method: "POST",
@@ -60,8 +72,14 @@ export default function useTemplate() {
     });
 
     const data = await response.json();
-    setTemplates(data.templates);
+    console.log(data.template);
   };
 
-  return { templates, getTemplates, addTemplate, deleteTemplate };
+  return {
+    templates,
+    getSingleTemplate,
+    getTemplates,
+    addTemplate,
+    deleteTemplate,
+  };
 }

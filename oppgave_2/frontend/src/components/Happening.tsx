@@ -17,21 +17,13 @@ export default function HappeningCard({
 
   return (
     <article
-      className="w-full min-h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4"
+      className="w-full m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4"
       key={happening.id}
       data-testid="course_wrapper"
     >
       <section className="bg-gray-800 text-white p-4 rounded-t-md flex justify-between">
         <h3 className="font-bold text-2xl mb-2" data-testid="courses_title">
-          <Link
-            href={
-              isAdmin
-                ? `/admin/Happenings/${happening.slug}`
-                : `/Happenings/${happening.slug}`
-            }
-          >
-            {happening.title}
-          </Link>
+          <Link href="/happenings">{happening.title}</Link>
         </h3>
         <span className="block text-right capitalize">
           [{happening.category}]
@@ -48,6 +40,13 @@ export default function HappeningCard({
             })}
           </li>
           <li className="text-gray-700 mb-1">{happening.location}</li>
+          {happening.price === "" ? (
+            <li className="text-gray-700 mb-1 bg-red-300 w-fit p-2">
+              Pris ikke oppgitt
+            </li>
+          ) : (
+            <li className="text-gray-700 mb-1">{happening.price} kr</li>
+          )}
           <li className="text-gray-700 mb-1">{happening.price} kr</li>
           <li className="text-gray-700 mb-1">{happening.seats} plasser</li>
         </ul>
@@ -56,7 +55,7 @@ export default function HappeningCard({
             <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
               <Link
                 className="font-semibold underline"
-                href={`/Happenings/${happening.slug}/order`}
+                href={`/happenings/${happening.slug}/order`}
               >
                 Kjøp billetter
               </Link>

@@ -16,6 +16,8 @@ export default function Happenings() {
   const [filteredHappenings, setFilteredHappenings] = useState<HappeningType[]>(
     []
   );
+
+  console.log(filteredHappenings);
   const [categoryFilter, setCategoryFilter] = useState<string>("");
 
   const pathname = usePathname();

@@ -5,9 +5,3 @@ export default function Page() {
 }
 import Happenings from "@/components/Happenings";
 import Info from "@/components/Info";
-
-// export default function Page() {
-//     return(
-//         <Info />
-//     )
-// }

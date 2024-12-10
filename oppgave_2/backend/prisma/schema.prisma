@@ -25,14 +25,14 @@ model User {
 
 model Event {
   id           Int        @id @default(autoincrement())
-  slug         String     @unique
   title        String
+  slug         String
   date         String
   description  String?
   location     String?
-  category     String?
-  seats        String
-  price        String
+  category     String
+  seats        Int
+  price        Int
   status       String
   createdById  Int
   createdBy    User       @relation(fields: [createdById], references: [id])
@@ -78,4 +78,10 @@ model Waitlist {
   event   Event @relation(fields: [eventId], references: [id])
   userId  Int
   user    User  @relation(fields: [userId], references: [id])
+}
+
+model Participant {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String
 }
