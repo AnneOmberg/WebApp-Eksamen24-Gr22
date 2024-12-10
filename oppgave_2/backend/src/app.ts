@@ -4,6 +4,7 @@ import { getHappeningData, updateHappeningData } from "./lib";
 import { HappeningType } from "./types/type";
 import { PrismaClient } from "@prisma/client";
 import { readFile } from "node:fs/promises";
+// import { PrismaClient } from "@prisma/client/extension";
 
 const app = new Hono();
 const prisma = new PrismaClient();
