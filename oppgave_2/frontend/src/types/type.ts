@@ -7,7 +7,7 @@ export type HappeningType = {
     location: string,
     category: string,
     seats: string,       
-    price: string,
+    price: number,
     status: boolean
 }
 

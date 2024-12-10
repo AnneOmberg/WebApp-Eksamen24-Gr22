@@ -6,10 +6,6 @@ import { HappeningType } from "@/types/type";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-// interface HappeningsProps {
-//   isAdmin?: boolean; // Optional prop
-// }
-
 export default function Happenings() {
   const { categories, happenings, setHappenings, deleteHappening } = useHappening()
   const [value, setValue] = useState<string>("");
@@ -17,22 +13,15 @@ export default function Happenings() {
   const [status, setStatus] = useState<string>("Fullboket")
   const [categoryFilter, setCategoryFilter] = useState<string>("");
 
+  // Chat GPT
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
-  // Chat GPT
   useEffect(() => {
     setFilteredHappenings(happenings);
   }, [happenings]);
-
-  // const checkStatus = () => {
-  //   filteredHappenings.map((hap) => {
-  //     if(hap.status === true) {
-  //       setStatus("Fullboket")
-  //     }
-  //   })
-  // }
-
+  
+  // Ordnet med chat GPT
   const handleCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setValue(category);
@@ -159,7 +148,6 @@ export default function Happenings() {
               </ul>
               <div className="flex justify-between items-center">
               {!isAdmin && (
-                
                 <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
                   {hap.status === false ?
                 <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Sett deg opp på ventelise</Link>}
