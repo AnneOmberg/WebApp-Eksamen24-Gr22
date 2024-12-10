@@ -53,108 +53,78 @@ export default function Order() {
     setNewForm(updatedForms);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newForm),
-      });
-
-      if (response.ok) {
-        alert("Participants added successfully!");
-      } else {
-        alert("Failed to add participants.");
-      }
-    } catch (error) {
-      console.error("Error adding participants:", error);
-      alert("An error occurred while adding participants.");
-    }
+  // Chat GPT
+  // Calculate total price based on number of participants
+  const calculateTotalPrice = () => {
+    const totalParticipants = newForm.reduce(
+      (acc, form) => acc + form.persons.length,
+      0
+    );
+    return eventFilter ? totalParticipants * eventFilter.price : 0;
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6">
-        Meld deg på {eventFilter?.title}
-      </h2>
-      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <>
+      <article>
         {newForm.map((form, formIndex) => (
-          <div key={form.id}>
-            <h3 className="text-xl font-semibold mb-4">{form.title}</h3>
-            {form.persons.map((person: PersonType, personIndex: number) => (
-              <div key={person.id} className="mb-4">
-                <label
-                  htmlFor={`name-${formIndex}-${personIndex}`}
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Navn
-                </label>
-                <input
-                  type="text"
-                  id={`name-${formIndex}-${personIndex}`}
-                  value={person.name}
-                  onChange={(e) =>
-                    handleInputChange(
-                      formIndex,
-                      personIndex,
-                      "name",
-                      e.target.value
-                    )
-                  }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  required
-                />
-                <label
-                  htmlFor={`email-${formIndex}-${personIndex}`}
-                  className="block text-sm font-medium text-gray-700 mt-2"
-                >
-                  E-post
-                </label>
-                <input
-                  type="email"
-                  id={`email-${formIndex}-${personIndex}`}
-                  value={person.email}
-                  onChange={(e) =>
-                    handleInputChange(
-                      formIndex,
-                      personIndex,
-                      "email",
-                      e.target.value
-                    )
-                  }
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  required
-                />
-                {form.persons.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => removeParticipant(formIndex, personIndex)}
-                    className="mt-2 px-4 py-2 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                  >
-                    Fjern
-                  </button>
-                )}
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() => addParticipant(formIndex)}
-              className="mt-4 px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-            >
-              Legg til person
-            </button>
-          </div>
+          <section key={form.id}>
+            <h2 className="text-2xl font-bold">{form.title}</h2>
+            <form className="space-y-4 w-fit">
+              <section className="flex gap-8">
+              {form.persons.map((person, personIndex) => (
+                <div key={person.id} className="flex flex-col">
+                  <label htmlFor={`name-${formIndex}-${personIndex}`} className="mt-4">Navn</label>
+                  <input
+                    id={`name-${formIndex}-${personIndex}`}
+                    type="text"
+                    value={person.name}
+                    onChange={(e) => handleInputChange(formIndex, personIndex, "name", e.target.value)}
+                    placeholder="Kari Normann"
+                    required
+                  />
+
+                  <label htmlFor={`email-${formIndex}-${personIndex}`} className="mt-4">E-post</label>
+                  <input
+                    id={`email-${formIndex}-${personIndex}`}
+                    className="rounded"
+                    type="email"
+                    value={person.email}
+                    onChange={(e) => handleInputChange(formIndex, personIndex, "email", e.target.value)}
+                    placeholder="kari@norman.no"
+                    required
+                  />
+
+                  {form.persons.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeParticipant(formIndex, personIndex)}
+                      className="bg-red-500 text-white px-4 py-2 mt-4 rounded"
+                    >
+                      Slett
+                    </button>
+                  )}
+                </div>
+              ))}
+              </section>
+
+              <button
+                type="button"
+                onClick={() => addParticipant(formIndex)}
+                className="bg-green-500 px-4 py-2 rounded text-white hover:bg-green-600 w-80"
+              >
+                Legg til person
+              </button>
+              {eventFilter?.status === false ?
+                <div className="mt-6">
+                  <p className="text-xl font-bold">Total pris: {calculateTotalPrice()} kr</p>
+                  <button type="submit" className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600 w-80">Bestill billetter</button> 
+                </div>
+                : 
+                <button type="submit" className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600 w-80">Sett deg opp på venteliste</button>}
+            </form>
+          </section>
         ))}
-        <button
-          type="submit"
-          className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          Meld på
-        </button>
-      </form>
-    </div>
+      </article>
+    </>
   );
 }

@@ -20,12 +20,14 @@ export default function Happenings() {
   console.log(filteredHappenings);
   const [categoryFilter, setCategoryFilter] = useState<string>("");
 
+  // Chat GPT
   const pathname = usePathname();
 
   useEffect(() => {
     setFilteredHappenings(happenings);
   }, [happenings]);
 
+  // Ordnet med chat GPT
   const handleCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
     setValue(category);
@@ -81,43 +83,45 @@ export default function Happenings() {
 
   return (
     <>
-      <header className="mt-8 flex items-center justify-between">
+      <section className="mt-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
-        <label className="flex-col text-sm font-semibold" htmlFor="filter">
-          <span className="mb-1 block">Velg kategori:</span>
-          <select
-            id="filter"
-            name="filter"
-            value={value}
-            onChange={handleCategory}
-            className="min-w-[200px] rounded bg-slate-200"
-          >
-            <option value="">Alle</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex-col text-sm font-semibold" htmlFor="filter">
-          <span className="mb-1 block">Filtrer:</span>
-          <select
-            id="filter"
-            name="filter"
-            value={value}
-            onChange={handleFilter}
-            className="min-w-[200px] rounded bg-slate-200"
-          >
-            <option value="">Alle</option>
-            <option value="date_asc">Dato først</option>
-            <option value="date_desc">Dato sist</option>
-            <option value="alphabetical">Alfabetisk</option>
-          </select>
-        </label>
-      </header>
+        <section className="flex">
+          <label className="flex-col text-sm font-semibold" htmlFor="filter">
+            <span className="mb-1 block">Velg kategori:</span>
+            <select
+              id="filter"
+              name="filter"
+              value={value}
+              onChange={handleCategory}
+              className="min-w-[200px] rounded bg-slate-200"
+            >
+              <option value="">Alle</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex-col text-sm font-semibold ml-4" htmlFor="filter">
+            <span className="mb-1 block">Filtrer:</span>
+            <select
+              id="filter"
+              name="filter"
+              value={value}
+              onChange={handleFilter}
+              className="min-w-[200px] rounded bg-slate-200"
+            >
+              <option value="">Alle</option>
+              <option value="date_asc">Dato først</option>
+              <option value="date_desc">Dato sist</option>
+              <option value="alphabetical">Alfabetisk</option>
+            </select>
+          </label>
+        </section>
+      </section>
       <section className="flex flex-col m-5" data-testid="courses">
         {Object.keys(groupedHappenings).length === 0 ? (
           <div className="text-center text-gray-500">
