@@ -15,6 +15,8 @@ export default function HappeningCard({
 }: HappeningCardProps) {
   const { isAdmin } = useAdmin();
 
+  console.log(happening.participants.length);
+
   return (
     <>
       <article
@@ -49,33 +51,26 @@ export default function HappeningCard({
             <li className="text-gray-700 mb-1">
               <strong>Pris:</strong> {happening.price},-
             </li>
-
-            {happening.status === true ? (
-              <li className="text-gray-700 mb-1">
-                <strong>Fullboket</strong>
-              </li>
-            ) : (
-              <li className="text-gray-700 mb-1">
-                <strong>Antall ledige plasser:</strong> {happening.seats}
-              </li>
-            )}
+            <li className="text-gray-700 mb-1">
+              <strong>Antall plasser:</strong> {happening.seats}
+            </li>
           </ul>
           <div className="flex justify-between items-center">
             {!isAdmin && (
               <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
-                {happening.status === false ? (
+                {happening.participants.length < happening.seats ? (
                   <Link
                     className="font-semibold underline"
                     href={`/happenings/${happening.slug}/order`}
                   >
-                    Kjøp biletter
+                    Kjøp billetter
                   </Link>
                 ) : (
                   <Link
                     className="font-semibold underline"
                     href={`/happenings/${happening.slug}/order`}
                   >
-                    Sett deg opp på ventelise
+                    Sett deg opp på venteliste
                   </Link>
                 )}
               </button>

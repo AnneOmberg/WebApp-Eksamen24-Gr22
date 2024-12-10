@@ -53,7 +53,7 @@ export default function Order() {
     };
 
     try {
-      await updateHappening(updatedEvent as any);
+      await updateHappening(updatedEvent);
       alert("Event updated successfully!");
     } catch (error) {
       console.error("Error updating event:", error);
@@ -156,7 +156,7 @@ export default function Order() {
               >
                 Legg til person
               </button>
-              {eventFilter?.status === false ? (
+              {eventFilter?.participants.length < eventFilter?.seats ? (
                 <div className="mt-6">
                   <p className="text-xl font-bold">
                     Total pris: {calculateTotalPrice()} kr
