@@ -134,7 +134,7 @@ export default function Happenings() {
               {Object.entries(months).map(([month, happenings]) => (
                 <div key={month}>
                   <h4 className="text-xl font-semibold mb-2">{month}</h4>
-                  <section className={`flex flex-wrap m-5`}>
+                  <section className={`flex flex-wrap m-5 justify-between`}>
                   {happenings.map((hap) => (
                     <HappeningCard
                       key={hap.id}

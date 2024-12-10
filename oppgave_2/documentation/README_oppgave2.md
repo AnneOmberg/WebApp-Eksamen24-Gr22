@@ -1,10 +1,10 @@
 # Oppgave 2 - Gruppe 22
 
-| Studentnummer | Navn                                   | Epost           |
-| ------------- | -------------------------------------- | --------------- |
-| ######        | Vilde Andreas Fjeld Pedersen           | vilped@hiof.no  |
-| ######        | Anne May Omberg                        | annemni@hiof.no |
-| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no |
+| Studentnummer | Navn                                   | Epost             |
+| ------------- | -------------------------------------- | ----------------- |
+| ######        | Vilde Andreas Fjeld Pedersen           | vapeders@hiof.no  |
+| ######        | Anne May Omberg                        | annemni@hiof.no   |
+| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no   |
 
 # Innholdsfortegnelse
 
@@ -25,6 +25,7 @@
 - **GET /api/events**: Henter en liste over alle hendelser/events/happenings.
 - **POST /api/events**: Oppretter en ny hendelse/event/happening.
 - **PUT /api/events/:id**: Oppdaterer en spesifikk hendelse/event/happening.
+- **DELETE /api/events/:id**: Sletter en spesifikk hendelse/event/happening.
 
 ### Users
 
@@ -35,17 +36,6 @@
 - **GET /categories**: Henter en liste over alle kategorier.
 
 ## [Sider og funksjonalitet](#sider-og-funksjonalitet)
-
-### Templates
-
-- **GET /api/templates**: Henter en liste over alle maler.
-- **POST /api/templates**: Oppretter en ny mal.
-- **DELETE /api/templates/:id**: Sletter en spesifikk mal.
-
-### Events/Happenings
-
-- **GET /api/events**: Henter en liste over alle hendelser/events/happenings.
-- **POST /api/events**: Oppretter en ny hendelse/event/happening.
 
 ### Frontend Funksjonalitet
 

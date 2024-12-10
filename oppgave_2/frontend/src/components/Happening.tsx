@@ -18,7 +18,7 @@ export default function HappeningCard({
   return (
     <>
       <article
-        className={`w-96 h-fit m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4`}
+        className={`flex flex-col w-96 h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4`}
         key={happening.id}
         data-testid="course_wrapper"
       >
