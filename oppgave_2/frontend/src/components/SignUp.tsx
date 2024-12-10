@@ -1,10 +1,14 @@
 "use client";
 
 import { useState } from "react";
-
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAdmin } from "@/context/AdminContext";
 
 export default function SignUp() {
+  const { isAdmin, setIsAdmin } = useAdmin();
+
+  console.log(isAdmin);
+
   const [success, setSuccess] = useState(false);
   const [formError, setFormError] = useState(false);
   const [fields, setFields] = useState({
@@ -24,9 +28,8 @@ export default function SignUp() {
     setSuccess(false);
     if (formIsValid.length === 0) {
       setSuccess(true);
-      const targetPage = fields.admin ? "/admin/Happenings" : "/Happenings";
       setTimeout(() => {
-        router.push(targetPage);
+        router.push("/happenings");
       }, 500);
     } else {
       setFormError(true);
@@ -35,11 +38,23 @@ export default function SignUp() {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, type, value, checked } = event.target;
-  
-    setFields((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+
+    if (name === "admin") {
+      setIsAdmin(checked);
+      setFields((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+    } else {
+      setFields((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
+
+    if (name !== "admin") {
+      setIsAdmin(false);
+    }
   };
 
   return (
@@ -56,10 +71,11 @@ export default function SignUp() {
             type="text"
             name="name"
             id="name"
-            value={fields?.name}
+            value={fields.name}
             onChange={handleChange}
           />
         </label>
+
         <label className="mb-4 flex" htmlFor="email">
           <span className="mb-1 mr-2 font-semibold">Epost*</span>
           <input
@@ -72,17 +88,17 @@ export default function SignUp() {
             onChange={handleChange}
           />
         </label>
-        <label className="flex items-center gap-2" htmlFor="admin">
+        <label className="mb-4 flex" htmlFor="admin">
+          <span className="mb-1 mr-2 font-semibold">Admin</span>
           <input
             className="rounded"
             data-testid="form_admin"
             type="checkbox"
             name="admin"
             id="admin"
+            checked={isAdmin}
             onChange={handleChange}
-            checked={fields?.admin}
           />
-          <span className="font-semibold">Admin</span>
         </label>
         <button
           className="mt-8 rounded bg-emerald-600 px-10 py-2 text-center text-base text-white"

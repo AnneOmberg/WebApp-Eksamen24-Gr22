@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center">
       <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
         <h1 className="font-bold text-3xl border-b pb-2 mb-4">
           Nytt arrangement

@@ -36,12 +36,12 @@ export default function useHappening() {
         "Content-Type": "application/json",
       },
     });
-    console.log("Get", response.status);
-    console.log("Get", response.ok);
+    // console.log("Get", response.status);
+    // console.log("Get", response.ok);
 
     const data = await response.json();
-    setHappenings(data as HappeningType[]);
     console.log("Get", data);
+    setHappenings(data as HappeningType[]);
   };
 
   const getHappening = (slug: string): HappeningType | null => {

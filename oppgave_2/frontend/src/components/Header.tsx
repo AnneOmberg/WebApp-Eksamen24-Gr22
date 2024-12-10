@@ -1,21 +1,22 @@
 "use client";
 
+import { useAdmin } from "@/context/AdminContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
   const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
+  const { isAdmin } = useAdmin();
   const logIn = pathname === "/";
 
   return (
-    <header className="container mx-auto p-4 bg-white text-slate-800">
+    <header className="container sticky top-0 mx-auto p-4 bg-white text-slate-800">
       {!logIn ? (
         <nav className="flex justify-between">
           <ul className="flex space-x-4">
             <li>
               <Link
-                href={isAdmin ? "/admin/Happenings" : "/Happenings"}
+                href="/happenings"
                 className="text-lg font-semibold hover:text-gray-300"
               >
                 Hjem
@@ -34,7 +35,7 @@ export default function Header() {
             {isAdmin && (
               <li>
                 <Link
-                  href="/admin/newevent"
+                  href="/newevent"
                   className="text-lg font-semibold hover:text-gray-300"
                 >
                   + Nytt arrangement

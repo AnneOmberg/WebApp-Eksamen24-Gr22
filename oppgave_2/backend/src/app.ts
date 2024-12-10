@@ -56,18 +56,8 @@ app.get("/api/users", async (c) => {
 });
 
 app.get("/api/events", async (c) => {
-  const events = await prisma.event.findMany();
+  const events = await prisma.event.findMany({});
   return c.json(events);
-});
-
-app.delete("/api/events/:id", async (c) => {
-  const id = parseInt(c.req.param("id"), 10);
-  const event = await prisma.event.delete({
-    where: {
-      id: id,
-    },
-  });
-  return c.json({ event });
 });
 
 app.get("/api/venues", async (c) => {

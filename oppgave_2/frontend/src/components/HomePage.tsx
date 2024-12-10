@@ -3,14 +3,10 @@
 import SignUp from "@/components/SignUp";
 import { usePathname } from "next/navigation";
 import { AppProps } from "next/app";
-import { AdminProvider } from "@/context/AdminContext";
+import { AdminProvider, useAdmin } from "@/context/AdminContext";
 
 export default function HomePage() {
-  return (
-    <AdminProvider>
-      <SignUp />
-    </AdminProvider>
-  );
+  return <SignUp />;
 }
 
 // "use client";
