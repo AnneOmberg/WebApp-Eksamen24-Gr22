@@ -5,6 +5,7 @@ import { useParams, usePathname } from "next/navigation"; // Correct import
 import useHappening from "@/hooks/useHappening";
 import { HappeningType } from "@/types/type";
 import Link from "next/link";
+import { useAdmin } from "@/context/AdminContext";
 
 export default function Info() {
   const { hapSlug, orderSlug } = useParams() as {
@@ -13,8 +14,7 @@ export default function Info() {
   }; // Get dynamic route parameter
   const { happenings, getHappening } = useHappening();
   const [content, setContent] = useState<HappeningType | null>(null);
-  const pathname = usePathname();
-  const isAdmin = pathname.startsWith("/admin");
+  const { isAdmin } = useAdmin();
 
 
   useEffect(() => {
