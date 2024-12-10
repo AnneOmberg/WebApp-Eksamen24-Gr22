@@ -47,7 +47,6 @@ export default function HappeningCard({
           ) : (
             <li className="text-gray-700 mb-1">{happening.price} kr</li>
           )}
-          <li className="text-gray-700 mb-1">{happening.price} kr</li>
           <li className="text-gray-700 mb-1">{happening.seats} plasser</li>
         </ul>
         <div className="flex justify-between items-center">
