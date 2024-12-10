@@ -56,12 +56,12 @@ async function main() {
           categoryId: category.id,
           lessons: {
             upsert: course.lessons.map((lesson: any) => ({
-              where: { slug: lesson.slug },
+              where: { id: lesson.id },
               update: {
                 title: lesson.title,
                 preAmble: lesson.preAmble,
                 texts: {
-                  upsert: lesson.text.map((text: any) => ({
+                  upsert: lesson.texts.map((text: any) => ({
                     where: { id: text.id },
                     update: { text: text.text },
                     create: { id: text.id, text: text.text },
@@ -74,7 +74,7 @@ async function main() {
                 slug: lesson.slug,
                 preAmble: lesson.preAmble,
                 texts: {
-                  create: lesson.text.map((text: any) => ({
+                  create: lesson.texts.map((text: any) => ({
                     id: text.id,
                     text: text.text,
                   })),
@@ -95,8 +95,8 @@ async function main() {
               title: lesson.title,
               slug: lesson.slug,
               preAmble: lesson.preAmble,
-              texts: {
-                create: lesson.text.map((text: any) => ({
+              text: {
+                create: lesson.texts.map((text: any) => ({
                   id: text.id,
                   text: text.text,
                 })),
@@ -130,14 +130,14 @@ async function main() {
     });
 
     const lesson = await prisma.lesson.findUnique({
-      where: { slug: comment.lesson.slug },
+      where: { id: comment.lesson.id },
     });
 
     if (lesson) {
       await prisma.comment.upsert({
         where: { id: comment.id },
         update: {
-          text: comment.comment,
+          comment: comment.comment,
           lessonId: lesson.id,
           createdById: user.id,
         },

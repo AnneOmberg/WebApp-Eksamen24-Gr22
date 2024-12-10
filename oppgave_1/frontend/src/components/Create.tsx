@@ -9,7 +9,6 @@ import { CourseType, LessonType } from "@/components/types";
 
 const isValid = (items: any) => {
   const invalidFields = [];
-  // eslint-disable-next-line no-shadow
   const validate = (items: any) => {
     if (typeof items !== "object") {
       return;
@@ -117,8 +116,8 @@ export default function Create() {
     if (lessons[currentLesson]?.texts?.length === 0) {
       text = [{ id: `${Math.floor(Math.random() * 1000 + 1)}`, text: "" }];
     }
-    if (lessons[currentLesson]?.text?.length > 0) {
-      text = lessons[currentLesson]?.text?.map((_text, i) => {
+    if (lessons[currentLesson]?.texts?.length > 0) {
+      text = lessons[currentLesson]?.texts?.map((_text, i) => {
         if (i === index) {
           return { id: _text.id, [name]: value };
         }
@@ -141,18 +140,18 @@ export default function Create() {
   };
 
   const addLesson = () => {
-    setLessons((prev) => [
-      ...prev,
-      {
+    setLessons((prev) => {
+      const newLesson = {
         id: `${Math.floor(Math.random() * 1000 + 1)}`,
         title: "",
         slug: "",
         preAmble: "",
-        text: [],
-        order: `${lessons.length}`,
-      },
-    ]);
-    setCurrentLesson(lessons.length);
+        texts: [],
+        order: prev.length,
+      };
+      return [...prev, newLesson];
+    });
+    setCurrentLesson((prev) => prev.length);
   };
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -170,7 +169,7 @@ export default function Create() {
       title: lesson.title,
       slug: lesson.slug.toLowerCase().split(" ").join("-"),
       preAmble: lesson.preAmble || "",
-      text: lesson.text || [],
+      text: lesson.texts || [],
     }));
 
     let newCourse: CourseType = {

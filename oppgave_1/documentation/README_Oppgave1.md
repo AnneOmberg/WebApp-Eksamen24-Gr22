@@ -1,10 +1,10 @@
 # Oppgave 1 - Gruppe 22
 
-| Studentnummer | Navn                                   | Epost           |
-| ------------- | -------------------------------------- | --------------- |
-| ######        | Vilde Andreas Fjeld Pedersen           | vilped@hiof.no  |
-| ######        | Anne May Omberg                        | annemni@hiof.no |
-| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no |
+| Studentnummer | Navn                                   | Epost            |
+| ------------- | -------------------------------------- | ---------------- |
+| 223086        | Vilde Andreas Fjeld Pedersen           | vapeders@hiof.no |
+| 162811        | Anne May Omberg                        | annemni@hiof.no  |
+| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no  |
 
 # Innholdsfortegnelse
 
@@ -33,6 +33,21 @@ Oversikt over endepunkter
 | DELETE    | Sletter en spesifikk leksjon        | 204 No Content                   | 404 Not Found hvis leksjonen ikke finnes  |
 
 ## [Sider og funksjonalitet](#sider-og-funksjonalitet)
+
+## Frontend funksjonalitet
+
+- **Courses /kurs**
+- Viser liste over tilgjengelige kurs
+- Bruker `useCourses`-hook for å hente alle kurs
+
+-**Lessons /lesson**
+
+- Viser alle leksjoner tilgjengelig per kurs
+- Bruker `useLesson` og `useComments` for å hente leksjoner og kommentarer koblet til leksjoner
+- Bruker `useCourse`for å sjekke mot hvilket kurs som er valgt
+
+- **Create /ny**
+- Bruker `useCourse` og `createCourse`for å legge til nye kurs
 
 ```javascript
 //Henter alle brukere i databasen

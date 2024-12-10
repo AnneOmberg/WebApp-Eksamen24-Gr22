@@ -1,10 +1,10 @@
 # Oppgave 2 - Gruppe 22
 
-| Studentnummer | Navn                                   | Epost             |
-| ------------- | -------------------------------------- | ----------------- |
-| ######        | Vilde Andreas Fjeld Pedersen           | vapeders@hiof.no  |
-| ######        | Anne May Omberg                        | annemni@hiof.no   |
-| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no   |
+| Studentnummer | Navn                                   | Epost            |
+| ------------- | -------------------------------------- | ---------------- |
+| 223086        | Vilde Andreas Fjeld Pedersen           | vapeders@hiof.no |
+| 162811        | Anne May Omberg                        | annemni@hiof.no  |
+| 223810        | Thor Andreas Holberg Murtnes-Hatlestad | thoraho@hiof.no  |
 
 # Innholdsfortegnelse
 
@@ -36,8 +36,6 @@
 - **GET /categories**: Henter en liste over alle kategorier.
 
 ## [Sider og funksjonalitet](#sider-og-funksjonalitet)
-
-### Frontend Funksjonalitet
 
 #### Happenings.tsx
 

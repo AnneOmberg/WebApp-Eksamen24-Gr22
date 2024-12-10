@@ -51,9 +51,16 @@ export default function HappeningCard({
             <li className="text-gray-700 mb-1">
               <strong>Pris:</strong> {happening.price},-
             </li>
-            <li className="text-gray-700 mb-1">
-              <strong>Antall plasser:</strong> {happening.seats}
-            </li>
+            {happening.seats === happening.participants.length ? (
+              <li className="text-gray-700 mb-1">
+                <strong>Fullbooket</strong>
+              </li>
+            ) : (
+              <li className="text-gray-700 mb-1">
+                <strong>Antall ledige plasser:</strong>{" "}
+                {happening.seats - happening.participants.length}
+              </li>
+            )}
           </ul>
           <div className="flex justify-between items-center">
             {!isAdmin && (
