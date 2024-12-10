@@ -112,30 +112,13 @@ export default function CreateHappening() {
           <input
             type="text"
             id="title"
-            value={formData.title}
+            value=""
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             required
-            readOnly={!!template.title}
           />
         </div>
-        <div>
-          <label
-            htmlFor="slug"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Slug
-          </label>
-          <input
-            type="text"
-            id="slug"
-            value={formData.slug}
-            onChange={handleInputChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-            readOnly={!!template.title}
-          />
-        </div>
+
         <div>
           <label
             htmlFor="date"
