@@ -20,7 +20,7 @@ export default function Happenings() {
   useEffect(() => {
     setFilteredHappenings(happenings);
   }, [happenings]);
-  
+
   // Ordnet med chat GPT
   const handleCategory = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const category = event.target.value;
@@ -43,7 +43,7 @@ export default function Happenings() {
     const filterValue = event.target.value;
     setValue(filterValue);
     let filtered = [...happenings];
-  
+
     if (filterValue === "date_asc") {
       const sorted = filtered.sort(
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
@@ -69,42 +69,42 @@ export default function Happenings() {
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
         <section className="flex">
-        <label className="flex-col text-sm font-semibold" htmlFor="filter">
-          <span className="mb-1 block">Velg kategori:</span>
-          <select
-            id="filter"
-            name="filter"
-            value={value}
-            onChange={handleCategory}
-            className="min-w-[200px] rounded bg-slate-200"
-          >
-            <option value="">Alle</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex-col text-sm font-semibold ml-4" htmlFor="filter">
-          <span className="mb-1 block">Filtrer:</span>
-          <select
-            id="filter"
-            name="filter"
-            value={value}
-            onChange={handleFilter}
-            className="min-w-[200px] rounded bg-slate-200"
-          >
-            <option value="">Alle</option>
-            <option value="date_asc">Dato først</option>
-            <option value="date_desc">Dato sist</option>
-            <option value="alphabetical">Alfabetisk</option>
-          </select>
-        </label>
+          <label className="flex-col text-sm font-semibold" htmlFor="filter">
+            <span className="mb-1 block">Velg kategori:</span>
+            <select
+              id="filter"
+              name="filter"
+              value={value}
+              onChange={handleCategory}
+              className="min-w-[200px] rounded bg-slate-200"
+            >
+              <option value="">Alle</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex-col text-sm font-semibold ml-4" htmlFor="filter">
+            <span className="mb-1 block">Filtrer:</span>
+            <select
+              id="filter"
+              name="filter"
+              value={value}
+              onChange={handleFilter}
+              className="min-w-[200px] rounded bg-slate-200"
+            >
+              <option value="">Alle</option>
+              <option value="date_asc">Dato først</option>
+              <option value="date_desc">Dato sist</option>
+              <option value="alphabetical">Alfabetisk</option>
+            </select>
+          </label>
         </section>
       </section>
 
-      <section className={`flex flex-wrap m-5 ${filteredHappenings.length > 1 && filteredHappenings.length % 2 === 1 ? "justify-start" : "justify-center"}`} data-testid="courses">
+      <section className={`flex flex-wrap m-5`} data-testid="courses">
         {filteredHappenings && filteredHappenings.length > 0 ? (
           filteredHappenings.map((hap, i) => (
             <article
@@ -132,38 +132,41 @@ export default function Happenings() {
                 </span>
               </section>
               <section className="p-4">
-              <ul className="mb-4">
-                <li className="text-gray-700 mb-1">{hap.description}</li>
-                <li className="text-gray-700 mb-1"><strong>Dato: </strong>
-                  {new Date(hap.date).toLocaleDateString("no-NO", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </li>
-                <li className="text-gray-700 mb-1"><strong>Lokasjon:</strong>{hap.location}</li>
-                <li className="text-gray-700 mb-1"><strong>Pris:</strong> {hap.price} kr</li>
-                <li className="text-gray-700 mb-1"><strong>Antall plasser:</strong> {hap.seats}</li>
+                <ul className="mb-4">
+                  <li className="text-gray-700 mb-1">{hap.description}</li>
+                  <li className="text-gray-700 mb-1"><strong>Dato: </strong>
+                    {new Date(hap.date).toLocaleDateString("no-NO", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </li>
+                  <li className="text-gray-700 mb-1"><strong>Lokasjon:</strong> {hap.location}</li>
+                  <li className="text-gray-700 mb-1"><strong>Pris:</strong> {hap.price},-</li>
 
-                {hap.status === true ? <li className="text-gray-700 mb-1"><strong>Status:</strong> Fullboket</li> : <li className="text-gray-700 mb-1"><strong>Status:</strong> Ledig</li>}
-                
-              </ul>
-              <div className="flex justify-between items-center">
-                {!isAdmin && (
-                  <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
-                    {hap.status === false ?
-                  <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Sett deg opp på ventelise</Link>}
-                  </button>
+                  {hap.status === true ?
+                    <li className="text-gray-700 mb-1"><strong>Fullboket</strong></li>
+                    :
+                    <li className="text-gray-700 mb-1"><strong>Antall ledige plasser:</strong> {hap.seats}</li>
+                  }
+
+                </ul>
+                <div className="flex justify-between items-center">
+                  {!isAdmin && (
+                    <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
+                      {hap.status === false ?
+                        <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Sett deg opp på ventelise</Link>}
+                    </button>
                   )}
-                {isAdmin && (
-                  <button
-                    onClick={() => deleteHappening(hap.id)}
-                    className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
-                  >
-                    Slett
-                  </button>
-                )}
-                <Link
+                  {isAdmin && (
+                    <button
+                      onClick={() => deleteHappening(hap.id)}
+                      className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                    >
+                      Slett
+                    </button>
+                  )}
+                  <Link
                     className="text-blue-500 hover:underline"
                     data-testid="courses_url"
                     href={

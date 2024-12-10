@@ -42,24 +42,22 @@ export default function Info() {
     <section>
       {/* <span className="block text-right capitalize">{content.category}</span> */}
       <section className="flex justify-between">
-      <h2 className="text-2xl font-bold">{content.title}</h2>
-      <section>
-      <p><strong>Dato: </strong>{new Date(content.date).toLocaleDateString("no-NO", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })}</p>
-      <p><strong>Lokasjon:</strong> {content.location}</p>
-      </section>
+        <h2 className="text-2xl font-bold">{content.title}</h2>
+        <section>
+          <p><strong>Dato: </strong>{new Date(content.date).toLocaleDateString("no-NO", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}</p>
+          <p><strong>Lokasjon:</strong> {content.location}</p>
+        </section>
       </section>
       <p className="mt-4">{content.description}</p>
-      {content.status === true ? 
-      <p><strong>Fullboket</strong></p>
-      :
-      <section>
-      <p><strong>Ledige plasser:</strong> {content.seats}</p>
       <p><strong>Pris:</strong> {content.price},-</p>
-      </section>
+      {content.status === true ?
+        <p><strong>Fullboket</strong></p>
+        :
+        <p><strong>Ledige plasser:</strong> {content.seats}</p>
       }
       {!isAdmin && (
         <button className="border-2 bg-blue-500 px-4 py-2 mt-4 rounded text-white hover:bg-blue-600">
