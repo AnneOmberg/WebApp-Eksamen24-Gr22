@@ -78,8 +78,42 @@ app.get("/api/users", async (c) => {
 });
 
 app.get("/api/events", async (c) => {
-  const events = await prisma.event.findMany({});
+  const events = await prisma.event.findMany({
+    include: {
+      participants: true,
+    },
+  });
   return c.json(events);
+});
+
+app.put("/api/events/:id", async (c) => {
+  const id = c.req.param("id");
+  const body = await c.req.json();
+  const eventData = {
+    ...body,
+    price: body.price ? parseFloat(body.price) : null,
+  };
+
+  try {
+    const event = await prisma.event.update({
+      where: { id: parseInt(id, 10) },
+      data: {
+        ...eventData,
+        participants: {
+          set: [], // Clear existing participants
+          create: eventData.participants.map((participant: any) => ({
+            name: participant.name,
+            email: participant.email,
+          })),
+        },
+      },
+    });
+    console.log(event);
+    return c.json({ event });
+  } catch (error) {
+    console.error("Error updating event:", error);
+    return c.json({ error: "Error updating event" }, 500);
+  }
 });
 
 app.post("/api/events", async (c) => {

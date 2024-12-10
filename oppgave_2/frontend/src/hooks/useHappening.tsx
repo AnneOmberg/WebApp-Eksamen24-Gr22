@@ -69,6 +69,32 @@ export default function useHappening() {
     }
   };
 
+  const updateHappening = async (event: HappeningType) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3999/api/events/${event.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(event),
+        }
+      );
+      console.log("Status", response.status);
+      console.log("OK", response.ok);
+
+      const data = await response.json();
+      console.log("Put", data);
+      setHappenings((prev: any) =>
+        prev.map((hap: HappeningType) => (hap.id === event.id ? event : hap))
+      );
+      fetchHappenings();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // const addHappeningData = async (event: HappeningType) => {
   //   try {
   //     const response = await fetch("http://localhost:3999/happenings", {
@@ -144,6 +170,7 @@ export default function useHappening() {
     deleteHappening,
     getHappening,
     setHappening,
+    updateHappening,
     // happening
   };
 }
