@@ -1,86 +1,104 @@
 "use client";
 
 import useHappening from "@/hooks/useHappening";
-import { useState } from "react";
+import { FormType, PersonType } from "@/types/type";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
-type OrderType = {
-  happening: any[];
-};
+export default function Order() {
+  // Chat GPT
+  const { hapSlug } = useParams() as { hapSlug: string };
+  const { happenings } = useHappening();
+  const eventFilter = happenings?.find((hap) => hap.slug === hapSlug);
 
-type Participant = {
-  name: string;
-  email: string;
-};
+  const [newForm, setNewForm] = useState<FormType[]>([]);
 
-export default function Order({ happening }: OrderType) {
-  const [participants, setParticipants] = useState<Participant[]>([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  useEffect(() => {
+    if (eventFilter) {
+      setNewForm([
+        {
+          id: crypto.randomUUID(),
+          title: eventFilter.title,
+          persons: [{ id: crypto.randomUUID(), name: "", email: "" }],
+        },
+      ]);
+    }
+  }, [eventFilter]);
 
-  const { happenings, setHappenings } = useHappening();
+  const handleInputChange = (formIndex: number, personIndex: number, field: keyof PersonType, value: string) => {
+    const updatedForms = [...newForm];
+    updatedForms[formIndex].persons[personIndex][field] = value;
+    setNewForm(updatedForms);
+  };
 
-  console.log(happenings);
+  const addParticipant = (formIndex: number) => {
+    const updatedForms = [...newForm];
+    updatedForms[formIndex].persons.push({
+      id: crypto.randomUUID(),
+      name: "",
+      email: "",
+    });
+    setNewForm(updatedForms);
+  };
 
-  const addParticipant = () => {
-    setParticipants([...participants, { name, email }]);
-    setName("");
-    setEmail("");
+  const removeParticipant = (formIndex: number, personIndex: number) => {
+    const updatedForms = [...newForm];
+    updatedForms[formIndex].persons = updatedForms[formIndex].persons.filter((_, i) => i !== personIndex);
+    setNewForm(updatedForms);
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Add Participants</h2>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          addParticipant();
-        }}
-        className="space-y-4"
-      >
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Name:
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            Email:
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </label>
-        </div>
-        <button
-          type="submit"
-          className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Add Participant
-        </button>
-      </form>
-      <h3 className="text-xl font-semibold mt-6">Participants List</h3>
-      <ul className="mt-4 space-y-2">
-        {participants.map((participant, index) => (
-          <li
-            key={index}
-            className="flex justify-between items-center p-2 bg-gray-100 rounded-md shadow-sm"
-          >
-            <span>
-              {participant.name} ({participant.email})
-            </span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+    <article>
+      {newForm.map((form, formIndex) => (
+        <section key={form.id}>
+          <h2 className="text-2xl font-bold">{form.title}</h2>
+          <form className="space-y-4">
+            {form.persons.map((person, personIndex) => (
+              <div key={person.id} className="flex space-x-4 items-center">
+                  <label htmlFor={`name-${formIndex}-${personIndex}`}>Navn</label>
+                  <input
+                    id={`name-${formIndex}-${personIndex}`}
+                    type="text"
+                    value={person.name}
+                    onChange={(e) => handleInputChange(formIndex, personIndex, "name", e.target.value)}
+                    placeholder="Kari Normann"
+                    required
+                  />
+
+                  <label htmlFor={`email-${formIndex}-${personIndex}`}>E-post</label>
+                  <input
+                    id={`email-${formIndex}-${personIndex}`}
+                    type="email"
+                    value={person.email}
+                    onChange={(e) => handleInputChange(formIndex, personIndex, "email", e.target.value)}
+                    placeholder="kari@norman.no"
+                    required
+                  />
+
+                {form.persons.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => removeParticipant(formIndex, personIndex)}
+                    className="bg-red-500 text-white px-4 py-2 rounded"
+                  >
+                    Slett
+                  </button>
+                )}
+              </div>
+            ))}
+
+            <button
+              type="button"
+              onClick={() => addParticipant(formIndex)}
+              className="bg-green-500 text-white px-4 py-2 rounded"
+            >
+              Legg til person
+            </button>
+          </form>
+        </section>
+      ))}
+    </article>
+    </>
   );
 }
