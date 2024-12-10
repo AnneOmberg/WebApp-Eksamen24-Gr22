@@ -15,7 +15,7 @@ export default function HappeningCard({ deleteHappening, happening}: HappeningCa
   return (
     <>
         <article
-          className={`w-5/12 min-h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4`}
+          className={`w-96 min-h-96 m-4 border-2 border-gray-300 rounded-lg shadow-lg bg-white p-4`}
           key={happening.id}
           data-testid="course_wrapper"
         >
