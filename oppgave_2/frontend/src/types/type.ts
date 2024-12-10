@@ -27,6 +27,18 @@ export type OrderType = {
     email: string,
 }
 
+export type FormType = {
+    id: string
+    title: string
+    persons: PersonType[]
+}
+
+export type PersonType = {
+    id: string
+    name: string
+    email: string
+}
+
 // export type AdminType = {
 
 // }
