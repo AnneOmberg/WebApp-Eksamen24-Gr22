@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation"; // Correct import
+import { useParams, usePathname } from "next/navigation"; // Correct import
 import useHappening from "@/hooks/useHappening";
 import { HappeningType } from "@/types/type";
 import Link from "next/link";
@@ -13,6 +13,9 @@ export default function Info() {
   }; // Get dynamic route parameter
   const { happenings, getHappening } = useHappening();
   const [content, setContent] = useState<HappeningType | null>(null);
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith("/admin");
+
 
   useEffect(() => {
     const getContent = async () => {
@@ -28,7 +31,7 @@ export default function Info() {
   useEffect(() => {
     console.log("Updated content:", content); // Log whenever content changes
   }, [content]);
-  
+
 
   // Sjekk at kurset ble lastet
   if (!content) {
@@ -37,19 +40,33 @@ export default function Info() {
 
   return (
     <section>
-      <span className="block text-right capitalize">{content.category}</span>
+      {/* <span className="block text-right capitalize">{content.category}</span> */}
+      <section className="flex justify-between">
       <h2 className="text-2xl font-bold">{content.title}</h2>
-      <p className="mt-4">{content.description}</p>
-      <p><strong>Pris:</strong> {content.price}kr</p>
-      <p><strong>Dato:</strong> {new Date(content.date).toLocaleDateString("no-NO", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}</p>
+      <section>
+      <p><strong>Dato: </strong>{new Date(content.date).toLocaleDateString("no-NO", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })}</p>
       <p><strong>Lokasjon:</strong> {content.location}</p>
-      <p><strong>Plasser:</strong> {content.seats}</p>
-      <p><strong>Status:</strong> {content.status}</p>
-      <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Bestill her!</Link>
+      </section>
+      </section>
+      <p className="mt-4">{content.description}</p>
+      {content.status === true ? 
+      <p><strong>Fullboket</strong></p>
+      :
+      <section>
+      <p><strong>Ledige plasser:</strong> {content.seats}</p>
+      <p><strong>Pris:</strong> {content.price},-</p>
+      </section>
+      }
+      {!isAdmin && (
+        <button className="border-2 bg-blue-500 px-4 py-2 mt-4 rounded text-white hover:bg-blue-600">
+          {content.status === false ?
+            <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hapSlug}/order`}>Sett deg opp på ventelise</Link>}
+        </button>
+      )}
     </section>
   );
 }

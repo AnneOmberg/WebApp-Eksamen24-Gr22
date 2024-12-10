@@ -64,10 +64,11 @@ export default function Happenings() {
 
   return (
     <>
-      <header className="mt-8 flex items-center justify-between">
+      <section className="mt-8 flex items-center justify-between">
         <h1 className="text-3xl font-bold">
           {isAdmin ? "Admin - Arrangementer" : "Finn nytt arrangement"}
         </h1>
+        <section className="flex">
         <label className="flex-col text-sm font-semibold" htmlFor="filter">
           <span className="mb-1 block">Velg kategori:</span>
           <select
@@ -85,7 +86,7 @@ export default function Happenings() {
             ))}
           </select>
         </label>
-        <label className="flex-col text-sm font-semibold" htmlFor="filter">
+        <label className="flex-col text-sm font-semibold ml-4" htmlFor="filter">
           <span className="mb-1 block">Filtrer:</span>
           <select
             id="filter"
@@ -100,7 +101,8 @@ export default function Happenings() {
             <option value="alphabetical">Alfabetisk</option>
           </select>
         </label>
-      </header>
+        </section>
+      </section>
 
       <section className={`flex flex-wrap m-5 ${filteredHappenings.length > 1 && filteredHappenings.length % 2 === 1 ? "justify-start" : "justify-center"}`} data-testid="courses">
         {filteredHappenings && filteredHappenings.length > 0 ? (
@@ -110,9 +112,9 @@ export default function Happenings() {
               key={hap.id}
               data-testid="course_wrapper"
             >
-              <section className="bg-gray-800 text-white p-4 rounded-t-md flex justify-between">
+              <section className="bg-gray-800 text-white p-4 rounded-t-md flex justify-between items-center">
                 <h3
-                  className="font-bold text-2xl mb-2"
+                  className="font-bold text-2xl"
                   data-testid="courses_title"
                 >
                   <Link
@@ -132,27 +134,27 @@ export default function Happenings() {
               <section className="p-4">
               <ul className="mb-4">
                 <li className="text-gray-700 mb-1">{hap.description}</li>
-                <li className="text-gray-700 mb-1">
+                <li className="text-gray-700 mb-1"><strong>Dato: </strong>
                   {new Date(hap.date).toLocaleDateString("no-NO", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
                 </li>
-                <li className="text-gray-700 mb-1">{hap.location}</li>
-                <li className="text-gray-700 mb-1">{hap.price} kr</li>
-                <li className="text-gray-700 mb-1">{hap.seats} plasser</li>
+                <li className="text-gray-700 mb-1"><strong>Lokasjon:</strong>{hap.location}</li>
+                <li className="text-gray-700 mb-1"><strong>Pris:</strong> {hap.price} kr</li>
+                <li className="text-gray-700 mb-1"><strong>Antall plasser:</strong> {hap.seats}</li>
 
-                {hap.status === true ? <li className="text-gray-700 mb-1">Status: Fullboket</li> : <li className="text-gray-700 mb-1">Status: Ledig</li>}
+                {hap.status === true ? <li className="text-gray-700 mb-1"><strong>Status:</strong> Fullboket</li> : <li className="text-gray-700 mb-1"><strong>Status:</strong> Ledig</li>}
                 
               </ul>
               <div className="flex justify-between items-center">
-              {!isAdmin && (
-                <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
-                  {hap.status === false ?
-                <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Sett deg opp på ventelise</Link>}
-                </button>
-                )}
+                {!isAdmin && (
+                  <button className="border-2 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
+                    {hap.status === false ?
+                  <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Kjøp biletter</Link> : <Link className="font-semibold underline" href={`/Happenings/${hap.slug}/order`}>Sett deg opp på ventelise</Link>}
+                  </button>
+                  )}
                 {isAdmin && (
                   <button
                     onClick={() => deleteHappening(hap.id)}
