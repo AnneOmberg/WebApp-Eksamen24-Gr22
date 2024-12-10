@@ -42,12 +42,12 @@ export default function HapLayout({
   }
   console.log("Rendering lessons:", content)
   return (
-    <div className="">
+    <>
       {/* Hovedinnhold (children vil være leksjonen eller oversikten) */}
-      <div>{children}</div>
+      {children}
 
       {/* Liste over deltakere */}
     
-    </div>
+    </>
   );
 }

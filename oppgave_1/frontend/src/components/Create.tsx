@@ -78,7 +78,7 @@ export default function Create() {
   };
 
   const removeTextBox = (index: any) => {
-    const removed = lessons[currentLesson].text.filter((_, i) => i !== index);
+    const removed = lessons[currentLesson].texts.filter((_, i) => i !== index);
     const updatedLessonText = lessons.map((lesson, i) => {
       if (currentLesson === i) {
         return {
@@ -114,7 +114,7 @@ export default function Create() {
   ) => {
     const { name, value } = event.target;
     let text: any;
-    if (lessons[currentLesson]?.text?.length === 0) {
+    if (lessons[currentLesson]?.texts?.length === 0) {
       text = [{ id: `${Math.floor(Math.random() * 1000 + 1)}`, text: "" }];
     }
     if (lessons[currentLesson]?.text?.length > 0) {
@@ -221,6 +221,7 @@ export default function Create() {
               {courseStep.name}
             </button>
           ))}
+
           <button
             disabled={
               lessons?.length === 0 ||
@@ -300,6 +301,7 @@ export default function Create() {
             </label>
           </div>
         ) : null}
+
         {current === 1 ? (
           <div
             data-testid="lesson_step"
@@ -442,6 +444,7 @@ export default function Create() {
             ) : null}
           </div>
         ) : null}
+
         {formError ? (
           <p data-testid="form_error">Fyll ut alle felter med *</p>
         ) : null}
