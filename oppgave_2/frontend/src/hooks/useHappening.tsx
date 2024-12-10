@@ -96,7 +96,7 @@ export default function useHappening() {
 
   const deleteHappening = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:3999/${id}`, {
+      const response = await fetch(`http://localhost:3999/api/events/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -106,7 +106,6 @@ export default function useHappening() {
       console.log("Delete OK", response.ok);
 
       const data = await response.json();
-      setHappenings(data.updatedCourses);
       fetchHappenings();
     } catch (error) {
       console.log(error);

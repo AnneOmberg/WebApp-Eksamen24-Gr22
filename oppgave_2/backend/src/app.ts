@@ -81,6 +81,44 @@ app.get("/api/events", async (c) => {
   return c.json(events);
 });
 
+app.post("/api/events", async (c) => {
+  const body = await c.req.json();
+  const eventData = {
+    ...body,
+    price: body.price ? parseFloat(body.price) : null,
+  };
+
+  try {
+    const event = await prisma.event.create({
+      data: eventData,
+    });
+    console.log(event);
+    return c.json({ event });
+  } catch (error) {
+    console.error("Error creating event:", error);
+    return c.json({ error: "Error creating event" }, 500);
+  }
+});
+
+app.post("/api/events", async (c) => {
+  const body = await c.req.json();
+  const eventData = {
+    ...body,
+    price: body.price ? parseFloat(body.price) : null,
+  };
+
+  try {
+    const event = await prisma.event.create({
+      data: eventData,
+    });
+    console.log(event);
+    return c.json({ event });
+  } catch (error) {
+    console.error("Error creating event:", error);
+    return c.json({ error: "Error creating event" }, 500);
+  }
+});
+
 app.get("/api/venues", async (c) => {
   try {
     const venues = await prisma.venue.findMany();

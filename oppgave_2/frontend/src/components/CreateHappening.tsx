@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import useTemplate from "@/hooks/useTemplate";
+import useHappening from "@/hooks/useHappening";
 
 const weekdays = [
   "Mandag",
@@ -16,6 +17,7 @@ const weekdays = [
 ];
 
 interface Template {
+  location: any;
   id: string;
   title: string;
   description: string;
@@ -26,40 +28,235 @@ interface Template {
 }
 
 export default function CreateHappening() {
-  const { getSingleTemplate } = useTemplate();
-  const { templateId } = useParams() as { id: any };
+  const { createHappening } = useHappening();
+  const { templateId } = useParams() as { templateId: string };
   const [template, setTemplate] = useState<Template | null>(null);
-
-  console.log(templateId);
+  const { getSingleTemplate } = useTemplate();
+  const [formData, setFormData] = useState<any>({
+    title: "",
+    slug: "",
+    date: "",
+    description: "",
+    location: "",
+    category: "",
+    seats: "",
+    price: "",
+    status: "",
+    createdById: 1,
+  });
+  const router = useRouter();
 
   useEffect(() => {
-    getSingleTemplate(templateId).then((data) => {
-      setTemplate(data);
-      console.log(template);
-    });
-  }, [templateId]);
+    const fetchTemplate = async () => {
+      const fetchedTemplate = await getSingleTemplate(templateId);
+      setTemplate(fetchedTemplate);
+      setFormData({
+        title: fetchedTemplate.title || "",
+        slug: fetchedTemplate.title.toLowerCase().replace(/\s+/g, "-") || "",
+        date: "",
+        description: fetchedTemplate.description || "",
+        location: "",
+        category: "",
+        seats: "",
+        price: fetchedTemplate.price || "",
+        status: "Scheduled",
+        createdById: 1,
+      });
+    };
+
+    if (templateId) {
+      fetchTemplate();
+    }
+  }, [templateId, getSingleTemplate]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value, type, checked } = e.target;
+    const newValue = type === "checkbox" ? checked : value;
+    setFormData((prevData: any) => ({ ...prevData, [id]: newValue }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formDataToSend = {
+      ...formData,
+      price: formData.price ? parseFloat(formData.price) : null,
+      seats: formData.seats ? parseInt(formData.seats, 10) : null,
+    };
+    try {
+      await createHappening(formDataToSend);
+      alert("Form submitted successfully!");
+      router.push("/newevent/templates");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred while submitting the form.");
+    }
+  };
+
+  if (!template) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <>
-      <section className="flex flex-col max-w-xl">
-        {template ? (
-          <h1 className="text-2xl font-bold mb-4">
-            Nytt arrangement med mal: {template?.title}
-          </h1>
-        ) : (
-          <h1 className="text-2xl font-bold mb-4">Nytt arrangement</h1>
-        )}
-
-        <div className="flex flex-col space-y-4">
-          <label className="block">
-            <span className="text-gray-700">Tittel</span>
-            <input
-              type="text"
-              className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-6">
+        Nytt arrangement med mal: {template.title}
+      </h2>
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Tittel
           </label>
+          <input
+            type="text"
+            id="title"
+            value={formData.title}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+            readOnly={!!template.title}
+          />
         </div>
-      </section>
-    </>
+        <div>
+          <label
+            htmlFor="slug"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Slug
+          </label>
+          <input
+            type="text"
+            id="slug"
+            value={formData.slug}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+            readOnly={!!template.title}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="date"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Dato
+          </label>
+          <input
+            type="date"
+            id="date"
+            value={formData.date}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Beskrivelse
+          </label>
+          <input
+            type="text"
+            id="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            readOnly={!!template.description}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Sted
+          </label>
+          <input
+            type="text"
+            id="location"
+            value={formData.location}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            readOnly={!!template.location}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Kategori
+          </label>
+          <input
+            type="text"
+            id="category"
+            value={formData.category}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+            readOnly={!!template.category}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="seats"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Antall plasser
+          </label>
+          <input
+            type="number"
+            id="seats"
+            value={formData.seats}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="price"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Pris
+          </label>
+          <input
+            type="number"
+            id="price"
+            value={formData.price}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+            readOnly={!!template.price}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="status"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Status
+          </label>
+          <input
+            type="text"
+            id="status"
+            value={formData.status}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+          />
+        </div>
+        <button
+          type="submit"
+          className="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Legg til
+        </button>
+      </form>
+    </div>
   );
 }
