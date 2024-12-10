@@ -10,10 +10,29 @@
 
 1. [API endepunkt](#api-endepunkt)
 2. [Sider og funksjonalitet](#sider-og-funksjonalitet)
-3. [Miljøvariabler](#miljøvariabler)
-4. [Playwright Configuration](#playwright-configuration)
-5. [ESLint Configuration](#eslint-configuration)
-6. [Dependencies](#dependencies)
+
+## [API endepunkt](#api-endepunkt)
+
+### Templates
+
+- **GET /api/templates**: Henter en liste over alle maler.
+- **GET /api/templates/:id**: Henter en spesifikk mal.
+- **POST /api/templates**: Oppretter en ny mal.
+- **DELETE /api/templates/:id**: Sletter en spesifikk mal.
+
+### Events/Happenings
+
+- **GET /api/events**: Henter en liste over alle hendelser/events/happenings.
+- **POST /api/events**: Oppretter en ny hendelse/event/happening.
+- **PUT /api/events/:id**: Oppdaterer en spesifikk hendelse/event/happening.
+
+### Users
+
+- **GET /api/users**: Henter en liste over alle brukere.
+
+### Categories
+
+- **GET /categories**: Henter en liste over alle kategorier.
 
 ## [Sider og funksjonalitet](#sider-og-funksjonalitet)
 
@@ -50,14 +69,14 @@
 #### TemplateCard.tsx
 
 - **TemplateCard Komponent**:
-  - Viser et mal-kort med detaljer som tittel, beskrivelse, tillatte ukedager og pris.
+  - Viser et kort med maldetaljer som tittel, beskrivelse, tillatte ukedager og pris.
   - Gir knapper for å bruke malen, redigere malen og slette malen.
   - Bruker `deleteTemplate` funksjonen for å slette en mal.
 
 #### Order.tsx
 
 - **Order Komponent**:
-  - Tillater brukere å registrere seg for en hendelse ved å skrive inn sine detaljer i et skjema.
+  - Tillater brukere å registrere seg for en hendelse ved å skrive inn detaljene sine i et skjema.
   - Administrerer skjemadata ved hjelp av `useState` hook.
   - Bruker `useHappening` hook for å hente hendelsesdata.
   - Sender skjemadata til serveren for å registrere deltakere.

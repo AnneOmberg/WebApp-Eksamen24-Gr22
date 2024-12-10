@@ -100,7 +100,6 @@ app.put("/api/events/:id", async (c) => {
       data: {
         ...eventData,
         participants: {
-          set: [], // Clear existing participants
           create: eventData.participants.map((participant: any) => ({
             name: participant.name,
             email: participant.email,
@@ -151,15 +150,6 @@ app.post("/api/events", async (c) => {
   } catch (error) {
     console.error("Error creating event:", error);
     return c.json({ error: "Error creating event" }, 500);
-  }
-});
-
-app.get("/api/venues", async (c) => {
-  try {
-    const venues = await prisma.venue.findMany();
-    return c.json({ venues });
-  } catch (error) {
-    console.log(error);
   }
 });
 

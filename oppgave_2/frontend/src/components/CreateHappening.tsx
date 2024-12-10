@@ -42,7 +42,7 @@ export default function CreateHappening() {
     seats: "",
     price: "",
     status: "",
-    createdById: 1,
+    createdById: 1, //Her bør man legge til en brukerid, men det er ikke gjort noen sjekk mot tilgjengelige brukere i denne oppgaven
   });
   const router = useRouter();
 
@@ -50,18 +50,16 @@ export default function CreateHappening() {
     const fetchTemplate = async () => {
       const fetchedTemplate = await getSingleTemplate(templateId);
       setTemplate(fetchedTemplate);
-      setFormData({
-        title: fetchedTemplate.title || "",
-        slug: fetchedTemplate.title.toLowerCase().replace(/\s+/g, "-") || "",
-        date: "",
-        description: fetchedTemplate.description || "",
-        location: "",
-        category: "",
-        seats: "",
-        price: fetchedTemplate.price || "",
-        status: "Scheduled",
-        createdById: 1,
-      });
+      setFormData((prevData: any) => ({
+        ...prevData,
+        title: fetchedTemplate.title,
+        slug: fetchedTemplate.title.toLowerCase().replace(/\s/g, "-"),
+        description: fetchedTemplate.description,
+        location: fetchedTemplate.location,
+        category: fetchedTemplate.title,
+        price: fetchedTemplate.price,
+        status: "active",
+      }));
     };
 
     if (templateId) {
@@ -112,13 +110,30 @@ export default function CreateHappening() {
           <input
             type="text"
             id="title"
-            value=""
+            value={formData.title}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             required
+            readOnly={!template?.title}
           />
         </div>
-
+        <div>
+          <label
+            htmlFor="slug"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Slug
+          </label>
+          <input
+            type="text"
+            id="slug"
+            value={formData.slug}
+            onChange={handleInputChange}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            required
+            readOnly={!template?.title}
+          />
+        </div>
         <div>
           <label
             htmlFor="date"
@@ -148,7 +163,7 @@ export default function CreateHappening() {
             value={formData.description}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            readOnly={!!template.description}
+            readOnly={!!template?.description}
           />
         </div>
         <div>
@@ -164,7 +179,7 @@ export default function CreateHappening() {
             value={formData.location}
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            readOnly={!!template.location}
+            readOnly={!!template?.location}
           />
         </div>
         <div>
@@ -181,7 +196,6 @@ export default function CreateHappening() {
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             required
-            readOnly={!!template.category}
           />
         </div>
         <div>
@@ -214,7 +228,7 @@ export default function CreateHappening() {
             onChange={handleInputChange}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             required
-            readOnly={!!template.price}
+            readOnly={!!template?.price}
           />
         </div>
         <div>

@@ -53,7 +53,7 @@ export default function Order() {
     };
 
     try {
-      await updateHappening(updatedEvent);
+      await updateHappening(updatedEvent as any);
       alert("Event updated successfully!");
     } catch (error) {
       console.error("Error updating event:", error);
